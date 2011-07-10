@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Dashboard - TRACER</title>
+<link
+	href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:regular,bold"
+	rel="stylesheet" type="text/css">
+<link href="stylesheets/custom.less" media="all" rel="stylesheet/less"
+	type="text/css" />
+<link href="stylesheets/navigation.css" media="all" rel="stylesheet" type="text/css" />
+<script src="javascripts/less-1.0.41.js"></script>
+<script type="text/javascript" charset="utf-8">
+	// Under development you should uncomment the following lines,
+	// to make the browser refresh the changes that you are makeing in your app.less file.
+	less.env = "development";
+	less.watch();
+</script>
+<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+	<header id="header">
+				<div class="row">
+					<div class="column grid-2">
+						<p class="logoContainer">
+							<a href="dashboard.html" class="logo"> <span class="hide">TRACER</span>	</a>
+						</p>
+					</div>
+					<div class="column grid-1">
+						<span class="notifications"></span>
+					</div>
+					<div class="column grid-1">
+						<span class="blank"></span>
+					</div>
+					<div class="column grid-8">
+						<div id="nav">
+							<ul>
+								<li> <a href="#"> Dashboard</a> </li>
+								
+								<li>
+									<a href="#"> Ticket</a>
+									<ul>
+										<li> <a href="#"> New</a> </li>
+										<li> <a href="#"> Task</a> </li>
+									</ul>
+								</li>
+							  </ul>
+						 </div>	
+					</div>
+					<div class="column grid-4">
+						<span class="actionbar"></span>
+					</div>
+					
+				</div>
+	</header>
+	<div id="bodycontent">
+		<div id="main-section">
+			<div class="row">
+
+				<div class="column grid-4">
+					<div class="box">
+						<h6>Tasks</h6>
+						<p>
+							<a href="newtask.html"> New </a>
+						</p>
+						<p>
+							<a href="task.html"> #1214 </a>
+						</p>
+					</div>
+					<div class="box">
+						<h6>Defects</h6>
+					</div>
+					<div class="box">
+						<h6>Team</h6>
+						<p>
+							<a href="team.html"> view people </a>
+						</p>
+					</div>
+
+				</div>
+				<div class="column grid-8">
+					<div class="box">
+						<h6>Activity Stream</h6>
+					</div>
+					<div class="box">
+						<h6>Sprint</h6>
+						<p>
+							<a href="sprint-dashboard.html"> Sprint Dashboard </a>
+						</p>
+					</div>
+
+				</div>
+
+				<div class="column grid-4">
+					<div class="box orange">
+						<h6>Alerts</h6>
+					</div>
+
+					<div class="box">
+						<h6>Messaging</h6>
+						<p>
+							<a href="chat.html"> Chat </a>
+						</p>
+					</div>
+					<div class="box">
+						<h6>Documents</h6>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<div class="row">
+			<div class="column grid-16">
+				<p class="tal">
+					<strong>TRACER</strong> is under MIT License
+				</p>
+				<p class="tac">
+					<small>Copyright &copy; 2011 </small>
+				</p>
+
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
+
+

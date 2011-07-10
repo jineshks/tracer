@@ -1,0 +1,89 @@
+
+/**************************** Navigation wrappers/containers******************************/
+
+#nav {	
+    position: fixed;
+    top: 0;
+    	
+}
+
+/**************************** Styling the list******************************/
+
+#nav > ul {
+	list-style:none;
+	padding:0;
+	margin:0;
+	padding-top:5px;
+	z-index: 10;
+}
+#nav > ul > li {
+	float:left;
+	position:relative;
+}
+#nav > ul > li > a {
+		padding:8px 20px 15px 20px;
+		text-decoration:none;
+		color:#333;
+		font-weight:bold;
+		font-size:17px;
+		display:block;
+		margin-left:2px;
+		margin-right:2px;
+		margin-top:2px;
+		
+}
+/**************************** Styling the hover effect******************************/
+#nav >  ul > li:hover{
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e2e2e2', endColorstr='#ebebeb'); /* for IE */
+		background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#111)); /* for webkit browsers */
+		background: -moz-linear-gradient(top,  #333,  #111); /* for firefox 3.6+ */
+		border-radius:10px 10px 0px 0px;
+		-webkit-border-radius:10px 10px 0px 0px;
+		-moz-border-radius:10px 10px 0px 0px;
+		border-top:2px solid #cac9c9;
+		border-left:2px solid #cac9c9;
+		border-right:2px solid #cac9c9;
+		opacity:0.9;
+		
+}
+#nav >  ul > li:hover > a{
+		color:#ccc;
+}
+/**************************** Styling the nested list******************************/
+#nav  ul li:hover ul{
+	display:block;
+	-moz-box-shadow:3px 3px 4px #a7a7a7;
+	border-radius:10px 10px 0px 0px;
+	-webkit-border-radius:10px 10px 0px 0px;
+	-moz-border-radius:0px 10px 10px 10px;
+}
+#nav ul  ul {
+	display:none;
+	position:absolute;
+	left:-2px;
+	border-bottom:2px solid #cac9c9;
+	border-left:2px solid #cac9c9;
+	border-right:2px solid #cac9c9;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#e2e2e2'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#111), to(#333)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #111,  #333); /* for firefox 3.6+ */
+	width:250px;	
+	padding:20px;
+	opacity:0.9;
+}
+
+/**************************** Styling the contents of nested list******************************/
+
+#nav ul  ul li{
+	list-style:none;
+	padding:4px;
+}
+#nav ul  ul li a{
+	text-decoration:none;
+	color:#999;
+}
+
+#nav ul  ul li a:hover{
+	color:#ddd;
+}
+
