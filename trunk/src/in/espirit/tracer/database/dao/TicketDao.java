@@ -64,19 +64,19 @@ public class TicketDao {
 		}
 		
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += "VALUES('" + ticket.getShortDesc()+"','" + 
-			ticket.getDesc() +"','" + ticket.getPriority() +"','" + TicketDao.nullCheck(ticket.getStatus()) +
+			query += "VALUES('" + TicketDao.nullCheck(ticket.getShortDesc())+"','" + 
+			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
-			"','" + ticket.getMilestone() +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
+			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
 			"'," + ticket.getProgress()+",'" + ((Requirement) ticket).getStoryPoint() + "')";
 		}
 		else {
 			query += "VALUES('" + ticket.getShortDesc()+"','" + 
-			ticket.getDesc() +"','" + ticket.getPriority() +"','" + TicketDao.nullCheck(ticket.getStatus()) +
+			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
-			"','" + ticket.getMilestone() +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
+			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
 			"'," + ticket.getProgress()+")";
 		}
 		
