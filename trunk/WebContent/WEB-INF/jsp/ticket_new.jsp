@@ -1,8 +1,17 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
 <s:layout-component name="body">  
+<c:if test="${actionBean.ticket.type eq 'defect'}">
+<c:set var="beanclass" value="in.espirit.tracer.action.DefectActionBean"></c:set>
+</c:if>
+<c:if test="${actionBean.ticket.type eq 'task'}">
+<c:set var="beanclass" value="in.espirit.tracer.action.TaskActionBean"></c:set>
+</c:if>
+<c:if test="${actionBean.ticket.type eq 'requirement'}">
+<c:set var="beanclass" value="in.espirit.tracer.action.RequirementActionBean"></c:set>
+</c:if>
   <jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>
-  <s:form beanclass="in.espirit.tracer.action.TaskActionBean">  
+  <s:form beanclass="${beanclass}">  
   <div id="bodycontent">
     <div class="row">      
       <div class="column grid-7">
@@ -64,8 +73,11 @@
           			<dt> Related tickets </dt>
           			<dd><s:text name="ticket.related" placeholder="#related, comma separated"/> </dd>
           			<dt> Progress </dt>
-          			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd>       			
-          			
+          			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd>
+          			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
+          			<dt> Story Point </dt>
+          			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
+          			</c:if>    
           		</dl>
           		
           		
