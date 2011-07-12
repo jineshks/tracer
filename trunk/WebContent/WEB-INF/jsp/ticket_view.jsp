@@ -48,21 +48,28 @@
 
 				<div class="box">
 					<div>
-						<h4>Comments (Not Yet Implemented!)</h4>
-						<a href="#">Comment#1</a>
-						<p>This is where the comments appear. Commnets will be listed
-							in the chronological order</p>
-						<hr>
-						<a href="#">Comment#2</a>
-						<p>This is where the comments appear. Commnets will be listed
-							in the chronological order</p>
-						<hr>
+						<h4>Comments</h4>
+						<c:forEach var="comment" items="${actionBean.ticket.comments}" varStatus="loopCount">
+						<c:if test="${comment != ''}"> 
+						<a href="#">Comment#${loopCount.count}</a>
+						<p>${comment}</p>
+						<%--  
+							<%   
+							String[] col = ((String) pageContext.getAttribute("comment")).split("~");
+							%>						
+							<a href="#">Comment#${loopCount.count}</a> (<%=col[0]%> , <%=col[1]%>)
+							<p><%=col[2]%></p>										
+							<hr>
+						--%>	
+						</c:if>
+						</c:forEach>
 						<div class="il">
 							<dl>
 								<dt>New comment</dt>
 								<dd>
-									<textarea rows="4" cols="70" placeholder="Comment"></textarea> <br>
-									<span> <input type="button" value="Post comment"	class="orange"> </span>
+									<s:textarea name="ticket.newComments" rows="4" cols="70" placeholder="Comment"/>
+									<br>
+									<span> <input type="button" value="Post comment(Not yet working.use submit)" class="orange"> </span>
 								</dd>
 							</dl>
 						</div>

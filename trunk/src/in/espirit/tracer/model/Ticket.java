@@ -13,7 +13,7 @@ public class Ticket {
 	private String component;
 	private String milestone;
 	private String type;
-	private String comments;
+	private String[] comments;
 	private String newComments;
 	private String importance;
 	private String progress;
@@ -110,11 +110,11 @@ public class Ticket {
 		this.type = type;
 	}
 	
-	public String getComments() {
+	public String[] getComments() {
 		return comments;
 	}
 
-	public void setComments(String comments) {
+	public void setComments(String[] comments) {
 		this.comments = comments;
 	}
 
