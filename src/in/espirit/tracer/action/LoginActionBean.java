@@ -19,7 +19,7 @@ import net.sourceforge.stripes.validation.ValidationState;
 @UrlBinding("/user/{event}")
 public class LoginActionBean extends BaseActionBean{
 	private static final String URL = "/WEB-INF/jsp/login.jsp";
-	private static final String DASHBOARD = "/dashboard.html";
+	private static final String DASHBOARD = "/WEB-INF/jsp/dashboard.jsp";
 	
 	private User user;
 	
