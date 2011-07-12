@@ -16,7 +16,7 @@
 						<span class="blank"></span>
 					</div>
 					<div class="column grid-8">
-						<span class="nav">New task</span>
+						<span class="nav"></span>
 					</div>
 					<div class="column grid-4">
 						<span class="actionbar"></span>
