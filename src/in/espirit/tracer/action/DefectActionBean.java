@@ -41,7 +41,7 @@ public class DefectActionBean extends TicketActionBean {
 		if (ticket.getId() == null) {
 			getContext().getMessages().add(new SimpleMessage("New " + ticket.getType() +" Registered."));
 			logger.debug("Registering new ticket of type " + ticket.getType());
-			TicketDao.registerTicket(ticket);			
+			TicketDao.registerTicket(ticket, getContext().getLoggedUser());			
 		}
 		else {
 			getContext().getMessages().add(new SimpleMessage(ticket.getType() + " Successfully edited."));

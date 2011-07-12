@@ -9,6 +9,7 @@ import in.espirit.tracer.model.Ticket;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class TicketDao {
 		return tableName;
 	}
 	
-	public static void registerTicket(Ticket ticket) throws Exception {
+	public static void registerTicket(Ticket ticket, String loggedUser) throws Exception {
 		
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -50,8 +51,8 @@ public class TicketDao {
 		if (ticket.getNewComments()!=null) {	
 			Calendar curDate = Calendar.getInstance();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-			String date = df.format(curDate.getTime());		
-			comment = "<b>" + ticket.getReporter() + "</b> on " + date + " added >> " + ticket.getNewComments();
+			String date = df.format(curDate.getTime());	
+			comment = ticket.getNewComments() + " (" + loggedUser + "," + date + ")";
 		}		
 				
 		String query = "INSERT INTO " + tableName(ticket.getType());
@@ -310,7 +311,7 @@ public class TicketDao {
 				d.setRelated(rs.getString(8));
 				d.setComponent(rs.getString(9));
 				d.setMilestone(rs.getString(10));
-				d.setComments(rs.getString(11));
+				d.setComments(rs.getString(11).split("<br>"));
 				d.setType(rs.getString(12));
 				d.setImportance(rs.getString(13));
 				d.setProgress(rs.getString(14));
@@ -354,18 +355,21 @@ public class TicketDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		Integer row;
-		String comment;
+		String comment="";
 		
 		if (ticket.getNewComments()!=null) {		
 			Calendar curDate = Calendar.getInstance();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 			String date = df.format(curDate.getTime());			
-			//need to get the logged in user. check how to do that.
-			comment =  "<b>" + loggedUser + "</b> on " + date + " added >> " + ticket.getNewComments() + "<br>" + TicketDao.getTicket(ticket.getType(),ticket.getId()).getComments();
+			comment = TicketDao.getTicketComments(ticket.getType(),ticket.getId()); 
+			if (comment!="") {
+				comment += "<br>";
+			}
+			comment += ticket.getNewComments() + " (" + loggedUser + "," + date + ")";
 		}
-		else {
-			comment =  TicketDao.getTicket(ticket.getType(),ticket.getId()).getComments();
-		}	
+	//	else {
+		//	comment =  TicketDao.getTicket(ticket.getType(),ticket.getId()).getComments();
+		//}	
 		
 		 String query = "UPDATE " + tableName(ticket.getType()) +
 				" SET shortdesc='" + ticket.getShortDesc() + 
@@ -376,9 +380,11 @@ public class TicketDao {
 				"', owner='" + TicketDao.nullCheck(ticket.getOwner()) + 
 				"', related='" + TicketDao.nullCheck(ticket.getRelated()) + 
 				"', component='" + TicketDao.nullCheck(ticket.getComponent()) + 
-				"', milestone='" + ticket.getMilestone() + 
-				"', comments='" + comment + 
-				"', progress=" + ticket.getProgress() + 
+				"', milestone='" + ticket.getMilestone();
+		 if (comment!="") {
+				query+="', comments='" + comment;
+		 }
+				query+="', progress=" + ticket.getProgress() + 
 				", importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
 		 
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
@@ -406,6 +412,55 @@ public class TicketDao {
 		}// end finally	
 		return row;	
 		
+	}
+
+	private static String getTicketComments(String type, String id) throws Exception {
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		String result="";
+				
+		String query = "";
+				
+		query = "SELECT comments FROM "+ tableName(type) + " where id='" + id + "'";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				result = rs.getString(1);
+				
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting ticket comments failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
 	}
 	
 	
