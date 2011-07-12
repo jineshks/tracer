@@ -1,12 +1,23 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
 <s:layout-component name="body">  
+<c:if test="${actionBean.ticket.type eq 'defect'}">
+<c:set var="beanclass" value="in.espirit.tracer.action.DefectActionBean"></c:set>
+</c:if>
+<c:if test="${actionBean.ticket.type eq 'task'}">
+<c:set var="beanclass" value="in.espirit.tracer.action.TaskActionBean"></c:set>
+</c:if>
+<c:if test="${actionBean.ticket.type eq 'requirement'}">
+<c:set var="beanclass" value="in.espirit.tracer.action.RequirementActionBean"></c:set>
+</c:if>
   <jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
-  <s:form beanclass="in.espirit.tracer.action.TaskActionBean">	
-	<div id="bodycontent">
+  <s:form beanclass="${beanclass}">	
+  	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-10">
 				<div class="box">
+					<s:hidden name="ticket.id"></s:hidden>
+					<s:hidden name="ticket.type"></s:hidden>
 					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.shortDesc}</h4>
 					<h5>Description</h5>
 					<p>${actionBean.ticket.desc}</p>					
@@ -14,14 +25,14 @@
 
 				<div class="box">
 					<div>
-						<h4>Parent Ticket</h4>
+						<h4>Parent Ticket (Not Yet Implemented!)</h4>
 						<p class="pb">
 							<span class="bold"> <a href="#">#986</a> </span> The is the
 							description of the parent ticket. This section will be shown only
 							if there is a parent ticket.
 						</p>
 
-						<h4>Sub Tickets</h4>
+						<h4>Sub Tickets (Not Yet Implemented!) </h4>
 						<p>
 							<span class="bold"><a href="#">#1233</a> </span> The is the
 							description of the first child ticket. This section will be shown
@@ -37,7 +48,7 @@
 
 				<div class="box">
 					<div>
-						<h4>Comments</h4>
+						<h4>Comments (Not Yet Implemented!)</h4>
 						<a href="#">Comment#1</a>
 						<p>This is where the comments appear. Commnets will be listed
 							in the chronological order</p>
@@ -101,13 +112,17 @@
           			<dd><s:text name="ticket.related" placeholder="#related, comma separated"/> </dd>
           			<dt> Progress </dt>
           			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd> 
+          			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
+          			<dt> Story Point </dt>
+          			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
+          			</c:if>    
 				</dl>
 
 
 					</div>
 				</div>
 				<div class="box">
-					<h4>Commits</h4>
+					<h4>Commits (Not Yet Implemented!)</h4>
 
 					<a href="#">Change set#223</a>
 					<p>Commit comments will apear here. Commnets will be listed in

@@ -69,7 +69,7 @@ public class TicketDao {
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"'," + ticket.getProgress()+",'" + ((Requirement) ticket).getStoryPoint() + "')";
+			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
 		else {
 			query += "VALUES('" + ticket.getShortDesc()+"','" + 
@@ -379,12 +379,12 @@ public class TicketDao {
 				"', milestone='" + ticket.getMilestone() + 
 				"', comments='" + comment + 
 				"', progress=" + ticket.getProgress() + 
-				", importance='" + TicketDao.nullCheck(ticket.getImportance());
+				", importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
 		 
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
-			 query +="', storypoint='" + ((Requirement) ticket).getStoryPoint();			 
+			 query +=", storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 
-			query +="' WHERE id='" + ticket.getId() + "'";
+			query +=" WHERE id='" + ticket.getId() + "'";
 		 try {
 			st = con.createStatement();
 			row = st.executeUpdate(query);

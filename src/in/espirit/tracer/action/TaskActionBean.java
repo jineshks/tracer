@@ -14,8 +14,6 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 @UrlBinding("/task/{ticket}")
 public class TaskActionBean extends TicketActionBean {
-	private static final String URL_View = "/WEB-INF/jsp/task_view.jsp";
-	private static final String URL_New = "/WEB-INF/jsp/task_new.jsp";
 	
 	@ValidateNestedProperties({
 			@Validate(field = "shortDesc", required = true, on = "submit"),
@@ -36,11 +34,9 @@ public class TaskActionBean extends TicketActionBean {
 		}		
 	}
 
-	@DontValidate
+	@DontValidate  // Need to remove the validation handlers in the super class action bean and remove validations here.
 	public Resolution submit() throws Exception {
-		System.out.println("getting ticket values");
 		ticket = getTicket();
-		System.out.println("over!");
 		if (ticket.getId() == null) {
 			getContext().getMessages().add(
 					new SimpleMessage("New " + ticket.getType()	+ " Registered."));

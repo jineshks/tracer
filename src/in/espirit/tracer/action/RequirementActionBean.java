@@ -3,6 +3,7 @@ package in.espirit.tracer.action;
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Requirement;
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -26,9 +27,15 @@ public class RequirementActionBean extends TicketActionBean {
 	public Resolution open() {
 		logger.debug("Opening requirement edit / new");
 		getContext().setCurrentSection("new" + ticket.getType());
-		return new ForwardResolution(URL);		
+		if (ticket.getId() == null ){
+			return new ForwardResolution(URL_New);
+		}
+		else {
+			return new ForwardResolution(URL_View);
+		}		
 	}
 	
+	@DontValidate  // Need to remove the validation handlers in the super class action bean and remove validations here.
 	public Resolution submit() throws Exception {
 		ticket = getTicket();
 		if (ticket.getId() == null) {

@@ -8,7 +8,9 @@ import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 
 public class TicketActionBean extends BaseActionBean implements ValidationErrorHandler{
-	protected static final String URL="/WEB-INF/jsp/ticket.jsp";
+	protected static final String URL_View = "/WEB-INF/jsp/ticket_view.jsp";
+	protected static final String URL_New = "/WEB-INF/jsp/ticket_new.jsp";
+	
 	//protected static final Logger logger = Logger.getLogger(TicketActionBean.class.getName());
 	
 	public Resolution cancel() {
