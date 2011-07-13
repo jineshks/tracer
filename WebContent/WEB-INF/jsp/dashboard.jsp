@@ -10,8 +10,14 @@
 							<h6>Tasks</h6>
 							<p>
 								<s:link href="/task/new" >New Task
-									<s:param name="list" value="new"></s:param>
-									<s:param name="type" value="task"></s:param>
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/list/task/all" >All Tasks
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/list/task/my" >My Tasks
 								</s:link>
 							</p>
 							<p>
@@ -25,8 +31,14 @@
 							<h6>Defects</h6>
 							<p>
 								<s:link href="/defect/new" >New Defect
-									<s:param name="list" value="new"></s:param>
-									<s:param name="type" value="defect"></s:param>
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/list/defect/all" >All Defects
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/list/defect/my" >My Defects
 								</s:link>
 							</p>
 							<p>
@@ -37,12 +49,26 @@
 							</p>
 						</div>
 						<div class="box">
-							<h6>Team</h6>
+							<h6>Requirements</h6>
 							<p>
-								<a href="team.html"> view people </a>
+								<s:link href="/requirement/new" >New Requirement
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/list/requirement/all" >All Requirements
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/list/requirement/my" >My Requirements
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/requirement/1" >#2
+									<s:param name="list" value="1"></s:param>
+									<s:param name="type" value="defect"></s:param>
+								</s:link>
 							</p>
 						</div>
-
 					</div>
 					<div class="column grid-8">
 						<div class="box">
@@ -54,7 +80,12 @@
 								<a href="sprint-dashboard.html"> Sprint Dashboard </a>
 							</p>
 						</div>
-
+						<div class="box">
+							<h6>Team</h6>
+							<p>
+								<a href="team.html"> view people </a>
+							</p>
+						</div>
 					</div>
 
 					<div class="column grid-4">
