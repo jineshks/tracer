@@ -108,6 +108,9 @@
 						<s:options-collection collection="${configView.milestone}"/>
 						</s:select>
 					</dd>
+					<dt> Component </dt>
+          			<dd>
+          			<s:text name="ticket.component" placeholder="Component"/></dd>
           			<dt> Reporter </dt>
           			<dd>
           			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
@@ -122,8 +125,6 @@
           			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
           			</c:if>    
 				</dl>
-
-
 					</div>
 				</div>
 				<div class="box">
@@ -136,11 +137,8 @@
 					<a href="#">Change set#223</a>
 					<p>Commit comments will apear here. Commnets will be listed in
 						the chronological order</p>
-
-
 				</div>
 			</div>
-
   <!--  deiva - for testing purposes -->    
   <s:submit name="submit" value="Submit"/>
 

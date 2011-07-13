@@ -65,6 +65,9 @@
 						<s:options-collection collection="${configView.milestone}"/>
 						</s:select>
 					</dd>
+					<dt> Component </dt>
+          			<dd>
+          			<s:text name="ticket.component" placeholder="Component"/></dd>
           			<dt> Reporter </dt>
           			<dd>
           			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
@@ -99,14 +102,10 @@
  				</div>
           	</div>	
           </div>           
-      </div>
-  
-  <!--  deiva - for testing purposes -->    
-      
+      </div>  
+  <!--  deiva - for testing purposes -->      
    	<s:submit name="submit" value="Submit"/>
-	<s:submit name="cancel" value="Cancel"/>
-	
-	
+	<s:submit name="cancel" value="Cancel"/>	
     </div>
   </div>
 </s:form>
