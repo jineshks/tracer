@@ -10,8 +10,8 @@
 							<div class="title">
 								<h6>Tasks</h6>	
 								<span class="right">
-									<s:link class="task" href="list/task/all" >All Tasks </s:link>
-									<s:link class="new ml" href="/task/new" >New Task </s:link>
+									<s:link class="task" href="list/task/all" >All </s:link>
+									<s:link class="new ml" href="/task/new" >New </s:link>
 								</span>
 							</div>
 							<div class="pt">
@@ -37,8 +37,8 @@
 							<div class="title">
 								<h6>Defects</h6>	
 								<span class="right">
-									<s:link class="defect" href="list/defect/all" >All Defects </s:link>
-									<s:link class="new ml" href="/defect/new" >New Defect </s:link>
+									<s:link class="defect" href="list/defect/all" >All </s:link>
+									<s:link class="new ml" href="/defect/new" >New </s:link>
 								</span>
 							</div>
 							<div class="pt">
@@ -62,8 +62,8 @@
 							<div class="title">
 								<h6>User Stories</h6>	
 								<span class="right">
-									<s:link class="story" href="list/requirement/all" >All Stories </s:link>
-									<s:link class="new ml" href="/requirement/new" >New Story </s:link>
+									<s:link class="story" href="list/requirement/all" >All </s:link>
+									<s:link class="new ml" href="/requirement/new" >New </s:link>
 								</span>
 							</div>
 							<div class="pt">
