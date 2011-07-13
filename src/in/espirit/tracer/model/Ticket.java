@@ -1,5 +1,7 @@
 package in.espirit.tracer.model;
 
+import java.util.ArrayList;
+
 public class Ticket {
 
 	private String id;
@@ -13,7 +15,7 @@ public class Ticket {
 	private String component;
 	private String milestone;
 	private String type;
-	private String[] comments;
+	private ArrayList<Comment> comments;
 	private String newComments;
 	private String importance;
 	private String progress;
@@ -109,12 +111,12 @@ public class Ticket {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public String[] getComments() {
+
+	public ArrayList<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(String[] comments) {
+	public void setComments(ArrayList<Comment> comments) {
 		this.comments = comments;
 	}
 

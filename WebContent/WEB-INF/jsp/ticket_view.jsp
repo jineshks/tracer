@@ -18,6 +18,8 @@
 				<div class="box">
 					<s:hidden name="ticket.id"></s:hidden>
 					<s:hidden name="ticket.type"></s:hidden>
+					<s:hidden name="ticket.shortDesc"></s:hidden>
+					<s:hidden name="ticket.desc"></s:hidden>
 					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.shortDesc}</h4>
 					<h5>Description</h5>
 					<p>${actionBean.ticket.desc}</p>					
@@ -52,12 +54,10 @@
 						
 						<ul>
 							<c:forEach var="comment" items="${actionBean.ticket.comments}" varStatus="loopCount">
-							<c:if test="${comment != ''}"> 
 							<li>
-								<span class="tal"><a href="#">Comment#${loopCount.count}</a></span> <span class="tar right">'timestamp'</span>
-								<p><span class="bold">Username :</span> ${comment}</p>
+								<span class="tal"><a href="#">Comment#${loopCount.count}</a></span> <span class="tar right">${comment.timeStamp}</span>
+								<p><span class="bold">${comment.userName} :</span> ${comment.comment}</p>
 							</li>
-							</c:if>
 							</c:forEach>
 						</ul>
 						

@@ -1,6 +1,12 @@
 package in.espirit.tracer.action;
 
 
+import in.espirit.tracer.database.dao.TicketDao;
+import in.espirit.tracer.model.Comment;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.SimpleError;
@@ -12,6 +18,19 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 	protected static final String URL_New = "/WEB-INF/jsp/ticket_new.jsp";
 	
 	//protected static final Logger logger = Logger.getLogger(TicketActionBean.class.getName());
+	
+	public void handleComments(String commentText, String id) throws Exception {		
+		if (commentText!= null) {
+			Comment comment = new Comment();
+			comment.setUserName(getContext().getLoggedUser());			
+			Calendar curDate = Calendar.getInstance();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+			String date = df.format(curDate.getTime());			
+			comment.setTimeStamp(date);
+			comment.setComment(commentText);				
+			TicketDao.insertComment(id, comment);
+		}			
+	}	
 	
 	public Resolution cancel() {
 		ForwardResolution res = new ForwardResolution(ListActionBean.class);
