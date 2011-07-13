@@ -15,14 +15,26 @@
 								</s:link>
 							</p>
 							<p>
-								<s:link href="/task/" >#1214
-									<s:param name="list" value="1214"></s:param>
+								<s:link href="/task/1" >#1214
+									<s:param name="list" value="1"></s:param>
 									<s:param name="type" value="task"></s:param>
 								</s:link>
 							</p>
 						</div>
 						<div class="box">
 							<h6>Defects</h6>
+							<p>
+								<s:link href="/defect/new" >New Defect
+									<s:param name="list" value="new"></s:param>
+									<s:param name="type" value="defect"></s:param>
+								</s:link>
+							</p>
+							<p>
+								<s:link href="/defect/1" >#2
+									<s:param name="list" value="1"></s:param>
+									<s:param name="type" value="defect"></s:param>
+								</s:link>
+							</p>
 						</div>
 						<div class="box">
 							<h6>Team</h6>
