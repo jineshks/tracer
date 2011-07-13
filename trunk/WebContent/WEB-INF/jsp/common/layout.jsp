@@ -31,13 +31,78 @@
 		<s:layout-component name="footer">
 			<footer id="footer">
 				<div class="row">
-					<div class="column grid-16">
-						<p class="tal">
+					<div class="column grid-3">
+						<p class="tar">
 							TRACER is under MIT License
 						</p>
-						<p class="tac">
+						<p class="tar">
 							<small>Copyright &copy; 2011 </small>
 						</p>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6>Tasks</h6>
+							<ul>
+								<li>
+									<s:link href="/task/new" >New Task </s:link>
+								</li>
+								<li>
+									<s:link  href="list/task/my" >My Tasks </s:link>
+								</li>
+								<li>
+									<s:link  href="list/task/all" >All Tasks </s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6>Defects</h6>
+							<ul>
+								<li>
+									<s:link href="/defect/new" >New Defect </s:link>
+								</li>
+								<li>
+									<s:link  href="list/defect/my" >My Defects </s:link>
+								</li>
+								<li>
+									<s:link  href="list/defect/all" >All Defects </s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6>User stories</h6>
+							<ul>
+								<li>
+									<s:link href="/requirement/new" >New Story </s:link>
+								</li>
+								<li>
+									<s:link  href="list/requirement/my" >My Stories </s:link>
+								</li>
+								<li>
+									<s:link  href="list/requirement/all" >All Stories </s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="column grid-2">
+						<p class="tal">
+						</p>
+					</div>
+					<div class="column grid-2">
+						<p class="tal">
+						</p>
+					</div>
+					<div class="column grid-2">
+						<p class="tal">
+						</p>
+					</div>
+					<div class="column grid-3 right">
+							<p class="html5logoContainer">
+								<s:link  href="http://www.w3.org/html/" class="html5logo"> <span class="hide">HTML5</span>	</s:link>
+							</p>
 					</div>
 				</div>
 			</footer>
