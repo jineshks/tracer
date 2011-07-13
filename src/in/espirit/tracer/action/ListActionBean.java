@@ -22,15 +22,17 @@ public class ListActionBean extends BaseActionBean {
 	private String status;
 	private String owner;
 	private String milestone;
+	private String reporter;
+	private String importance;
 		
 	public ArrayList<Ticket> getItems() throws Exception {
 		logger.debug("In the Listing page>> " + list+type);
 		getContext().setCurrentSection(list+type);  //Normally it should be MyTask or AllTask or MyDefect or AllDefect
 		if (list.equalsIgnoreCase("my")) {
-			return TicketDao.getAllTickets(type,getContext().getLoggedUser(), priority, status,milestone );
+			return TicketDao.getAllTickets(type,getContext().getLoggedUser(), priority, status,milestone,reporter,importance);
 		}
 		else if (list.equalsIgnoreCase("all"))  {
-			return TicketDao.getAllTickets(type,owner,priority,status,milestone);	
+			return TicketDao.getAllTickets(type,owner,priority,status,milestone,reporter,importance);	
 		}		
 		return null;			
 	}
@@ -91,5 +93,21 @@ public class ListActionBean extends BaseActionBean {
 
 	public String getType() {
 		return type;
-	}		
+	}
+
+	public String getReporter() {
+		return reporter;
+	}
+
+	public void setReporter(String reporter) {
+		this.reporter = reporter;
+	}
+
+	public String getImportance() {
+		return importance;
+	}
+
+	public void setImportance(String importance) {
+		this.importance = importance;
+	}			
 }

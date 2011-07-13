@@ -97,7 +97,7 @@ public class TicketDao {
 		//return regDefId;
 	}
 		
-	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone) throws Exception{
+	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone, String reporter, String importance) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -106,7 +106,7 @@ public class TicketDao {
 		
 		String query="";
 		String selQuery="";
-		String[] filter= new String[4];
+		String[] filter= new String[6];
 
 		if (!(priority==null)) {
 			filter[0] = "priority='" + priority + "'";			
@@ -124,6 +124,14 @@ public class TicketDao {
 			filter[3] = "milestone='" + milestone + "'";
 		}
 		
+		if (!(reporter==null)) {
+			filter[4] = "reporter='" + reporter + "'";
+		}
+		
+		if (!(importance==null)) {
+			filter[5] = "importance='" + importance + "'";
+		}
+		
 		for(String s:filter){
 			if (!(s==null)) {
 				if (selQuery.equals("")) {
@@ -135,7 +143,7 @@ public class TicketDao {
 			}	
 		}		
 	
-		query = "SELECT id, shortdesc, priority, status, reporter, owner, component, milestone, type FROM " + tableName(type);
+		query = "SELECT id, shortdesc, priority, status, importance, reporter, owner, component, milestone, type FROM " + tableName(type);
 		if (!selQuery.equals("")) {
 		 query += " where " + selQuery;
 		}		
@@ -150,11 +158,12 @@ public class TicketDao {
 				d.setShortDesc(rs.getString(2));
 				d.setPriority(rs.getString(3));
 				d.setStatus(rs.getString(4));
-				d.setReporter(rs.getString(5));
-				d.setOwner(rs.getString(6));
-				d.setComponent(rs.getString(7));
-				d.setMilestone(rs.getString(8));
-				d.setType(rs.getString(9));
+				d.setImportance(rs.getString(5));
+				d.setReporter(rs.getString(6));
+				d.setOwner(rs.getString(7));
+				d.setComponent(rs.getString(8));
+				d.setMilestone(rs.getString(9));
+				d.setType(rs.getString(10));
 				result.add(d);
 			}
 			if (rs != null) {
