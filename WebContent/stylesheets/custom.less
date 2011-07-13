@@ -21,6 +21,11 @@ footer {
     background: -webkit-gradient(linear, left top, left bottom, from(#333),to(#111) );
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	padding:0.5em; 	
+	font-size:85%;
+	a{
+		color: darken(@link-color, 25%);
+	}
+	ul{list-style-type:none}
 }
 
 body{
@@ -59,6 +64,16 @@ body{
     height: 52px;
     width: 52px;
 }
+
+.html5logoContainer a {
+    background-image: url("../images/HTML5logo.png");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    display: block;
+    height: 64px;
+    width: 64px;
+}
+
 
 input,textarea,select {
 	background-color: #FDFDFD;
@@ -391,21 +406,28 @@ input,textarea,select {
 }
 
 .new{
-	background: url("../images/plus.png") no-repeat;
+	background: url("../images/new_violet.png") no-repeat;
 	padding-left:20px;
 	padding-top:2px;
 	height:16px;
 }
 
 .defect{
-	background: url("../images/defect.png") no-repeat;
+	background: url("../images/list_orange.png") no-repeat;
 	padding-left:20px;
 	padding-top:2px;
 	height:16px;
 }
 
 .task{
-	background: url("../images/task.png") no-repeat;
+	background: url("../images/list_violet.png") no-repeat;
+	padding-left:20px;
+	padding-top:2px;
+	height:16px;
+}
+
+.story{
+	background: url("../images/list_green.png") no-repeat;
 	padding-left:20px;
 	padding-top:2px;
 	height:16px;
