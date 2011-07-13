@@ -47,22 +47,20 @@
 				</div>
 
 				<div class="box">
-					<div>
+					<div class="comments">
 						<h4>Comments</h4>
-						<c:forEach var="comment" items="${actionBean.ticket.comments}" varStatus="loopCount">
-						<c:if test="${comment != ''}"> 
-						<a href="#">Comment#${loopCount.count}</a>
-						<p>${comment}</p>
-						<%--  
-							<%   
-							String[] col = ((String) pageContext.getAttribute("comment")).split("~");
-							%>						
-							<a href="#">Comment#${loopCount.count}</a> (<%=col[0]%> , <%=col[1]%>)
-							<p><%=col[2]%></p>										
-							<hr>
-						--%>	
-						</c:if>
-						</c:forEach>
+						
+						<ul>
+							<c:forEach var="comment" items="${actionBean.ticket.comments}" varStatus="loopCount">
+							<c:if test="${comment != ''}"> 
+							<li>
+								<span class="tal"><a href="#">Comment#${loopCount.count}</a></span> <span class="tar right">'timestamp'</span>
+								<p><span class="bold">Username :</span> ${comment}</p>
+							</li>
+							</c:if>
+							</c:forEach>
+						</ul>
+						
 						<div class="il">
 							<dl>
 								<dt>New comment</dt>
