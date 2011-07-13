@@ -41,12 +41,14 @@ public class RequirementActionBean extends TicketActionBean {
 		if (ticket.getId() == null) {
 			getContext().getMessages().add(new SimpleMessage("New " + ticket.getType() +" Registered."));
 			logger.debug("Registering new ticket of type " + ticket.getType());
-			TicketDao.registerTicket(ticket, getContext().getLoggedUser());			
+			String ticketid = TicketDao.registerTicket(ticket);	
+			handleComments(ticket.getNewComments(), ticketid);
 		}
 		else {
 			getContext().getMessages().add(new SimpleMessage(ticket.getType() + " Successfully edited."));
 			logger.debug("Saving edited version of ticket - " + ticket.getType()+ "-" + ticket.getId());
-			TicketDao.editTicket(ticket,getContext().getLoggedUser());			
+			TicketDao.editTicket(ticket);		
+			handleComments(ticket.getNewComments(), ticket.getId());
 		}	
 		return new RedirectResolution(ListActionBean.class).addParameter("list", "all").addParameter("type", "requirement");		
 	}

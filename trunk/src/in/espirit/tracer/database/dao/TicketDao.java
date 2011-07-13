@@ -2,6 +2,7 @@ package in.espirit.tracer.database.dao;
 
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
+import in.espirit.tracer.model.Comment;
 import in.espirit.tracer.model.Defect;
 import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Task;
@@ -10,9 +11,7 @@ import in.espirit.tracer.model.Ticket;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
@@ -39,43 +38,37 @@ public class TicketDao {
 		return tableName;
 	}
 	
-	public static void registerTicket(Ticket ticket, String loggedUser) throws Exception {
+	public static String registerTicket(Ticket ticket) throws Exception {
 		
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
-	    
-		String comment = "";
-		if (ticket.getNewComments()!=null) {	
-			Calendar curDate = Calendar.getInstance();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-			String date = df.format(curDate.getTime());	
-			comment = ticket.getNewComments() + " (" + loggedUser + "," + date + ")";
-		}		
-				
+		
+		String id = TicketDao.getSeqID();
+		
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += " (shortdesc, description, priority, status, reporter, owner, related, component, milestone, comments, importance, progress, storypoint) ";
+			query += " (id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, importance, progress, storypoint) ";
 		}
 		else {
-			query += " (shortdesc, description, priority, status, reporter, owner, related, component, milestone, comments, importance, progress) ";
+			query += " (id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, importance, progress) ";
 		}
 		
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += "VALUES('" + TicketDao.nullCheck(ticket.getShortDesc())+"','" + 
+			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getShortDesc())+"','" + 
 			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
-			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
+			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
 			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
 		else {
-			query += "VALUES('" + ticket.getShortDesc()+"','" + 
+			query += "VALUES(" + id + ",'" + ticket.getShortDesc()+"','" + 
 			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
-			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  comment  +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
+			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
 			"'," + ticket.getProgress()+")";
 		}
 		
@@ -100,15 +93,10 @@ public class TicketDao {
 			if (con != null)
 				con.close(); // close connection		
 		}// end finally	
-		//return row;	
+		return id;	
 		//return regDefId;
-		}
-	
-	/* public static String getAllDefectsString(String UserName, String priority, String status) {
-		//return "PRIORITY--" + priority + "--" + !(priority==null) + "---" + loop; 
-		return query;		
-	} */
-	
+	}
+		
 	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -286,10 +274,10 @@ public class TicketDao {
 		String query = "";
 		String fields = "";
 		if(type.equalsIgnoreCase("requirement")) {
-			fields = "id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, comments, type, importance, progress, storypoint";
+			fields = "id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, type, importance, progress, storypoint";
 		}
 		else {
-			fields = "id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, comments, type, importance, progress";
+			fields = "id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, type, importance, progress";
 		}
 		
 		query = "SELECT " + fields + " FROM "+ tableName(type) + " where id='" + id + "'";
@@ -309,13 +297,13 @@ public class TicketDao {
 				d.setRelated(rs.getString(8));
 				d.setComponent(rs.getString(9));
 				d.setMilestone(rs.getString(10));
-				d.setComments(rs.getString(11).split("<br>"));
-				d.setType(rs.getString(12));
-				d.setImportance(rs.getString(13));
-				d.setProgress(rs.getString(14));
+				d.setType(rs.getString(11));
+				d.setImportance(rs.getString(12));
+				d.setProgress(rs.getString(13));
 				if (type.equalsIgnoreCase("requirement")) {
-					((Requirement) d).setStoryPoint(rs.getString(15));
+					((Requirement) d).setStoryPoint(rs.getString(14));
 				}
+				d.setComments(TicketDao.getComments(id));
 				
 			}
 			if (rs != null) {
@@ -348,27 +336,12 @@ public class TicketDao {
 		return d;
 	}
 
-	public static Integer editTicket(Ticket ticket, String loggedUser) throws Exception {
+	public static Integer editTicket(Ticket ticket) throws Exception {
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		Integer row;
-		String comment="";
-		
-		if (ticket.getNewComments()!=null) {		
-			Calendar curDate = Calendar.getInstance();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-			String date = df.format(curDate.getTime());			
-			comment = TicketDao.getTicketComments(ticket.getType(),ticket.getId()); 
-			if (comment!="") {
-				comment += "<br>";
-			}
-			comment += ticket.getNewComments() + " (" + loggedUser + "," + date + ")";
-		}
-	//	else {
-		//	comment =  TicketDao.getTicket(ticket.getType(),ticket.getId()).getComments();
-		//}	
-		
+	
 		 String query = "UPDATE " + tableName(ticket.getType()) +
 				" SET shortdesc='" + ticket.getShortDesc() + 
 				"', description='" + ticket.getDesc() +
@@ -378,11 +351,8 @@ public class TicketDao {
 				"', owner='" + TicketDao.nullCheck(ticket.getOwner()) + 
 				"', related='" + TicketDao.nullCheck(ticket.getRelated()) + 
 				"', component='" + TicketDao.nullCheck(ticket.getComponent()) + 
-				"', milestone='" + ticket.getMilestone();
-		 if (comment!="") {
-				query+="', comments='" + comment;
-		 }
-				query+="', progress=" + ticket.getProgress() + 
+				"', milestone='" + ticket.getMilestone() + 
+				"', progress=" + ticket.getProgress() + 
 				", importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
 		 
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
@@ -412,24 +382,27 @@ public class TicketDao {
 		
 	}
 
-	private static String getTicketComments(String type, String id) throws Exception {
+	public static ArrayList<Comment> getComments(String id) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		ResultSet rs = null;
-		String result="";
+		ArrayList<Comment> result = new ArrayList<Comment>();
 				
 		String query = "";
-				
-		query = "SELECT comments FROM "+ tableName(type) + " where id='" + id + "'";
+		
+		query = "SELECT username, timestamp, comment FROM comments where ticketid='" + id + "'";
 		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
 				
 			while (rs.next()) {			
-				result = rs.getString(1);
-				
+				Comment c = new Comment();
+				c.setUserName(rs.getString(1));
+				c.setTimeStamp(rs.getString(2));
+				c.setComment(rs.getString(3));	
+				result.add(c);
 			}
 			if (rs != null) {
 			
@@ -441,7 +414,7 @@ public class TicketDao {
 			}
 
 		} catch (Exception e) {
-			logger.error("Getting ticket comments failed with error " + e.getMessage());
+			logger.error("Getting comments failed with error " + e.getMessage());
 			if (rs != null) {
 				rs.close();
 			}
@@ -459,8 +432,84 @@ public class TicketDao {
 		}// end finally	
 		
 		return result;
+	}	
+	
+	public static void insertComment(String id,Comment comment) throws Exception {
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		
+		String query = "Insert into comments (ticketid, username, timestamp,comment) VALUES ('" +
+		id +"','" + comment.getUserName() +"','" + comment.getTimeStamp() + "','" +
+		comment.getComment() +"')";
+	
+		try {
+			st = con.createStatement();
+			st.executeUpdate(query);
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			logger.error("Inserting comment failed with " + e.getMessage());
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
 	}
 	
-	
+	public static String getSeqID() throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		String result="";
+				
+		String query = "";
+		
+		query = "SELECT nextVal('ticketid_sequence')";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				result = rs.getString(1);								
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting sequence id failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
+	}	
 	
 }
