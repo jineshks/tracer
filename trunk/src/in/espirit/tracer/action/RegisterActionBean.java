@@ -17,8 +17,11 @@ import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 import net.sourceforge.stripes.validation.ValidationState;
 
+import org.apache.log4j.Logger;
+
 @UrlBinding("/signup")
 public class RegisterActionBean extends BaseActionBean {
+	private static final Logger logger = Logger.getLogger(RegisterActionBean.class.getName());
 	private static final String URL = "/WEB-INF/jsp/register.jsp";
 	
 	private User user;
@@ -59,6 +62,7 @@ public class RegisterActionBean extends BaseActionBean {
 	@DontValidate
 	@DefaultHandler
 	public Resolution open() {
+		logger.debug("in open()");
 		return new ForwardResolution(URL);
 	}
 
