@@ -56,10 +56,6 @@ public class LoginActionBean extends BaseActionBean{
 	public Resolution login() {
 		logger.debug("User logged in > " + user.getUserName());
 		getContext().setLoggedUser(user.getUserName());
-//		RedirectResolution res = new RedirectResolution(ListActionBean.class);
-//		res.addParameter("list", "all");
-//		res.addParameter("type", "defect");
-//		return res;
 		return new ForwardResolution(DASHBOARD);
 	}
 	

@@ -6,7 +6,7 @@
 				<div class="row">
 					<div class="column grid-16">
 						<p class="logoContainer">
-							<a href="dashboard.html" class="logo"> <span class="hide">TRACER</span>	</a>
+							<s:link  href="/user/signin" class="logo"> <span class="hide">TRACER</span>	</s:link>
 						</p>
 					</div>
 				</div>
