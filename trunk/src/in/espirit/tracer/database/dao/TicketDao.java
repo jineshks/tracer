@@ -22,8 +22,7 @@ public class TicketDao {
 	private static Logger logger = Logger.getLogger(TicketDao.class.getName());
 	
 	public static String nullCheck(String input){
-		if (input == null) { return "";}
-		return input;
+		return (input==null)?"":input;
 	}
 	
 	public static String tableName(String type) {
