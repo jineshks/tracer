@@ -59,25 +59,29 @@
 							</div>
 						</div>
 						<div class="box">
-							<h6>Requirements</h6>
-							<p>
-								<s:link href="/requirement/new" >New Requirement
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/list/requirement/all" >All Requirements
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/list/requirement/my" >My Requirements
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/requirement/1" >#2
-									<s:param name="list" value="1"></s:param>
-									<s:param name="type" value="defect"></s:param>
-								</s:link>
-							</p>
+							<div class="title">
+								<h6>User Stories</h6>	
+								<span class="right">
+									<s:link class="story" href="list/requirement/all" >All Stories </s:link>
+									<s:link class="new ml" href="/requirement/new" >New Story </s:link>
+								</span>
+							</div>
+							<div class="pt">
+								<ul>
+									<li>
+										<s:link href="/requirement/1" >#25 - As user of the system i can get an overall picture of the project status from my dashboard.
+											<s:param name="list" value="1"></s:param>
+											<s:param name="type" value="requirement"></s:param>
+										</s:link>
+									</li>
+									<li>
+										<s:link href="/defect/2" >#34 - As a product owner i should be able to view the progress made on the sprint.
+											<s:param name="list" value="1"></s:param>
+											<s:param name="type" value="requirement"></s:param>
+										</s:link>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<div class="column grid-8">
