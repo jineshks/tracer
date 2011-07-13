@@ -7,46 +7,56 @@
 
 					<div class="column grid-4">
 						<div class="box">
-							<h6>Tasks</h6>
-							<p>
-								<s:link href="/task/new" >New Task
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/list/task/all" >All Tasks
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/list/task/my" >My Tasks
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/task/1" >#1214
-									<s:param name="list" value="1"></s:param>
-									<s:param name="type" value="task"></s:param>
-								</s:link>
-							</p>
+							<div class="title">
+								<h6>Tasks</h6>	
+								<span class="right">
+									<s:link class="task" href="list/task/all" >All Tasks </s:link>
+									<s:link class="new ml" href="/task/new" >New Task </s:link>
+								</span>
+							</div>
+							<div class="pt">
+								<ul>
+									<li>
+										<s:link href="/task/1" >#1214 - Create new logo for tasks
+											<s:param name="list" value="1"></s:param>
+											<s:param name="type" value="task"></s:param>
+										</s:link>
+									</li>
+									<li>
+										<s:link href="/task/1" >#1215 - Create new logo for defects
+											<s:param name="list" value="1"></s:param>
+											<s:param name="type" value="task"></s:param>
+										</s:link>
+									</li>
+								</ul>
+								
+							</div>
 						</div>
 						<div class="box">
-							<h6>Defects</h6>
-							<p>
-								<s:link href="/defect/new" >New Defect
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/list/defect/all" >All Defects
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/list/defect/my" >My Defects
-								</s:link>
-							</p>
-							<p>
-								<s:link href="/defect/1" >#2
-									<s:param name="list" value="1"></s:param>
-									<s:param name="type" value="defect"></s:param>
-								</s:link>
-							</p>
+							
+							<div class="title">
+								<h6>Defects</h6>	
+								<span class="right">
+									<s:link class="defect" href="list/defect/all" >All Defects </s:link>
+									<s:link class="new ml" href="/defect/new" >New Defect </s:link>
+								</span>
+							</div>
+							<div class="pt">
+								<ul>
+									<li>
+										<s:link href="/defect/1" >#125 - Error while adding comments
+											<s:param name="list" value="1"></s:param>
+											<s:param name="type" value="task"></s:param>
+										</s:link>
+									</li>
+									<li>
+										<s:link href="/defect/2" >#234 - Broken links
+											<s:param name="list" value="1"></s:param>
+											<s:param name="type" value="task"></s:param>
+										</s:link>
+									</li>
+								</ul>
+							</div>
 						</div>
 						<div class="box">
 							<h6>Requirements</h6>
