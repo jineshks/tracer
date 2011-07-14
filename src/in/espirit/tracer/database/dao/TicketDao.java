@@ -197,6 +197,57 @@ public class TicketDao {
 		return result;
 	}
 	
+	public static ArrayList<Ticket> getMyTickets(String type, String userName) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Ticket> result = new ArrayList<Ticket>();
+		
+		String query="";
+		
+		query = "SELECT f_id, f_title FROM " + tableName(type) + " WHERE f_owner='" + userName +"'";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				Ticket d = new Ticket();
+				d.setId(rs.getString(1));
+				d.setTitle(rs.getString(2));
+				result.add(d);
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting my tickets failed with " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			//throw new Exception(e.getMessage()+query+"-SELECTED QUERY>-"+selQuery+"-STATUS>-"+status+"-USERNAME>-"+UserName+"-PRIORITY-"+priority);
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
+	}
 	
 	public static ArrayList<Ticket> getRelatedTickets(String id, String type) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();

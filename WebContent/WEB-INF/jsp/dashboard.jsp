@@ -16,20 +16,12 @@
 							</div>
 							<div class="pt">
 								<ul>
+								<c:forEach var="task" items="${actionBean.myTasks}">
 									<li>
-										<s:link href="/task/1" >#1214 - Create new logo for tasks
-											<s:param name="list" value="1"></s:param>
-											<s:param name="type" value="task"></s:param>
-										</s:link>
+										<s:link href="/task/${task.id}" >#${task.id} - ${task.title}</s:link>
 									</li>
-									<li>
-										<s:link href="/task/1" >#1215 - Create new logo for defects
-											<s:param name="list" value="1"></s:param>
-											<s:param name="type" value="task"></s:param>
-										</s:link>
-									</li>
-								</ul>
-								
+								</c:forEach>								
+								</ul>								
 							</div>
 						</div>
 						<div class="box">
@@ -43,18 +35,11 @@
 							</div>
 							<div class="pt">
 								<ul>
+								<c:forEach var="defect" items="${actionBean.myDefects}">
 									<li>
-										<s:link href="/defect/1" >#125 - Error while adding comments
-											<s:param name="list" value="1"></s:param>
-											<s:param name="type" value="task"></s:param>
-										</s:link>
+										<s:link href="/defect/${defect.id}" >#${defect.id} - ${defect.title}</s:link>
 									</li>
-									<li>
-										<s:link href="/defect/2" >#234 - Broken links
-											<s:param name="list" value="1"></s:param>
-											<s:param name="type" value="task"></s:param>
-										</s:link>
-									</li>
+								</c:forEach>								
 								</ul>
 							</div>
 						</div>
@@ -68,18 +53,11 @@
 							</div>
 							<div class="pt">
 								<ul>
+								<c:forEach var="requirement" items="${actionBean.myRequirements}">
 									<li>
-										<s:link href="/requirement/1" >#25 - As user of the system i can get an overall picture of the project status from my dashboard.
-											<s:param name="list" value="1"></s:param>
-											<s:param name="type" value="requirement"></s:param>
-										</s:link>
+										<s:link href="/requirement/${requirement.id}" >#${requirement.id} - ${requirement.title}</s:link>
 									</li>
-									<li>
-										<s:link href="/defect/2" >#34 - As a product owner i should be able to view the progress made on the sprint.
-											<s:param name="list" value="1"></s:param>
-											<s:param name="type" value="requirement"></s:param>
-										</s:link>
-									</li>
+								</c:forEach>								
 								</ul>
 							</div>
 						</div>
