@@ -43,7 +43,7 @@ function populateRelated() {
 <input type="checkbox" name="selectedRelated" value="${relList.id}">
 </d:column>
 <d:column title="Id" property="id"></d:column>
-<d:column title="Short Description" property="shortDesc"></d:column>
+<d:column title="Title" property="title"></d:column>
 <d:column title="Priority" property="priority"></d:column>
 <d:column title="Status" property="status"></d:column>
 <d:column title="Reporter" property="reporter"></d:column>

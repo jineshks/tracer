@@ -34,7 +34,7 @@ public class MilestoneDao {
 			while (rs.next()) {
 				Ticket d = new Ticket();
 				d.setId(rs.getString(1));
-				d.setShortDesc(rs.getString(2));
+				d.setTitle(rs.getString(2));
 				d.setPriority(rs.getString(3));
 				d.setStatus(rs.getString(4));
 				d.setReporter(rs.getString(5));

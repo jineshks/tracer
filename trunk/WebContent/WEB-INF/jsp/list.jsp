@@ -9,8 +9,8 @@
 					<s:messages/>
 					<d:table name="${actionBean.items}" id="ticket">
 					<d:column title="Id" property="id"></d:column>
-					<d:column title="Short Description">
-					<s:link href="/${ticket.type}/${ticket.id}"> ${ticket.shortDesc}
+					<d:column title="Title">
+					<s:link href="/${ticket.type}/${ticket.id}"> ${ticket.title}
 					</s:link></d:column>
 					<d:column title="Priority" property="priority"></d:column>
 					<d:column title="Status" property="status"></d:column>

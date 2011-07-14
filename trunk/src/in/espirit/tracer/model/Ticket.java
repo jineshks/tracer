@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Ticket {
 
 	private String id;
-	private String shortDesc;
+	private String title;
 	private String desc;
 	private String priority;
 	private String status;
@@ -32,12 +32,12 @@ public class Ticket {
 		this.id = id;
 	}
 
-	public String getShortDesc() {
-		return shortDesc;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setShortDesc(String shortDesc) {
-		this.shortDesc = shortDesc;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDesc() {
