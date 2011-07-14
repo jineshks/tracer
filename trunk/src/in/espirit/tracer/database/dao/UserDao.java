@@ -20,7 +20,7 @@ public class UserDao{
 	//ResultSet rs = null;
 	Integer row;
 	
-	String query = "INSERT INTO userdetails VALUES('" + user.getUserName().toLowerCase()+"','" + user.getPassword() +"','" + user.getEmail() +"')";
+	String query = "INSERT INTO t_userdetails VALUES('" + user.getUserName().toLowerCase()+"','" + user.getPassword() +"','" + user.getEmail() +"')";
 	try {
 		st = con.createStatement();
 		row = st.executeUpdate(query);
@@ -50,7 +50,7 @@ public class UserDao{
 		ResultSet rs = null;
 		Boolean userExists = false;
 		
-		String query = "SELECT * FROM userdetails WHERE username='" + userName +"'";
+		String query = "SELECT * FROM t_userdetails WHERE f_username='" + userName +"'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -96,7 +96,7 @@ public class UserDao{
 		Boolean checkPassword = false;
 		String passwordInDb="";
 		
-		String query = "SELECT password FROM userdetails WHERE username='" + userName +"'";
+		String query = "SELECT f_password FROM t_userdetails WHERE f_username='" + userName +"'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -139,7 +139,7 @@ public class UserDao{
 		ResultSet rs = null;
 		ArrayList<String> result = new ArrayList<String>();
 		
-		String query = "SELECT userName FROM userdetails";
+		String query = "SELECT f_userName FROM t_userdetails";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -175,7 +175,7 @@ public class UserDao{
 		Connection con = pool.getConnection();
 		Statement st = null;
 		    
-		String query = "Update userdetails SET password='" + password + "' where  username='" + userName +"'";
+		String query = "Update t_userdetails SET f_password='" + password + "' where  f_username='" + userName +"'";
 		try {
 			st = con.createStatement();
 			st.executeUpdate(query);

@@ -7,110 +7,111 @@ CREATE DATABASE tracer
        CONNECTION LIMIT = -1;
 
 
-CREATE SEQUENCE ticketid_sequence
+CREATE SEQUENCE sequence_ticketid
   INCREMENT 1
   MINVALUE 0
   MAXVALUE 9223372036854775807
-  START 15
+  START 0
   CACHE 1;
-COMMENT ON SEQUENCE ticketid_sequence IS 'For ID Incrementing';
+COMMENT ON SEQUENCE sequence_ticketid IS 'For ID Incrementing';
 
-CREATE TABLE comments
+CREATE TABLE t_comments
 (
-  username character varying NOT NULL,
-  "timestamp" character varying NOT NULL,
-  "comment" text,
-  ticketid integer
+  f_username character varying(35),
+  f_timestamp character varying(25),
+  f_comment text,
+  f_ticketid integer
 )
 WITH (
   OIDS=FALSE
 );
 
-CREATE TABLE config
+CREATE TABLE t_config
 (
-  "key" character varying(15) NOT NULL,
-  "value" character varying(25),
-  "Config Id" serial NOT NULL,
-  CONSTRAINT pk_config_pri PRIMARY KEY ("Config Id")
-)
-WITH (
-  OIDS=FALSE
-);
-
-CREATE TABLE defectdetails
-(
-  id integer NOT NULL,
-  shortdesc character varying(100),
-  description text,
-  priority character varying(10),
-  status character varying(20),
-  reporter character varying(30),
-  "owner" character varying(30),
-  related character varying(30),
-  component character varying(30),
-  milestone character varying(30),
-  "type" character varying(10) DEFAULT 'defect'::character varying,
-  comments text,
-  importance character varying(10),
-  progress integer,
-  CONSTRAINT primarykey PRIMARY KEY (id)
+  f_key character varying(30) NOT NULL,
+  f_value character varying(30),
+  f_id serial NOT NULL,
+  CONSTRAINT pk_config PRIMARY KEY (f_id)
 )
 WITH (
   OIDS=FALSE
 );
 
 
-CREATE TABLE requirementdetails
+CREATE TABLE t_defectdetails
 (
-  id integer NOT NULL,
-  shortdesc character varying(100),
-  description text,
-  priority character varying(10),
-  status character varying(20),
-  reporter character varying(30),
-  "owner" character varying(30),
-  related character varying(10),
-  component character varying(30),
-  milestone character varying(30),
-  comments text,
-  "type" character varying(12) DEFAULT 'requirement'::character varying,
-  importance character varying(10),
-  progress integer,
-  storypoint integer,
-  CONSTRAINT "primary key" PRIMARY KEY (id)
+  f_id integer NOT NULL,
+  f_title character varying,
+  f_description text,
+  f_priority character varying(30),
+  f_status character varying(30),
+  f_reporter character varying(35),
+  f_owner character varying(35),
+  f_related character varying(30),
+  f_component character varying(30),
+  f_milestone character varying(30),
+  f_type character varying(6) DEFAULT 'defect'::character varying,
+  f_comments text,
+  f_importance character varying(30),
+  f_progress integer,
+  CONSTRAINT pk_defect PRIMARY KEY (f_id)
 )
 WITH (
   OIDS=FALSE
 );
 
-CREATE TABLE taskdetails
+
+CREATE TABLE t_requirementdetails
 (
-  id integer NOT NULL,
-  shortdesc character varying(100),
-  description text,
-  priority character varying(10),
-  status character varying(20),
-  reporter character varying,
-  "owner" character varying,
-  related character varying(10),
-  component character varying(30),
-  milestone character varying(30),
-  comments text,
-  "type" character varying(6) DEFAULT 'task'::character varying,
-  importance character varying(10),
-  progress integer,
-  CONSTRAINT "primaryKey_task" PRIMARY KEY (id)
+  f_id integer NOT NULL,
+  f_title character varying,
+  f_description text,
+  f_priority character varying(30),
+  f_status character varying(30),
+  f_reporter character varying(35),
+  f_owner character varying(35),
+  f_related character varying(30),
+  f_component character varying(30),
+  f_milestone character varying(30),
+  f_comments text,
+  f_type character varying(11) DEFAULT 'requirement'::character varying,
+  f_importance character varying(30),
+  f_progress integer,
+  f_storypoint integer,
+  CONSTRAINT pk_requirement PRIMARY KEY (f_id)
 )
 WITH (
   OIDS=FALSE
 );
 
-CREATE TABLE userdetails
+CREATE TABLE t_taskdetails
 (
-  username character varying(10) NOT NULL,
-  "password" character varying(10),
-  email character varying(35),
-  CONSTRAINT pk_pri PRIMARY KEY (username)
+  f_id integer NOT NULL,
+  f_title character varying,
+  f_description text,
+  f_priority character varying(30),
+  f_status character varying(30),
+  f_reporter character varying(35),
+  f_owner character varying(35),
+  f_related character varying(30),
+  f_component character varying(30),
+  f_milestone character varying(30),
+  f_comments text,
+  f_type character varying(4) DEFAULT 'task'::character varying,
+  f_importance character varying(30),
+  f_progress integer,
+  CONSTRAINT pk_task PRIMARY KEY (f_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE t_userdetails
+(
+  f_username character varying(35) NOT NULL,
+  f_password character varying(15),
+  f_email character varying(35),
+  CONSTRAINT pk_user PRIMARY KEY (f_username)
 )
 WITH (
   OIDS=FALSE

@@ -20,7 +20,7 @@ public class ConfigDao {
 		ResultSet rs = null;
 		ArrayList<String> result = new ArrayList<String>();
 		
-		String query = "SELECT value FROM config where key='" + key +"'";
+		String query = "SELECT f_value FROM t_config where f_key='" + key +"'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -58,7 +58,7 @@ public class ConfigDao {
 		ResultSet rs = null;
 		ArrayList<Config> result = new ArrayList<Config>();
 		
-		String query = "SELECT * FROM config where key='" + key +"'";
+		String query = "SELECT * FROM t_config where f_key='" + key +"'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -100,7 +100,7 @@ public class ConfigDao {
 		ResultSet rs = null;
 		ArrayList<Config> result = new ArrayList<Config>();
 		
-		String query = "select * from config ORDER by key ASC";
+		String query = "select * from t_config ORDER by key ASC";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -142,7 +142,7 @@ public class ConfigDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		    
-		String query = "INSERT INTO config (key, value) VALUES('" + config.getKey()+"','" + config.getValue() +"')";
+		String query = "INSERT INTO t_config (f_key, f_value) VALUES('" + config.getKey()+"','" + config.getValue() +"')";
 		try {
 			st = con.createStatement();
 			st.executeUpdate(query);
@@ -178,7 +178,7 @@ public class ConfigDao {
 		Statement st = null;
 		ResultSet rs = null;
 		Config c = new Config();
-		String query = "select * from config  where \"Config Id\"='" + id +"'";
+		String query = "select * from t_config where f_id='" + id +"'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -216,10 +216,10 @@ public class ConfigDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		    
-		String query = "Update config "+
-		"SET key='" + config.getKey() +
-		"', value='" + config.getValue() +
-		"' where \"Config Id\"=" + config.getId();
+		String query = "Update t_config "+
+		"SET  f_key='" + config.getKey() +
+		"',  f_value='" + config.getValue() +
+		"' where  f_id=" + config.getId();
 		try {
 			st = con.createStatement();
 			st.executeUpdate(query);
@@ -247,7 +247,7 @@ public class ConfigDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		    
-		String query = "Delete from config where \"Config Id\"=" + config.getId();
+		String query = "Delete from t_config where f_id=" + config.getId();
 		try {
 			st = con.createStatement();
 			st.executeUpdate(query);
