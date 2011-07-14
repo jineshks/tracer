@@ -56,7 +56,7 @@ public class TicketDao {
 		}
 		
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getShortDesc())+"','" + 
+			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
 			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
@@ -64,7 +64,7 @@ public class TicketDao {
 			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
 		else {
-			query += "VALUES(" + id + ",'" + ticket.getShortDesc()+"','" + 
+			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
 			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
@@ -155,7 +155,7 @@ public class TicketDao {
 			while (rs.next()) {
 				Ticket d = new Ticket();
 				d.setId(rs.getString(1));
-				d.setShortDesc(rs.getString(2));
+				d.setTitle(rs.getString(2));
 				d.setPriority(rs.getString(3));
 				d.setStatus(rs.getString(4));
 				d.setImportance(rs.getString(5));
@@ -219,7 +219,7 @@ public class TicketDao {
 			while (rs.next()) {
 				Ticket d = new Ticket();
 				d.setId(rs.getString(1));
-				d.setShortDesc(rs.getString(2));
+				d.setTitle(rs.getString(2));
 				d.setPriority(rs.getString(3));
 				d.setStatus(rs.getString(4));
 				d.setReporter(rs.getString(5));
@@ -297,7 +297,7 @@ public class TicketDao {
 				
 			while (rs.next()) {			
 				d.setId(rs.getString(1));
-				d.setShortDesc(rs.getString(2));
+				d.setTitle(rs.getString(2));
 				d.setDesc(rs.getString(3));
 				d.setPriority(rs.getString(4));
 				d.setStatus(rs.getString(5));
@@ -352,7 +352,7 @@ public class TicketDao {
 		Integer row;
 	
 		 String query = "UPDATE " + tableName(ticket.getType()) +
-				" SET f_title='" + ticket.getShortDesc() + 
+				" SET f_title='" + ticket.getTitle() + 
 				"', f_description='" + ticket.getDesc() +
 				"', f_priority='" + TicketDao.nullCheck(ticket.getPriority()) + 
 				"', f_status='" + TicketDao.nullCheck(ticket.getStatus()) + 

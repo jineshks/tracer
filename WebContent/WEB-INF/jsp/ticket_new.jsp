@@ -22,7 +22,7 @@
           	<div class="il">
           		<dl>
           			<dt>Title</dt>
-          			<dd> <s:text name="ticket.shortDesc" placeholder="Short description of the ticket" style="width: 370px"/></dd>
+          			<dd> <s:text name="ticket.title" placeholder="Short description of the ticket" style="width: 370px"/></dd>
           			<dt>Description</dt>
           			<dd> <s:textarea name="ticket.desc" rows="10" cols="50" placeholder="Description of the ticket"/></dd>
           			<dt>Comment</dt>

@@ -18,9 +18,9 @@
 				<div class="box">
 					<s:hidden name="ticket.id"></s:hidden>
 					<s:hidden name="ticket.type"></s:hidden>
-					<s:hidden name="ticket.shortDesc"></s:hidden>
+					<s:hidden name="ticket.title"></s:hidden>
 					<s:hidden name="ticket.desc"></s:hidden>
-					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.shortDesc}</h4>
+					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4>
 					<h5>Description</h5>
 					<p>${actionBean.ticket.desc}</p>					
 				</div>

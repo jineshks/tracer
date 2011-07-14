@@ -1,10 +1,7 @@
 package in.espirit.tracer.action;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import in.espirit.tracer.database.dao.TicketDao;
-import in.espirit.tracer.model.Comment;
 import in.espirit.tracer.model.Defect;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
