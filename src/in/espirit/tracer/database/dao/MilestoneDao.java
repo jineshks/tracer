@@ -19,14 +19,14 @@ public class MilestoneDao {
 		ResultSet rs = null;
 		ArrayList<Ticket> result = new ArrayList<Ticket>();
 		
-		String query = "SELECT id, shortdesc, priority, status, reporter, owner, component, milestone, type " +
-				"FROM defectdetails where milestone='" + key +"' " +
+		String query = "SELECT f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone, f_type " +
+				"FROM t_defectdetails where f_milestone='" + key +"' " +
 				"UNION ALL " +
-				"select id, shortdesc, priority, status, reporter, owner, component, milestone, type " +
-				"from taskdetails where milestone='" + key + "' " +
+				"select f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone, f_type " +
+				"from t_taskdetails where f_milestone='" + key + "' " +
 				"UNION ALL " +
-				"select id, shortdesc, priority, status, reporter, owner, component, milestone, type " +
-				"from requirementdetails where milestone='" + key + "'";
+				"select f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone, f_type " +
+				"from t_requirementdetails where f_milestone='" + key + "'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);

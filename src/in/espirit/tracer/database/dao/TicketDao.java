@@ -27,13 +27,13 @@ public class TicketDao {
 	public static String tableName(String type) {
 		String tableName="";
 		if (type.equalsIgnoreCase("defect")) {
-			tableName = "defectdetails";
+			tableName = "t_defectdetails";
 		}
 		else if(type.equalsIgnoreCase("task")) {
-			tableName = "taskdetails";
+			tableName = "t_taskdetails";
 		}
 		else if(type.equalsIgnoreCase("requirement")) {
-			tableName = "requirementdetails";
+			tableName = "t_requirementdetails";
 		}
 		return tableName;
 	}
@@ -49,10 +49,10 @@ public class TicketDao {
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += " (id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, importance, progress, storypoint) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_importance, f_progress, f_storypoint) ";
 		}
 		else {
-			query += " (id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, importance, progress) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_importance, f_progress) ";
 		}
 		
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
@@ -109,27 +109,27 @@ public class TicketDao {
 		String[] filter= new String[6];
 
 		if (!(priority==null)) {
-			filter[0] = "priority='" + priority + "'";			
+			filter[0] = "f_priority='" + priority + "'";			
 		}
 		
 		if (!(status==null)) {
-			filter[1] = "status='" + status + "'";			
+			filter[1] = "f_status='" + status + "'";			
 		}
 	
 		if (!(userName==null)) {
-			filter[2] = "owner='" + userName + "'";
+			filter[2] = "f_owner='" + userName + "'";
 		}
 	
 		if (!(milestone==null)) {
-			filter[3] = "milestone='" + milestone + "'";
+			filter[3] = "f_milestone='" + milestone + "'";
 		}
 		
 		if (!(reporter==null)) {
-			filter[4] = "reporter='" + reporter + "'";
+			filter[4] = "f_reporter='" + reporter + "'";
 		}
 		
 		if (!(importance==null)) {
-			filter[5] = "importance='" + importance + "'";
+			filter[5] = "f_importance='" + importance + "'";
 		}
 		
 		for(String s:filter){
@@ -143,7 +143,7 @@ public class TicketDao {
 			}	
 		}		
 	
-		query = "SELECT id, shortdesc, priority, status, importance, reporter, owner, component, milestone, type FROM " + tableName(type);
+		query = "SELECT f_id, f_title, f_priority, f_status, f_importance, f_reporter, f_owner, f_component, f_milestone, f_type FROM " + tableName(type);
 		if (!selQuery.equals("")) {
 		 query += " where " + selQuery;
 		}		
@@ -205,10 +205,10 @@ public class TicketDao {
 		ResultSet rs = null;
 		ArrayList<Ticket> result = new ArrayList<Ticket>();
 		
-		String query="SELECT id, shortdesc, priority, status, reporter, owner, component, milestone FROM " + tableName(type);
+		String query="SELECT f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone FROM " + tableName(type);
 
 		if (id!=null) {
-			query +=" where id!=" + id;
+			query +=" where f_id!=" + id;
 		}
 		
 			
@@ -283,13 +283,13 @@ public class TicketDao {
 		String query = "";
 		String fields = "";
 		if(type.equalsIgnoreCase("requirement")) {
-			fields = "id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, type, importance, progress, storypoint";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_type, f_importance, f_progress, f_storypoint";
 		}
 		else {
-			fields = "id, shortdesc, description, priority, status, reporter, owner, related, component, milestone, type, importance, progress";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_type, f_importance, f_progress";
 		}
 		
-		query = "SELECT " + fields + " FROM "+ tableName(type) + " where id='" + id + "'";
+		query = "SELECT " + fields + " FROM "+ tableName(type) + " where f_id='" + id + "'";
 		
 		try {
 			st = con.createStatement();
@@ -352,22 +352,22 @@ public class TicketDao {
 		Integer row;
 	
 		 String query = "UPDATE " + tableName(ticket.getType()) +
-				" SET shortdesc='" + ticket.getShortDesc() + 
-				"', description='" + ticket.getDesc() +
-				"', priority='" + TicketDao.nullCheck(ticket.getPriority()) + 
-				"', status='" + TicketDao.nullCheck(ticket.getStatus()) + 
-				"', reporter='" + TicketDao.nullCheck(ticket.getReporter()) + 
-				"', owner='" + TicketDao.nullCheck(ticket.getOwner()) + 
-				"', related='" + TicketDao.nullCheck(ticket.getRelated()) + 
-				"', component='" + TicketDao.nullCheck(ticket.getComponent()) + 
-				"', milestone='" + ticket.getMilestone() + 
-				"', progress=" + ticket.getProgress() + 
-				", importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
+				" SET f_title='" + ticket.getShortDesc() + 
+				"', f_description='" + ticket.getDesc() +
+				"', f_priority='" + TicketDao.nullCheck(ticket.getPriority()) + 
+				"', f_status='" + TicketDao.nullCheck(ticket.getStatus()) + 
+				"', f_reporter='" + TicketDao.nullCheck(ticket.getReporter()) + 
+				"', f_owner='" + TicketDao.nullCheck(ticket.getOwner()) + 
+				"', f_related='" + TicketDao.nullCheck(ticket.getRelated()) + 
+				"', f_component='" + TicketDao.nullCheck(ticket.getComponent()) + 
+				"', f_milestone='" + ticket.getMilestone() + 
+				"', f_progress=" + ticket.getProgress() + 
+				", f_importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
 		 
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
-			 query +=", storypoint=" + ((Requirement) ticket).getStoryPoint();			 
+			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 
-			query +=" WHERE id='" + ticket.getId() + "'";
+			query +=" WHERE f_id='" + ticket.getId() + "'";
 		 try {
 			st = con.createStatement();
 			row = st.executeUpdate(query);
@@ -400,7 +400,7 @@ public class TicketDao {
 				
 		String query = "";
 		
-		query = "SELECT username, timestamp, comment FROM comments where ticketid='" + id + "'";
+		query = "SELECT f_username, f_timestamp, f_comment FROM t_comments where f_ticketid='" + id + "'";
 		
 		try {
 			st = con.createStatement();
@@ -448,7 +448,7 @@ public class TicketDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		
-		String query = "Insert into comments (ticketid, username, timestamp,comment) VALUES ('" +
+		String query = "Insert into t_comments (f_ticketid, f_username, f_timestamp,f_comment) VALUES ('" +
 		id +"','" + comment.getUserName() +"','" + comment.getTimeStamp() + "','" +
 		comment.getComment() +"')";
 	
@@ -482,7 +482,7 @@ public class TicketDao {
 				
 		String query = "";
 		
-		query = "SELECT nextVal('ticketid_sequence')";
+		query = "SELECT nextVal('sequence_ticketid')";
 		
 		try {
 			st = con.createStatement();
