@@ -44,13 +44,13 @@
 							<h6>Tasks</h6>
 							<ul>
 								<li>
-									<s:link href="/task/new" >New Task </s:link>
+									<s:link href="${contextPath}/task/new" >New Task </s:link>
 								</li>
 								<li>
-									<s:link  href="list/task/my" >My Tasks </s:link>
+									<s:link  href="${contextPath}/list/task/my" >My Tasks </s:link>
 								</li>
 								<li>
-									<s:link  href="list/task/all" >All Tasks </s:link>
+									<s:link  href="${contextPath}/list/task/all" >All Tasks </s:link>
 								</li>
 							</ul>
 						</div>
@@ -60,13 +60,13 @@
 							<h6>Defects</h6>
 							<ul>
 								<li>
-									<s:link href="/defect/new" >New Defect </s:link>
+									<s:link href="${contextPath}/defect/new" >New Defect </s:link>
 								</li>
 								<li>
-									<s:link  href="list/defect/my" >My Defects </s:link>
+									<s:link  href="${contextPath}/list/defect/my" >My Defects </s:link>
 								</li>
 								<li>
-									<s:link  href="list/defect/all" >All Defects </s:link>
+									<s:link  href="${contextPath}/list/defect/all" >All Defects </s:link>
 								</li>
 							</ul>
 						</div>
@@ -76,13 +76,13 @@
 							<h6>User stories</h6>
 							<ul>
 								<li>
-									<s:link href="/requirement/new" >New Story </s:link>
+									<s:link href="${contextPath}/requirement/new" >New Story </s:link>
 								</li>
 								<li>
-									<s:link  href="list/requirement/my" >My Stories </s:link>
+									<s:link  href="${contextPath}/list/requirement/my" >My Stories </s:link>
 								</li>
 								<li>
-									<s:link  href="list/requirement/all" >All Stories </s:link>
+									<s:link  href="${contextPath}/list/requirement/all" >All Stories </s:link>
 								</li>
 							</ul>
 						</div>
