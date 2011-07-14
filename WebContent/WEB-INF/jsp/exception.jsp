@@ -8,7 +8,7 @@
 						<div class="box">
 							<div class="500"> 
 								<p class="error">We apologize, an error occured. </p> 
-								<p> Please click on the links above to start over!</p>
+								<p> Please click on the links in the footer to start over!</p>
 							 </div>
 						</div>
 					</div>
