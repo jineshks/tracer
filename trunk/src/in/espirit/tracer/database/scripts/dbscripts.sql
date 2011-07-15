@@ -94,3 +94,9 @@ CREATE TABLE t_userdetails
   f_email character varying(35),
   CONSTRAINT pk_user PRIMARY KEY (f_username)
 );
+
+CREATE TABLE t_activity
+(
+  f_timestamp character varying(25),
+  f_activity text
+);

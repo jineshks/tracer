@@ -65,6 +65,15 @@
 					<div class="column grid-8">
 						<div class="box">
 							<h6>Activity Stream</h6>
+							<div class="pt">
+								<ul>
+								<c:forEach var="activity" items="${actionBean.activities}">
+									<li>
+										${activity.activity} + ${activity.timeStamp}
+									</li>
+								</c:forEach>								
+								</ul>
+							</div>
 						</div>
 						<div class="box">
 							<h6>Sprint</h6>
