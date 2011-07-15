@@ -452,7 +452,7 @@ public class TicketDao {
 			if (con != null)
 				con.close(); // close connection		
 		}// end finally
-		String activity = loggedUser + " has edited " + ticket.getType() + " #" + ticket.getId();
+		String activity = loggedUser + " has updated " + ticket.getType() + " #" + ticket.getId();
 		handleActivity(activity);	
 		return row;	
 		
