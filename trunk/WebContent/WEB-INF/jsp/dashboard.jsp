@@ -64,13 +64,18 @@
 					</div>
 					<div class="column grid-8">
 						<div class="box">
-							<h6>Activity Stream</h6>
+							<div class="title">
+								<h6>Activity Stream</h6>
+							</div>
 							<div class="pt">
 								<ul>
 								<c:forEach var="activity" items="${actionBean.activities}">
 									<li>
-										${activity.activity} + ${activity.timeStamp}
+										<p class="">
+											<span class="tal">${activity.activity}</span> <span class="tar right">${activity.timeStamp}</span>
+										</p>	
 									</li>
+									
 								</c:forEach>								
 								</ul>
 							</div>
