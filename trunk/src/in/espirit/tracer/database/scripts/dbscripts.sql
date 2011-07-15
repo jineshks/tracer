@@ -1,10 +1,6 @@
 CREATE DATABASE tracer
-  WITH OWNER = traceradmin
-       ENCODING = 'UTF8'
-       TABLESPACE = pg_default
-       LC_COLLATE = 'English_United States.1252'
-       LC_CTYPE = 'English_United States.1252'
-       CONNECTION LIMIT = -1;
+  WITH OWNER = traceradmin;
+
 
 
 CREATE SEQUENCE sequence_ticketid
@@ -21,9 +17,6 @@ CREATE TABLE t_comments
   f_timestamp character varying(25),
   f_comment text,
   f_ticketid integer
-)
-WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE t_config
@@ -32,9 +25,6 @@ CREATE TABLE t_config
   f_value character varying(30),
   f_id serial NOT NULL,
   CONSTRAINT pk_config PRIMARY KEY (f_id)
-)
-WITH (
-  OIDS=FALSE
 );
 
 
@@ -55,9 +45,6 @@ CREATE TABLE t_defectdetails
   f_importance character varying(30),
   f_progress integer,
   CONSTRAINT pk_defect PRIMARY KEY (f_id)
-)
-WITH (
-  OIDS=FALSE
 );
 
 
@@ -79,9 +66,6 @@ CREATE TABLE t_requirementdetails
   f_progress integer,
   f_storypoint integer,
   CONSTRAINT pk_requirement PRIMARY KEY (f_id)
-)
-WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE t_taskdetails
@@ -101,9 +85,6 @@ CREATE TABLE t_taskdetails
   f_importance character varying(30),
   f_progress integer,
   CONSTRAINT pk_task PRIMARY KEY (f_id)
-)
-WITH (
-  OIDS=FALSE
 );
 
 CREATE TABLE t_userdetails
@@ -112,7 +93,4 @@ CREATE TABLE t_userdetails
   f_password character varying(15),
   f_email character varying(35),
   CONSTRAINT pk_user PRIMARY KEY (f_username)
-)
-WITH (
-  OIDS=FALSE
 );
