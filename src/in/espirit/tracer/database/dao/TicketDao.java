@@ -2,6 +2,7 @@ package in.espirit.tracer.database.dao;
 
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
+import in.espirit.tracer.model.Activity;
 import in.espirit.tracer.model.Comment;
 import in.espirit.tracer.model.Defect;
 import in.espirit.tracer.model.Requirement;
@@ -11,7 +12,9 @@ import in.espirit.tracer.model.Ticket;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
@@ -38,14 +41,23 @@ public class TicketDao {
 		return tableName;
 	}
 	
-	public static String registerTicket(Ticket ticket) throws Exception {
+	public static void handleActivity(String activity) throws Exception {		
+		Activity a = new Activity();
+		Calendar curDate = Calendar.getInstance();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		String timeStamp = df.format(curDate.getTime());
+		a.setTimeStamp(timeStamp);		
+		a.setActivity(activity);
+		ActivityDao.registerActivity(a);		
+	}
+	
+	public static String registerTicket(Ticket ticket, String loggedUser) throws Exception {
 		
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		
 		String id = TicketDao.getSeqID();
-		
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
@@ -93,8 +105,10 @@ public class TicketDao {
 			if (con != null)
 				con.close(); // close connection		
 		}// end finally	
+		//register activity
+		String activity = loggedUser + " has created " + ticket.getType() + " #" + id;
+		handleActivity(activity);			
 		return id;	
-		//return regDefId;
 	}
 		
 	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone, String reporter, String importance) throws Exception{
@@ -396,7 +410,7 @@ public class TicketDao {
 		return d;
 	}
 
-	public static Integer editTicket(Ticket ticket) throws Exception {
+	public static Integer editTicket(Ticket ticket, String loggedUser) throws Exception {
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -437,7 +451,9 @@ public class TicketDao {
 		finally {
 			if (con != null)
 				con.close(); // close connection		
-		}// end finally	
+		}// end finally
+		String activity = loggedUser + " has edited " + ticket.getType() + " #" + ticket.getId();
+		handleActivity(activity);	
 		return row;	
 		
 	}
@@ -521,7 +537,7 @@ public class TicketDao {
 		finally {
 			if (con != null)
 				con.close(); // close connection		
-		}// end finally	
+		}// end finally		
 	}
 	
 	public static String getSeqID() throws Exception{
@@ -532,7 +548,6 @@ public class TicketDao {
 		String result="";
 				
 		String query = "";
-		
 		query = "SELECT nextVal('sequence_ticketid')";
 		
 		try {

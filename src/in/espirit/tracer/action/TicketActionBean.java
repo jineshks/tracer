@@ -19,7 +19,7 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 	
 	//protected static final Logger logger = Logger.getLogger(TicketActionBean.class.getName());
 	
-	public void handleComments(String commentText, String id) throws Exception {		
+	public void handleComments(String commentText, String id, String type) throws Exception {		
 		if (commentText!= null) {
 			Comment comment = new Comment();
 			comment.setUserName(getContext().getLoggedUser());			
@@ -28,7 +28,9 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 			String date = df.format(curDate.getTime());			
 			comment.setTimeStamp(date);
 			comment.setComment(commentText);				
-			TicketDao.insertComment(id, comment);
+			TicketDao.insertComment(id, comment);			
+			String activity = getContext().getLoggedUser() + " has commented " + type + " #" + id;
+			TicketDao.handleActivity(activity);	
 		}			
 	}	
 	
