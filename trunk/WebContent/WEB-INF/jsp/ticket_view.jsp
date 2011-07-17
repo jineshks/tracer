@@ -46,13 +46,13 @@
 				</div>
 
 				<div class="box">
-					<div class="comments">
+					<div id="comments" class="comments">
 						<h4>Comments</h4>
 						
 						<ul>
 							<c:forEach var="comment" items="${actionBean.ticket.comments}" varStatus="loopCount">
 							<li>
-								<span class="tal"><a href="#">Comment#${loopCount.count}</a></span> <span class="tar right">${comment.timeStamp}</span>
+								<span class="tal"><a id="Comment#${loopCount.count}" href="#Comment#${loopCount.count}">Comment#${loopCount.count}</a></span> <span class="tar right">${comment.timeStamp}</span>
 								<p><span class="bold">${comment.userName} :</span> ${comment.comment}</p>
 							</li>
 							</c:forEach>
@@ -88,57 +88,56 @@
 						<s:hidden name="ticket.type"></s:hidden>
 						<s:hidden name="ticket.title"></s:hidden>
 						<s:hidden name="ticket.desc"></s:hidden>
-					<div class="il">
-						<dl>
-							<dt> Importance </dt>
-          			<dd>
-          				<s:select name="ticket.importance">
-							<s:option value=""></s:option>
-							<s:options-collection collection="${configView.importance}"/>
-						</s:select> 
-					</dd>
-          			<dt> Priority </dt>
-          			<dd> 
-          				<s:select name="ticket.priority">
-							<s:option value=""></s:option>
-							<s:options-collection collection="${configView.priority}"/>
-						</s:select>
-					</dd>
-					<dt> Status </dt>
-					<dd> 
-          				<s:select name="ticket.status">
-							<s:option value=""></s:option>
-							<s:options-collection collection="${configView.status}"/>
-						</s:select>
-					</dd>
-          			<dt> Milestone </dt>
-          			<dd> 
-          				<s:select name="ticket.milestone">
-						<s:option value=""></s:option>
-						<s:options-collection collection="${configView.milestone}"/>
-						</s:select>
-					</dd>
-					<dt> Component </dt>
-          			<dd>
-          			<s:text name="ticket.component" placeholder="Component"/></dd>
-          			<dt> Reporter </dt>
-          			<dd>
-          			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
-          			<dt> Owner </dt>
-          			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
-          			<dt> Related tickets </dt>
-          			<dd><s:text name="ticket.related" placeholder="#related, comma separated"/> </dd>
-          			<dt> Progress </dt>
-          			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd> 
-          			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
-          			<dt> Story Point </dt>
-          			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
-          			</c:if>    
-				</dl>
-					<s:submit name="submit" value="Submit"/>
+						<div class="il">
+							<dl>
+								<dt> Importance </dt>
+			          			<dd>
+			          				<s:select name="ticket.importance">
+										<s:option value=""></s:option>
+										<s:options-collection collection="${configView.importance}"/>
+									</s:select> 
+								</dd>
+			          			<dt> Priority </dt>
+			          			<dd> 
+			          				<s:select name="ticket.priority">
+										<s:option value=""></s:option>
+										<s:options-collection collection="${configView.priority}"/>
+									</s:select>
+								</dd>
+								<dt> Status </dt>
+								<dd> 
+			          				<s:select name="ticket.status">
+										<s:option value=""></s:option>
+										<s:options-collection collection="${configView.status}"/>
+									</s:select>
+								</dd>
+			          			<dt> Milestone </dt>
+			          			<dd> 
+			          				<s:select name="ticket.milestone">
+									<s:option value=""></s:option>
+									<s:options-collection collection="${configView.milestone}"/>
+									</s:select>
+								</dd>
+								<dt> Component </dt>
+			          			<dd>
+			          			<s:text name="ticket.component" placeholder="Component"/></dd>
+			          			<dt> Reporter </dt>
+			          			<dd>
+			          			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
+			          			<dt> Owner </dt>
+			          			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
+			          			<dt> Related tickets </dt>
+			          			<dd><s:text name="ticket.related" placeholder="#related, comma separated"/> </dd>
+			          			<dt> Progress </dt>
+			          			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd> 
+			          			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
+			          			<dt> Story Point </dt>
+			          			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
+			          			</c:if>    
+							</dl>
+						<s:submit name="submit" value="Submit"/>
 					</div>
-					<!--  deiva - for testing purposes -->    
-					</s:form>
+				</s:form>
 				</div>
 				<div class="box">
 					<h4>Commits (Not Yet Implemented!)</h4>
@@ -171,8 +170,10 @@
         $.get(  
             loadUrl,  
             {type: $("#hTicketType").val(), id: $("#hTicketId").val(),comment: $("#newComment").val()},  
-            function(responseText){  
-                $("#result").html(responseText);  
+            function(responseText){ 
+                $("#comments ul").append(responseText);
+				$("#result").html("");                  
+				$("#newComment").val("");
             },  
             "html"  
         );  

@@ -1,6 +1,7 @@
 package in.espirit.tracer.action;
 
 import in.espirit.tracer.model.Task;
+import in.espirit.tracer.util.DateUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
@@ -40,7 +41,10 @@ public class CommentsActionBean extends TicketActionBean implements
 			e.printStackTrace();
 		}
 		if (flag) {
-			output = "<p> " + comment + " </p>";
+			
+			output = "<li> <span class=\"tal\"><a href=\"#\">Comment#</a></span>"+ 
+					"<span class=\"tar right\">"+DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm")+"</span>"+
+					"<p> <span class=\"bold\">"+getContext().getLoggedUser()+" :</span> "+comment +"</p> </li>";
 		}
 		return new StreamingResolution("text/html", output);
 	}
