@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
+
 <s:layout-component name="body">  
 <c:if test="${actionBean.ticket.type eq 'defect'}">
 <c:set var="beanclass" value="in.espirit.tracer.action.DefectActionBean"></c:set>
@@ -11,15 +12,11 @@
 <c:set var="beanclass" value="in.espirit.tracer.action.RequirementActionBean"></c:set>
 </c:if>
   <jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
-  <s:form beanclass="${beanclass}">	
   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-10">
 				<div class="box">
-					<s:hidden name="ticket.id"></s:hidden>
-					<s:hidden name="ticket.type"></s:hidden>
-					<s:hidden name="ticket.title"></s:hidden>
-					<s:hidden name="ticket.desc"></s:hidden>
+					
 					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4>
 					<h5>Description</h5>
 					<p>${actionBean.ticket.desc}</p>					
@@ -61,23 +58,36 @@
 							</c:forEach>
 						</ul>
 						
+						<div id="result">
+						
+						</div>
+						
+						<s:form action="/comments">	
+							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
+							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
 						<div class="il">
 							<dl>
 								<dt>New comment</dt>
 								<dd>
-									<s:textarea name="ticket.newComments" rows="4" cols="70" placeholder="Comment"/>
-									<br>
-									<span> <input type="button" value="Post comment(Not yet working.use submit)" class="orange"> </span>
+									<s:textarea id="newComment" name="ticket.newComments" rows="4" cols="70" placeholder="Comment"/>
 								</dd>
 							</dl>
+							<input name="postComment" type="button" id="commentButton" value="Post comment" class="orange">
 						</div>
+						</s:form>
 					</div>
 
 				</div>
 			</div>
+			
 			<div class="column grid-6">
 				<div class="box">
 					<h4>Properties</h4>
+					<s:form beanclass="${beanclass}">	
+						<s:hidden name="ticket.id"></s:hidden>
+						<s:hidden name="ticket.type"></s:hidden>
+						<s:hidden name="ticket.title"></s:hidden>
+						<s:hidden name="ticket.desc"></s:hidden>
 					<div class="il">
 						<dl>
 							<dt> Importance </dt>
@@ -125,26 +135,49 @@
           			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
           			</c:if>    
 				</dl>
+					<s:submit name="submit" value="Submit"/>
 					</div>
+					<!--  deiva - for testing purposes -->    
+					</s:form>
 				</div>
 				<div class="box">
 					<h4>Commits (Not Yet Implemented!)</h4>
 
 					<a href="#">Change set#223</a>
-					<p>Commit comments will apear here. Commnets will be listed in
+					<p>Commit comments will appear here. Comments will be listed in
 						the chronological order</p>
 
 					<a href="#">Change set#223</a>
-					<p>Commit comments will apear here. Commnets will be listed in
+					<p>Commit comments will appear here. Comments will be listed in
 						the chronological order</p>
 				</div>
 			</div>
-  <!--  deiva - for testing purposes -->    
-  <s:submit name="submit" value="Submit"/>
 
 		</div>
 	</div>
 	
-	</s:form>
+</s:layout-component>
+<s:layout-component name="inlineScripts">
+ $(document).ready(function(){
+  $.ajaxSetup ({
+		cache: false
+	});
+	var ajax_load = "<img class='loading' src='../images/load.gif' alt='loading...' />";
+	
+//	load() functions
+	var loadUrl = "/tracer/comments";
+   $("#commentButton").click(function(event){
+     $("#result").html(ajax_load);  
+        $.get(  
+            loadUrl,  
+            {type: $("#hTicketType").val(), id: $("#hTicketId").val(),comment: $("#newComment").val()},  
+            function(responseText){  
+                $("#result").html(responseText);  
+            },  
+            "html"  
+        );  
+   });
+ });
+ 
 </s:layout-component>
 </s:layout-render>
