@@ -6,9 +6,10 @@
 				<div class="row">
 					<div class="column grid-16">
 						<div class="box">
-							<div class="500"> 
-								<p class="error">We apologize, an error occured. </p> 
-								<p> Please click on the links in the footer to start over!</p>
+							<div class="exception mt">
+								<span> 
+									<p class="error">We apologize, an error occured. </p> 
+								 </span>
 							 </div>
 						</div>
 					</div>
