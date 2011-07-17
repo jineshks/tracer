@@ -7,10 +7,13 @@
 			<title>Tracer</title>
 			<link rel="stylesheet" type="text/css" href="${contextPath}/css/style.css">
 			<link href="${contextPath}/stylesheets/custom.less" media="all" rel="stylesheet/less" type="text/css" />
-			<script src="${contextPath}/javascripts/less-1.0.41.js"></script>
+			<script type="text/javascript" src="${contextPath}/javascripts/less-1.0.41.js"></script>
+			<script type="text/javascript" src="${contextPath}/javascripts/jquery-1.5.1.min.js"> </script>
 			<!--[if lt IE 9]>
 			    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 			  <![endif]-->
+			<s:layout-component name="inlineScripts">
+			</s:layout-component>  
 		</head>
 		<body>
 			<s:layout-component name="header">
