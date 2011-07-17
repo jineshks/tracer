@@ -3,10 +3,7 @@ package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Comment;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
+import in.espirit.tracer.util.DateUtils;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.SimpleError;
@@ -24,10 +21,7 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 		if (commentText!= null) {
 			Comment comment = new Comment();
 			comment.setUserName(getContext().getLoggedUser());			
-			Calendar curDate = Calendar.getInstance();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-			String date = df.format(curDate.getTime());			
-			comment.setTimeStamp(date);
+			comment.setTimeStamp(DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm"));
 			comment.setComment(commentText);				
 			flag = TicketDao.insertComment(id, comment);			
 			String activity = getContext().getLoggedUser() + " has commented " + type + " #" + id;
