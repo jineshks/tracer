@@ -1,5 +1,8 @@
 package in.espirit.tracer.action;
 
+import org.apache.log4j.Logger;
+
+import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Task;
 import in.espirit.tracer.util.DateUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -13,6 +16,7 @@ import net.sourceforge.stripes.validation.ValidationErrors;
 @UrlBinding("/comments")
 public class CommentsActionBean extends TicketActionBean implements
 		ValidationErrorHandler {
+	private static Logger logger = Logger.getLogger(CommentsActionBean.class.getName());
 
 	private Task ticket;
 
@@ -28,8 +32,8 @@ public class CommentsActionBean extends TicketActionBean implements
 	public Resolution postComment() {
 		boolean flag = false;
 		String output = "<p>Sorry! could not post the comment </p>";
-		System.out.println(" Post Comment action");
 		String comment = this.getContext().getRequest().getParameter("comment");
+		String commentId = this.getContext().getRequest().getParameter("commentid");
 
 		try {
 			flag = handleComments(
@@ -37,12 +41,13 @@ public class CommentsActionBean extends TicketActionBean implements
 					this.getContext().getRequest().getParameter("id"), this
 							.getContext().getRequest().getParameter("type"));
 		} catch (Exception e) {
-			System.out.println(" Error!!");
+			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 		if (flag) {
 			
-			output = "<li> <span class=\"tal\"><a href=\"#\">Comment#</a></span>"+ 
+			output = "<li> " +
+					"<span class=\"tal\"><a id=\"Comment#"+commentId+"\" href=\"Comment#"+commentId+"\">Comment#"+commentId+"</a></span>"+ 
 					"<span class=\"tar right\">"+DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm")+"</span>"+
 					"<p> <span class=\"bold\">"+getContext().getLoggedUser()+" :</span> "+comment +"</p> </li>";
 		}
