@@ -28,19 +28,22 @@ table {
   }
   th, td {
     padding: 3px;
-    border: 1px solid #F3F3F3;
+    border: 1px solid #eee;
   }
   thead {
     tr {
       th {
-        background-color: #ececec;
-        padding: 3px 10px;
+      	background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#111)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #333,  #111);
+        color:#aaa;
+        padding: 10px;
         text-align: center;
         font-weight:bold;
+        opacity:0.8;
       }
       td {
         background-color: inherit;
-        padding: 3px 10px;
+        padding: 7px 10px;
         text-align: center;
       }
     }
@@ -52,11 +55,11 @@ table {
     }
     tr {
       th {
-        padding: 3px 10px;
+        padding: 10px;
         text-align: center;
       }
       td {
-        padding: 3px 10px;
+        padding: 7px 10px;
         text-align: left;
       }
     }
