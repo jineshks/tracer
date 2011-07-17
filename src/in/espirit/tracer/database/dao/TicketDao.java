@@ -510,10 +510,11 @@ public class TicketDao {
 		return result;
 	}	
 	
-	public static void insertComment(String id,Comment comment) throws Exception {
+	public static boolean insertComment(String id,Comment comment) throws Exception {
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
+		int updateCount = 0;
 		
 		String query = "Insert into t_comments (f_ticketid, f_username, f_timestamp,f_comment) VALUES ('" +
 		id +"','" + comment.getUserName() +"','" + comment.getTimeStamp() + "','" +
@@ -521,7 +522,7 @@ public class TicketDao {
 	
 		try {
 			st = con.createStatement();
-			st.executeUpdate(query);
+			updateCount = st.executeUpdate(query);
 			if (st != null) {
 				st.close();
 			}
@@ -537,7 +538,15 @@ public class TicketDao {
 		finally {
 			if (con != null)
 				con.close(); // close connection		
-		}// end finally		
+		}// end finally	
+		
+		if(updateCount != 0){
+			return true;
+		}else{
+			return false;
+		}
+		
+		
 	}
 	
 	public static String getSeqID() throws Exception{
