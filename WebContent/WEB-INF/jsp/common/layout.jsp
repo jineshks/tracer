@@ -93,8 +93,14 @@
 						</div>
 					</div>
 					<div class="column grid-2">
-						<p class="tal">
-						</p>
+						<div class="tal">
+							<h6>Admin</h6>
+							<ul>
+								<li>
+									<s:link href="${contextPath}/list/config" >Config </s:link>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div class="column grid-2">
 						<p class="tal">
