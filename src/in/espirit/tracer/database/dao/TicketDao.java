@@ -8,14 +8,12 @@ import in.espirit.tracer.model.Defect;
 import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Task;
 import in.espirit.tracer.model.Ticket;
+import in.espirit.tracer.util.DateUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import org.apache.log4j.Logger;
 
 
@@ -41,13 +39,11 @@ public class TicketDao {
 		return tableName;
 	}
 	
-	public static void handleActivity(String activity) throws Exception {		
+	public static void handleActivity(String activity, String loggedUser) throws Exception {		
 		Activity a = new Activity();
-		Calendar curDate = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-		String timeStamp = df.format(curDate.getTime());
-		a.setTimeStamp(timeStamp);		
+		a.setTimeStamp(DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm"));		
 		a.setActivity(activity);
+		a.setUserName(loggedUser);
 		ActivityDao.registerActivity(a);		
 	}
 	
@@ -107,7 +103,7 @@ public class TicketDao {
 		}// end finally	
 		//register activity
 		String activity = loggedUser + " has created " + ticket.getType() + " #" + id;
-		handleActivity(activity);			
+		handleActivity(activity, loggedUser);			
 		return id;	
 	}
 		
@@ -453,7 +449,7 @@ public class TicketDao {
 				con.close(); // close connection		
 		}// end finally
 		String activity = loggedUser + " has updated " + ticket.getType() + " #" + ticket.getId();
-		handleActivity(activity);	
+		handleActivity(activity, loggedUser);	
 		return row;	
 		
 	}

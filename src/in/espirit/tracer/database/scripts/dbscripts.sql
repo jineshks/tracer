@@ -97,6 +97,9 @@ CREATE TABLE t_userdetails
 
 CREATE TABLE t_activity
 (
+  f_id serial NOT NULL,
+  f_username character varying(35),
   f_timestamp character varying(25),
-  f_activity text
+  f_activity text,
+  CONSTRAINT pk_activity PRIMARY KEY (f_id)
 );
