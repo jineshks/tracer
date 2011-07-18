@@ -25,7 +25,7 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 			comment.setComment(commentText);				
 			flag = TicketDao.insertComment(id, comment);			
 			String activity = getContext().getLoggedUser() + " has commented " + type + " #" + id;
-			TicketDao.handleActivity(activity);	
+			TicketDao.handleActivity(activity, getContext().getLoggedUser());	
 		}
 		return flag;
 	}	

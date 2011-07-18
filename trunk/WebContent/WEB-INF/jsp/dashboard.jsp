@@ -66,6 +66,9 @@
 						<div class="box">
 							<div class="title">
 								<h6>Activity Stream</h6>
+								<span class="right">
+									<s:link class="story" href="/activitystream" >All </s:link>							
+								</span>
 							</div>
 							<div class="pt">
 								<ul>

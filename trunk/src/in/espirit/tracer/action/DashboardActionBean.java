@@ -6,7 +6,6 @@ import in.espirit.tracer.model.Activity;
 import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -23,20 +22,7 @@ public class DashboardActionBean extends BaseActionBean {
 	}
 	
 	public ArrayList<Activity> getActivities() throws Exception {
-		ArrayList<Activity> temp = ActivityDao.getAllActivity();
-		for(Activity a : temp) {
-			String s1 = a.getActivity();
-			// This part can be improved or optimized for better practices.
-			Integer pos = s1.lastIndexOf("#");  // This is to determine whether the activity has a number associated with it.
-			if (pos > 0) {
-				// Pattern will be <username> has <action> <tickettype> #<no.>. Action can be created, edited or commented.
-				String[] a1 = s1.split(" ");  
-				String id = s1.substring(pos);				
-				String link = "<a href='./" + a1[3] + "/" + id.substring(1)  + "'>" + id + "</a>";	
-				a.setActivity(a1[0] + " " + a1[1] + " " + a1[2] + " " + a1[3] + " " + link);				
-			}		
-		}		
-		return temp;
+		return ActivityDao.getActivities("5");		
 	}
 
 	public ArrayList<Ticket> getMyTasks() throws Exception {
