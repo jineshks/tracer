@@ -14,6 +14,7 @@
   <s:form beanclass="${beanclass}">  
   <div id="bodycontent">
     <div class="row">      
+   	<s:errors globalErrorsOnly="true"></s:errors>
       <div class="column grid-7">
           <div class="box">
           <s:hidden name="ticket.id"/>
@@ -73,9 +74,9 @@
           			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
           			<dt> Owner </dt>
           			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
-          			<dt> Related tickets </dt>
-          			<dd><s:text name="ticket.related" placeholder="#related, comma separated"/> </dd>
-          			<dt> Progress </dt>
+          			<dt> Parent ticket </dt>
+					<dd><s:text name="ticket.parentTicket" placeholder="#Parent Ticket, only one"/> </dd>
+					<dt> Progress </dt>
           			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd>
           			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
           			<dt> Story Point </dt>

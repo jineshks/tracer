@@ -1,26 +1,31 @@
 package in.espirit.tracer.action;
 
+import java.util.ArrayList;
+
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Requirement;
+import in.espirit.tracer.model.Ticket;
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.validation.Validate;
-import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.SimpleError;
+import net.sourceforge.stripes.validation.ValidationErrors;
+import net.sourceforge.stripes.validation.ValidationMethod;
 
 @UrlBinding("/requirement/{ticket}")
 public class RequirementActionBean extends TicketActionBean {
 	
+	/*
 	@ValidateNestedProperties({
 		@Validate(field="shortDesc", required=true, on="submit"),
 		@Validate(field="priority", required=true, on="submit"),
 		@Validate(field="desc", required=true, on="submit"),
 		@Validate(field="milestone", required=true, on="submit")
 	})	
+	*/
 	private Requirement ticket;
 	
 	@DefaultHandler
@@ -35,7 +40,7 @@ public class RequirementActionBean extends TicketActionBean {
 		}		
 	}
 	
-	@DontValidate  // Need to remove the validation handlers in the super class action bean and remove validations here.
+	//@DontValidate  // Need to remove the validation handlers in the super class action bean and remove validations here.
 	public Resolution submit() throws Exception {
 		ticket = getTicket();
 		if (ticket.getId() == null) {
@@ -52,6 +57,15 @@ public class RequirementActionBean extends TicketActionBean {
 		}	
 		return new RedirectResolution(ListActionBean.class).addParameter("list", "all").addParameter("type", "requirement");		
 	}
+	
+	@ValidationMethod(on="submit")
+	public void valMethod(ValidationErrors errors) throws Exception{
+		if(ticket.getParentTicket() != null) {
+			if (!TicketDao.ticketExists(ticket.getParentTicket())) {
+				errors.addGlobalError(new SimpleError("Parent Ticket no is not existing. Please enter a correct id"));
+			}	
+		}
+	}
 
 	public Requirement getTicket() {
 		return ticket;
@@ -59,5 +73,13 @@ public class RequirementActionBean extends TicketActionBean {
 
 	public void setTicket(Requirement ticket) {
 		this.ticket = ticket;
+	}	
+	
+	public Ticket getParentTicket() throws Exception {	
+		return (ticket.getParentTicket()!=null)?TicketDao.getParentTicketDetails(ticket.getParentTicket()):null;			
+	}
+	
+	public ArrayList<Ticket> getSubTickets() throws Exception {
+		return TicketDao.getSubTicketDetails(ticket.getId());		
 	}	
 }

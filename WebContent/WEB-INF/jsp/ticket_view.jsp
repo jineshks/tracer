@@ -15,36 +15,36 @@
   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-10">
-				<div class="box">
-					
+			<s:errors globalErrorsOnly="true"></s:errors>
+				<div class="box">					
 					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4>
 					<h5>Description</h5>
 					<p>${actionBean.ticket.desc}</p>					
 				</div>
-
+				<c:set var="parentTicket" value="${actionBean.parentTicket}"></c:set>
+				<c:set var="subTickets" value="${actionBean.subTickets}"></c:set>	
+				<c:if test="${parentTicket ne null  or subTickets ne null}">
 				<div class="box">
-					<div>
-						<h4>Parent Ticket (Not Yet Implemented!)</h4>
+					<div>						
+					<c:if test="${parentTicket ne null}">
+						<h4>Parent Ticket</h4>
 						<p class="pb">
-							<span class="bold"> <a href="#">#986</a> </span> The is the
-							description of the parent ticket. This section will be shown only
-							if there is a parent ticket.
+							<span class="bold"> <a href="${contextPath}/${parentTicket.type}/${parentTicket.id}">#${parentTicket.id}</a> </span> 
+							${parentTicket.title }
 						</p>
-
-						<h4>Sub Tickets (Not Yet Implemented!) </h4>
-						<p>
-							<span class="bold"><a href="#">#1233</a> </span> The is the
-							description of the first child ticket. This section will be shown
-							only if there is atleast one ticket.
-						</p>
-						<p>
-							<span class="bold"><a href="#">#1236</a>
-							</span> The is the description of the second child ticket. This section
-							will be shown only if there is atleast one ticket.
-						</p>
-					</div>
+					</c:if>
+					<c:if test="${subTickets ne null}">
+						<h4>Sub Ticket(s)</h4>					
+						<c:forEach var="subtick" items="${subTickets}">
+							<p>
+							<span class="bold"><a href="${contextPath}/${subtick.type}/${subtick.id}">#${subtick.id}</a> </span> 
+							${subtick.title}							
+							</p>
+						</c:forEach>	
+					</c:if>				
+					</div>					
 				</div>
-
+				</c:if>
 				<div class="box">
 					<div id="comments" class="comments">
 						<h4>Comments</h4>
@@ -126,8 +126,8 @@
 			          			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
 			          			<dt> Owner </dt>
 			          			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
-			          			<dt> Related tickets </dt>
-			          			<dd><s:text name="ticket.related" placeholder="#related, comma separated"/> </dd>
+			          			<dt> Parent ticket </dt>
+			          			<dd><s:text name="ticket.parentTicket" placeholder="#Parent Ticket, only one"/> </dd>
 			          			<dt> Progress </dt>
 			          			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd> 
 			          			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
