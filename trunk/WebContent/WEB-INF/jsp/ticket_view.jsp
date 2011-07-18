@@ -172,8 +172,14 @@
      	alert("Please enter a comment");
      }else{
      	 var commentid = $('.comments li a:last').attr('id');
-       	 var ncomment = parseInt(commentid.substring(commentid.indexOf("#")+1,commentid.length))+1;
-	     $("#result").html(ajax_load);  
+     	 var ncomment;
+     	 if (commentid) {
+     	   ncomment = parseInt(commentid.substring(commentid.indexOf("#")+1,commentid.length))+1;
+     	 }
+     	 else {
+       	   ncomment = 1;
+       	 }
+       	 $("#result").html(ajax_load);  
 	        $.get(  
 	            loadUrl,  
 	            {type: $("#hTicketType").val(), id: $("#hTicketId").val(),comment: $("#newComment").val(),commentid: ncomment},  
