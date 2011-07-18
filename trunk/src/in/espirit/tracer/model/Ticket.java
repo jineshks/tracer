@@ -11,7 +11,7 @@ public class Ticket {
 	private String status;
 	private String reporter;
 	private String owner;
-	private String related;
+	private String parentTicket;
 	private String component;
 	private String milestone;
 	private String type;
@@ -80,12 +80,12 @@ public class Ticket {
 		this.owner = owner;
 	}
 
-	public String getRelated() {
-		return related;
+	public String getParentTicket() {
+		return parentTicket;
 	}
 
-	public void setRelated(String related) {
-		this.related = related;
+	public void setParentTicket(String parentTicket) {
+		this.parentTicket = parentTicket;
 	}
 
 	public String getComponent() {

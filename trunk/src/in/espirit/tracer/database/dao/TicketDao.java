@@ -57,17 +57,17 @@ public class TicketDao {
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_importance, f_progress, f_storypoint) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_progress, f_storypoint) ";
 		}
 		else {
-			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_importance, f_progress) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_progress) ";
 		}
-		
+	
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
 			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
 			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
-			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
+			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
 			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
@@ -75,11 +75,10 @@ public class TicketDao {
 			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
 			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
-			"','" + TicketDao.nullCheck(ticket.getRelated())+"','" + TicketDao.nullCheck(ticket.getComponent())+
+			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
 			"'," + ticket.getProgress()+")";
 		}
-		
 		try {
 			st = con.createStatement();
 			st.executeUpdate(query);
@@ -327,7 +326,6 @@ public class TicketDao {
 		Statement st = null;
 		ResultSet rs = null;
 		Ticket d;
-		
 		if(type.equalsIgnoreCase("defect")) {
 			d = new Defect();
 		}
@@ -344,10 +342,10 @@ public class TicketDao {
 		String query = "";
 		String fields = "";
 		if(type.equalsIgnoreCase("requirement")) {
-			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_type, f_importance, f_progress, f_storypoint";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_progress, f_storypoint";
 		}
 		else {
-			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_related, f_component, f_milestone, f_type, f_importance, f_progress";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_progress";
 		}
 		
 		query = "SELECT " + fields + " FROM "+ tableName(type) + " where f_id='" + id + "'";
@@ -364,7 +362,7 @@ public class TicketDao {
 				d.setStatus(rs.getString(5));
 				d.setReporter(rs.getString(6));
 				d.setOwner(rs.getString(7));
-				d.setRelated(rs.getString(8));
+				d.setParentTicket(rs.getString(8));
 				d.setComponent(rs.getString(9));
 				d.setMilestone(rs.getString(10));
 				d.setType(rs.getString(11));
@@ -419,12 +417,11 @@ public class TicketDao {
 				"', f_status='" + TicketDao.nullCheck(ticket.getStatus()) + 
 				"', f_reporter='" + TicketDao.nullCheck(ticket.getReporter()) + 
 				"', f_owner='" + TicketDao.nullCheck(ticket.getOwner()) + 
-				"', f_related='" + TicketDao.nullCheck(ticket.getRelated()) + 
-				"', f_component='" + TicketDao.nullCheck(ticket.getComponent()) + 
+				"', f_parentticket=" + ticket.getParentTicket() + 
+				", f_component='" + TicketDao.nullCheck(ticket.getComponent()) + 
 				"', f_milestone='" + ticket.getMilestone() + 
 				"', f_progress=" + ticket.getProgress() + 
 				", f_importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
-		 
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
 			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 
@@ -591,5 +588,164 @@ public class TicketDao {
 		
 		return result;
 	}	
+	
+	
+	public static Ticket getParentTicketDetails(String id) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		Ticket ticket = null;
+		
+		String query = "";
+		
+		query = "select f_id, f_title,f_type from t_defectdetails where f_id="+id+
+		" UNION select f_id,f_title,f_type from t_taskdetails where f_id="+id+
+		" UNION select f_id,f_title,f_type from t_requirementdetails where f_id="+id;
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {	
+				ticket = new Ticket();
+				ticket.setId(rs.getString(1));
+				ticket.setTitle(rs.getString(2));
+				ticket.setType(rs.getString(3));								
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting ticket failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return ticket;
+	}
+	
+	public static ArrayList<Ticket> getSubTicketDetails(String id) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Ticket> result = new ArrayList<Ticket>();;
+
+		
+		String query = "";
+		
+		query = "select f_id, f_title,f_type from t_defectdetails where f_parentTicket="+id+
+		" UNION select f_id,f_title,f_type from t_taskdetails where f_parentTicket="+id+
+		" UNION select f_id,f_title,f_type from t_requirementdetails where f_parentTicket="+id;
+
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {		
+				Ticket ticket = new Ticket();
+				ticket.setId(rs.getString(1));
+				ticket.setTitle(rs.getString(2));
+				ticket.setType(rs.getString(3));	
+				result.add(ticket);
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting ticket failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		return (result.size()==0)?null:result;
+	}
+
+	public static boolean ticketExists(String parentTicket) throws Exception {
+			
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		Boolean result = false;
+		
+				
+		String query = "";
+		query = "select f_id from t_defectdetails where f_id="+parentTicket+
+		" UNION select f_id from t_taskdetails where f_id="+parentTicket+
+		" UNION select f_id from t_requirementdetails where f_id="+parentTicket;
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				result = true;							
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Checking existing ticket failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
+	}
+	
 	
 }
