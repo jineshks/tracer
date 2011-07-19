@@ -19,6 +19,7 @@ public class Ticket {
 	private String newComments;
 	private String importance;
 	private String progress;
+	private String tags;
 
 	public Ticket() {
 		super();
@@ -142,5 +143,13 @@ public class Ticket {
 
 	public String getProgress() {
 		return progress;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getTags() {
+		return tags;
 	}
 }

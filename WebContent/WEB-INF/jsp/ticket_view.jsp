@@ -134,6 +134,8 @@
 			          			<dt> Story Point </dt>
 			          			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
 			          			</c:if>    
+			          			<dt> Tags </dt>
+          						<dd><s:text name="ticket.tags" placeholder="Tags, comma separated"/> </dd>
 							</dl>
 						<s:submit name="submit" value="Submit"/>
 					</div>

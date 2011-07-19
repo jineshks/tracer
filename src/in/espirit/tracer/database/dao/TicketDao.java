@@ -57,10 +57,10 @@ public class TicketDao {
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_progress, f_storypoint) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_tags, f_progress, f_storypoint) ";
 		}
 		else {
-			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_progress) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_tags, f_progress) ";
 		}
 	
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
@@ -69,7 +69,7 @@ public class TicketDao {
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
+			"','" + TicketDao.nullCheck(ticket.getTags()) + "'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
 		else {
 			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
@@ -77,7 +77,7 @@ public class TicketDao {
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"'," + ticket.getProgress()+")";
+			"','" + TicketDao.nullCheck(ticket.getTags()) + "'," + ticket.getProgress()+")";
 		}
 		try {
 			st = con.createStatement();
@@ -342,10 +342,10 @@ public class TicketDao {
 		String query = "";
 		String fields = "";
 		if(type.equalsIgnoreCase("requirement")) {
-			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_progress, f_storypoint";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_tags, f_progress, f_storypoint";
 		}
 		else {
-			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_progress";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_tags, f_progress";
 		}
 		
 		query = "SELECT " + fields + " FROM "+ tableName(type) + " where f_id='" + id + "'";
@@ -367,9 +367,10 @@ public class TicketDao {
 				d.setMilestone(rs.getString(10));
 				d.setType(rs.getString(11));
 				d.setImportance(rs.getString(12));
-				d.setProgress(rs.getString(13));
+				d.setTags(rs.getString(13));
+				d.setProgress(rs.getString(14));
 				if (type.equalsIgnoreCase("requirement")) {
-					((Requirement) d).setStoryPoint(rs.getString(14));
+					((Requirement) d).setStoryPoint(rs.getString(15));
 				}
 				d.setComments(TicketDao.getComments(id));
 				
@@ -421,7 +422,8 @@ public class TicketDao {
 				", f_component='" + TicketDao.nullCheck(ticket.getComponent()) + 
 				"', f_milestone='" + ticket.getMilestone() + 
 				"', f_progress=" + ticket.getProgress() + 
-				", f_importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
+				", f_tags='" + TicketDao.nullCheck(ticket.getTags()) + 
+				"', f_importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
 			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 
