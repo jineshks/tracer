@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import org.apache.log4j.Logger;
 
 
@@ -106,7 +108,7 @@ public class TicketDao {
 		return id;	
 	}
 		
-	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone, String reporter, String importance) throws Exception{
+	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone, String reporter, String importance, String parentTicket, String sortBy) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -115,7 +117,7 @@ public class TicketDao {
 		
 		String query="";
 		String selQuery="";
-		String[] filter= new String[6];
+		String[] filter= new String[7];
 
 		if (!(priority==null)) {
 			filter[0] = "f_priority='" + priority + "'";			
@@ -141,6 +143,10 @@ public class TicketDao {
 			filter[5] = "f_importance='" + importance + "'";
 		}
 		
+		if (!(parentTicket==null)) {
+			filter[6] = "f_parentticket='" + parentTicket + "'";
+		}
+		
 		for(String s:filter){
 			if (!(s==null)) {
 				if (selQuery.equals("")) {
@@ -157,6 +163,10 @@ public class TicketDao {
 		 query += " where " + selQuery;
 		}		
 	
+		if (!(sortBy==null)) {
+			query +=" ORDER By " + sortBy + " ASC";
+		}
+				
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);

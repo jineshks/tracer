@@ -24,15 +24,17 @@ public class ListActionBean extends BaseActionBean {
 	private String milestone;
 	private String reporter;
 	private String importance;
+	private String parentTicket;
+	private String sortBy;
 		
 	public ArrayList<Ticket> getItems() throws Exception {
 		logger.debug("In the Listing page>> " + list+type);
 		getContext().setCurrentSection(list+type);  //Normally it should be MyTask or AllTask or MyDefect or AllDefect
 		if (list.equalsIgnoreCase("my")) {
-			return TicketDao.getAllTickets(type,getContext().getLoggedUser(), priority, status,milestone,reporter,importance);
+			return TicketDao.getAllTickets(type,getContext().getLoggedUser(), priority, status,milestone,reporter,importance, parentTicket, sortBy);
 		}
 		else if (list.equalsIgnoreCase("all"))  {
-			return TicketDao.getAllTickets(type,owner,priority,status,milestone,reporter,importance);	
+			return TicketDao.getAllTickets(type,owner,priority,status,milestone,reporter,importance, parentTicket, sortBy);	
 		}		
 		return null;			
 	}
@@ -109,5 +111,22 @@ public class ListActionBean extends BaseActionBean {
 
 	public void setImportance(String importance) {
 		this.importance = importance;
-	}			
+	}
+
+	public void setParentTicket(String parentTicket) {
+		this.parentTicket = parentTicket;
+	}
+
+	public String getParentTicket() {
+		return parentTicket;
+	}
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}	
+	
 }
