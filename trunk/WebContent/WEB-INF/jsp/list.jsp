@@ -64,8 +64,22 @@
 			          			<s:text name="reporter" placeholder="Reported by"/></dd>
 			          			<dt> <s:label for="ticket.owner"/> </dt>
 			          			<dd> <s:text name="owner" placeholder="Assigned by"/> </dd>
-			          			<dt> <s:label for="ticket.related"/></dt>
-			          			<dd><s:text name="related" placeholder="#related, comma separated"/> </dd>	
+			          			<dt> <s:label for="ticket.parent"/></dt>
+			          			<dd><s:text name="parentTicket" placeholder="#parent ticket"/> </dd>	
+			          			<dt> <s:label for="list.sortByASC"/></dt>
+			          			<dd> 
+			          				<s:select name="sortBy">
+									<s:option value="f_id">ID</s:option>
+									<s:option value="f_title">Title</s:option>
+									<s:option value="f_priority">Priority</s:option>
+									<s:option value="f_status">Status</s:option>
+									<s:option value="f_importance">Importance</s:option>
+									<s:option value="f_reporter">Reporter</s:option>
+									<s:option value="f_owner">Owner</s:option>
+									<s:option value="f_component">component</s:option>
+									<s:option value="f_milestone">Milestone</s:option>
+									</s:select>
+								</dd>
 							</dl>
 							<s:submit name="filter" value="Filter"></s:submit>	
 						</div>
