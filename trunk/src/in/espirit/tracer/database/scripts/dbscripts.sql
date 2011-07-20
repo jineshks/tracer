@@ -109,3 +109,12 @@ CREATE TABLE t_activity
   f_activity text,
   CONSTRAINT pk_activity PRIMARY KEY (f_id)
 );
+
+CREATE TABLE t_milestone
+(
+  f_id serial NOT NULL,
+  f_name character varying(35),
+  f_description character varying,
+  f_current boolean,
+  CONSTRAINT pk_milestone PRIMARY KEY (f_id)
+);

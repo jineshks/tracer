@@ -1,7 +1,12 @@
 package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.ConfigDao;
+import in.espirit.tracer.database.dao.MilestoneDao;
+import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Config;
+import in.espirit.tracer.model.Milestone;
+import in.espirit.tracer.model.Ticket;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,10 +28,14 @@ public class ConfigListActionBean extends BaseActionBean {
 	public HashMap<String, ArrayList<Config>> getListItems() throws Exception {		
 		HashMap<String, ArrayList<Config>> result = new HashMap<String, ArrayList<Config>>();		
 		result.put("Importance", ConfigDao.getConfigList("Importance"));
-		result.put("Milestone", ConfigDao.getConfigList("Milestone"));
-		result.put("Priority", ConfigDao.getConfigList("Priority"));
-		result.put("Status", ConfigDao.getConfigList("Status"));	
+		//result.put("Milestone", ConfigDao.getConfigList("Milestone"));  
+		//result.put("Priority", ConfigDao.getConfigList("Priority"));  now moved to properties file
+		//result.put("Status", ConfigDao.getConfigList("Status"));	
 		return result;				
+	}
+		
+	public ArrayList<Milestone> getMilestone() throws Exception {
+		return MilestoneDao.getAllEntries();						
 	}
 	
 	/*

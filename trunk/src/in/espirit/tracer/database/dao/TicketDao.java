@@ -9,12 +9,12 @@ import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Task;
 import in.espirit.tracer.model.Ticket;
 import in.espirit.tracer.util.DateUtils;
+import in.espirit.tracer.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.apache.log4j.Logger;
 
@@ -22,10 +22,6 @@ import org.apache.log4j.Logger;
 public class TicketDao {
 	
 	private static Logger logger = Logger.getLogger(TicketDao.class.getName());
-	
-	public static String nullCheck(String input){
-		return (input==null)?"":input;
-	}
 	
 	public static String tableName(String type) {
 		String tableName="";
@@ -66,21 +62,21 @@ public class TicketDao {
 		}
 	
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
-			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
-			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
-			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
-			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"','" + TicketDao.nullCheck(ticket.getTags()) + "','" + TicketDao.nullCheck(ticket.getPhase()) + 
+			query += "VALUES(" + id + ",'" + StringUtils.nullCheck(ticket.getTitle())+"','" + 
+			StringUtils.nullCheck(ticket.getDesc()) +"','" + StringUtils.nullCheck(ticket.getPriority()) +"','" + StringUtils.nullCheck(ticket.getStatus()) +
+			"','" + StringUtils.nullCheck(ticket.getReporter())+"','" + StringUtils.nullCheck(ticket.getOwner())+
+			"'," + ticket.getParentTicket()+",'" + StringUtils.nullCheck(ticket.getComponent())+
+			"','" + StringUtils.nullCheck(ticket.getMilestone()) +"','" +  StringUtils.nullCheck(ticket.getImportance()) + 
+			"','" + StringUtils.nullCheck(ticket.getTags()) + "','" + StringUtils.nullCheck(ticket.getPhase()) + 
 			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
 		else {
-			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
-			TicketDao.nullCheck(ticket.getDesc()) +"','" + TicketDao.nullCheck(ticket.getPriority()) +"','" + TicketDao.nullCheck(ticket.getStatus()) +
-			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
-			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
-			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"','" + TicketDao.nullCheck(ticket.getTags()) + "','" + TicketDao.nullCheck(ticket.getPhase()) + 
+			query += "VALUES(" + id + ",'" + StringUtils.nullCheck(ticket.getTitle())+"','" + 
+			StringUtils.nullCheck(ticket.getDesc()) +"','" + StringUtils.nullCheck(ticket.getPriority()) +"','" + StringUtils.nullCheck(ticket.getStatus()) +
+			"','" + StringUtils.nullCheck(ticket.getReporter())+"','" + StringUtils.nullCheck(ticket.getOwner())+
+			"'," + ticket.getParentTicket()+",'" + StringUtils.nullCheck(ticket.getComponent())+
+			"','" + StringUtils.nullCheck(ticket.getMilestone()) +"','" +  StringUtils.nullCheck(ticket.getImportance()) + 
+			"','" + StringUtils.nullCheck(ticket.getTags()) + "','" + StringUtils.nullCheck(ticket.getPhase()) + 
 			"'," + ticket.getProgress()+")";
 		}
 		try {
@@ -427,17 +423,17 @@ public class TicketDao {
 		 String query = "UPDATE " + tableName(ticket.getType()) +
 				" SET f_title='" + ticket.getTitle() + 
 				"', f_description='" + ticket.getDesc() +
-				"', f_priority='" + TicketDao.nullCheck(ticket.getPriority()) + 
-				"', f_status='" + TicketDao.nullCheck(ticket.getStatus()) + 
-				"', f_reporter='" + TicketDao.nullCheck(ticket.getReporter()) + 
-				"', f_owner='" + TicketDao.nullCheck(ticket.getOwner()) + 
+				"', f_priority='" + StringUtils.nullCheck(ticket.getPriority()) + 
+				"', f_status='" + StringUtils.nullCheck(ticket.getStatus()) + 
+				"', f_reporter='" + StringUtils.nullCheck(ticket.getReporter()) + 
+				"', f_owner='" + StringUtils.nullCheck(ticket.getOwner()) + 
 				"', f_parentticket=" + ticket.getParentTicket() + 
-				", f_component='" + TicketDao.nullCheck(ticket.getComponent()) + 
+				", f_component='" + StringUtils.nullCheck(ticket.getComponent()) + 
 				"', f_milestone='" + ticket.getMilestone() + 
 				"', f_progress=" + ticket.getProgress() + 
-				", f_tags='" + TicketDao.nullCheck(ticket.getTags()) + 
-				"', f_phase='" + TicketDao.nullCheck(ticket.getPhase()) + 
-				"', f_importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
+				", f_tags='" + StringUtils.nullCheck(ticket.getTags()) + 
+				"', f_phase='" + StringUtils.nullCheck(ticket.getPhase()) + 
+				"', f_importance='" + StringUtils.nullCheck(ticket.getImportance()) + "'";
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
 			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 

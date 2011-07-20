@@ -27,6 +27,23 @@ Delete</s:link>
 					</d:column>
 				</d:table>
 			</c:forEach>
+			
+			<br>
+			<br>
+			
+			<span class="milestone">Milestone</span>
+				<s:link href="../milestone/new"> [Add]</s:link>
+				<br>
+			
+			<d:table name="${actionBean.milestone}" id="milestone">
+			<d:column title="Name">
+			<s:link href="../milestone/${milestone.id}"> ${milestone.name}
+			</s:link>
+			
+			</d:column>
+			<d:column title="Description" property="description"></d:column>
+			<d:column title="Current Sprint" property="current"></d:column>
+			</d:table>
 
 
 		</div>
