@@ -86,7 +86,7 @@
 						<div class="box">
 							<h6>Sprint</h6>
 							<p>
-								<a href="sprint-dashboard.html"> Sprint Dashboard </a>
+								<a href="taskboard"> Sprint Dashboard </a>
 							</p>
 						</div>
 						<div class="box">
