@@ -759,5 +759,55 @@ public class TicketDao {
 		return result;
 	}
 	
+	public static ArrayList<Ticket> getTaskBoardList(String milestone, String phase) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Ticket> result = new ArrayList<Ticket>();
+		
+		String query = "SELECT f_id, f_title, f_priority, f_type " +
+				"FROM t_defectdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "' " +
+				"UNION ALL " +
+				"select f_id, f_title, f_priority, f_type " +
+				"from t_taskdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "' " + 
+				"UNION ALL " +
+				"select f_id, f_title, f_priority, f_type " +
+				"from t_requirementdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "'";
+	
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				Ticket d = new Ticket();
+				d.setId(rs.getString(1));
+				d.setTitle(rs.getString(2));
+				d.setPriority(rs.getString(3));
+				d.setType(rs.getString(4));
+				result.add(d);
+			}
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+	return result;
+	}
 	
 }
