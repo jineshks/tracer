@@ -2,6 +2,7 @@ package in.espirit.tracer.view;
 
 import in.espirit.tracer.database.dao.ConfigDao;
 import in.espirit.tracer.database.dao.CustomDao;
+import in.espirit.tracer.database.dao.MilestoneDao;
 import in.espirit.tracer.database.dao.UserDao;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class ConfigViewHelper {
 	}
 	
 	public ArrayList<String> getMilestone() throws Exception{
-		return ConfigDao.getConfig("Milestone");	
+		return MilestoneDao.getMilestoneNames();
+		//return ConfigDao.getConfig("Milestone");	
 	}
 	
 	public ArrayList<String> getImportance() throws Exception{
