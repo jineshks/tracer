@@ -20,6 +20,7 @@ public class Ticket {
 	private String importance;
 	private String progress;
 	private String tags;
+	private String phase;
 
 	public Ticket() {
 		super();
@@ -151,5 +152,13 @@ public class Ticket {
 
 	public String getTags() {
 		return tags;
+	}
+
+	public void setPhase(String phase) {
+		this.phase = phase;
+	}
+
+	public String getPhase() {
+		return phase;
 	}
 }

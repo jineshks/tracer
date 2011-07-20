@@ -66,6 +66,13 @@
 						<s:options-collection collection="${configView.milestone}"/>
 						</s:select>
 					</dd>
+					<dt> Phase </dt>
+			        <dd> 
+			         	<s:select name="ticket.phase">
+						<s:option value=""></s:option>
+						<s:options-collection collection="${configView.phase}"/>
+						</s:select>
+					</dd>
 					<dt> Component </dt>
           			<dd>
           			<s:text name="ticket.component" placeholder="Component"/></dd>

@@ -14,38 +14,53 @@
   <jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
   	<div id="bodycontent">
 		<div class="row">
-			<div class="column grid-10">
-			<s:errors globalErrorsOnly="true"></s:errors>
-				<div class="box">					
-					<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4>
-					<h5>Description</h5>
-					<p>${actionBean.ticket.desc}</p>					
-				</div>
-				<c:set var="parentTicket" value="${actionBean.parentTicket}"></c:set>
-				<c:set var="subTickets" value="${actionBean.subTickets}"></c:set>	
-				<c:if test="${parentTicket ne null  or subTickets ne null}">
-				<div class="box">
-					<div>						
-					<c:if test="${parentTicket ne null}">
-						<h4>Parent Ticket</h4>
-						<p class="pb">
-							<span class="bold"> <a href="${contextPath}/${parentTicket.type}/${parentTicket.id}">#${parentTicket.id}</a> </span> 
-							${parentTicket.title }
-						</p>
-					</c:if>
-					<c:if test="${subTickets ne null}">
-						<h4>Sub Ticket(s)</h4>					
-						<c:forEach var="subtick" items="${subTickets}">
-							<p>
-							<span class="bold"><a href="${contextPath}/${subtick.type}/${subtick.id}">#${subtick.id}</a> </span> 
-							${subtick.title}							
-							</p>
-						</c:forEach>	
-					</c:if>				
-					</div>					
-				</div>
-				</c:if>
-				<div class="box">
+		<div class="column grid-10"><s:errors globalErrorsOnly="true"></s:errors>
+		<div class="box">
+		<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4>
+		<h5>Description</h5>
+		<p>${actionBean.ticket.desc}</p>
+		</div>
+		<c:set var="parentTicket" value="${actionBean.parentTicket}"></c:set>
+		<c:set var="subTickets" value="${actionBean.subTickets}"></c:set> <c:if
+			test="${parentTicket ne null  or subTickets ne null}">
+			<div class="box">
+			<div><c:if test="${parentTicket ne null}">
+				<h4>Parent Ticket</h4>
+				<p class="pb"><span class="bold"> <a
+					href="${contextPath}/${parentTicket.type}/${parentTicket.id}">#${parentTicket.id}</a>
+				</span> ${parentTicket.title }</p>
+			</c:if> <c:if test="${subTickets ne null}">
+				<h4>Sub Ticket(s)</h4>
+				<c:forEach var="subtick" items="${subTickets}">
+					<p><span class="bold"><a
+						href="${contextPath}/${subtick.type}/${subtick.id}">#${subtick.id}</a>
+					</span> ${subtick.title}</p>
+				</c:forEach>
+			</c:if></div>
+			</div>
+		</c:if>
+
+		<div class="box">
+					<div id="attachments" class="comments">
+						<h4>Attachments (Not yet Implemented!)</h4>																	
+						<div id="attachresult"> </div>						
+						<s:form action="/attachments">	
+							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
+							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
+							<div class="il">
+								<dl>
+									<dd>
+										<s:file name="attachment"/>
+									</dd>
+								</dl>
+								<s:submit name="submit" value="Submit"/>
+								
+							</div>
+						</s:form>
+					</div>
+		</div>
+
+		<div class="box">
 					<div id="comments" class="comments">
 						<h4>Comments</h4>
 						
@@ -101,7 +116,7 @@
 			          			<dd> 
 			          				<s:select name="ticket.priority">
 										<s:option value=""></s:option>
-										<s:options-collection collection="${configView.priority}"/>
+										<s:options-collection collection="${configView.priority}"/>										
 									</s:select>
 								</dd>
 								<dt> Status </dt>
@@ -116,6 +131,13 @@
 			          				<s:select name="ticket.milestone">
 									<s:option value=""></s:option>
 									<s:options-collection collection="${configView.milestone}"/>
+									</s:select>
+								</dd>
+								<dt> Phase </dt>
+			          			<dd> 
+			          				<s:select name="ticket.phase">
+									<s:option value=""></s:option>
+									<s:options-collection collection="${configView.phase}"/>
 									</s:select>
 								</dd>
 								<dt> Component </dt>
@@ -193,7 +215,7 @@
 	            "html"  
 	        ); 
       } 
-   });
+   });  
  });
  
 </s:layout-component>

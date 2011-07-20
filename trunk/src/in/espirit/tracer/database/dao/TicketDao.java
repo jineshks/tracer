@@ -59,10 +59,10 @@ public class TicketDao {
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
-			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_tags, f_progress, f_storypoint) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_tags, f_phase, f_progress, f_storypoint) ";
 		}
 		else {
-			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_tags, f_progress) ";
+			query += " (f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_importance, f_tags, f_phase, f_progress) ";
 		}
 	
 		if(ticket.getType().equalsIgnoreCase("requirement")) {
@@ -71,7 +71,8 @@ public class TicketDao {
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"','" + TicketDao.nullCheck(ticket.getTags()) + "'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
+			"','" + TicketDao.nullCheck(ticket.getTags()) + "','" + TicketDao.nullCheck(ticket.getPhase()) + 
+			"'," + ticket.getProgress()+"," + ((Requirement) ticket).getStoryPoint() + ")";
 		}
 		else {
 			query += "VALUES(" + id + ",'" + TicketDao.nullCheck(ticket.getTitle())+"','" + 
@@ -79,7 +80,8 @@ public class TicketDao {
 			"','" + TicketDao.nullCheck(ticket.getReporter())+"','" + TicketDao.nullCheck(ticket.getOwner())+
 			"'," + ticket.getParentTicket()+",'" + TicketDao.nullCheck(ticket.getComponent())+
 			"','" + TicketDao.nullCheck(ticket.getMilestone()) +"','" +  TicketDao.nullCheck(ticket.getImportance()) + 
-			"','" + TicketDao.nullCheck(ticket.getTags()) + "'," + ticket.getProgress()+")";
+			"','" + TicketDao.nullCheck(ticket.getTags()) + "','" + TicketDao.nullCheck(ticket.getPhase()) + 
+			"'," + ticket.getProgress()+")";
 		}
 		try {
 			st = con.createStatement();
@@ -352,10 +354,10 @@ public class TicketDao {
 		String query = "";
 		String fields = "";
 		if(type.equalsIgnoreCase("requirement")) {
-			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_tags, f_progress, f_storypoint";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_tags, f_phase, f_progress, f_storypoint";
 		}
 		else {
-			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_tags, f_progress";
+			fields = "f_id, f_title, f_description, f_priority, f_status, f_reporter, f_owner, f_parentticket, f_component, f_milestone, f_type, f_importance, f_tags, f_phase, f_progress";
 		}
 		
 		query = "SELECT " + fields + " FROM "+ tableName(type) + " where f_id='" + id + "'";
@@ -378,9 +380,10 @@ public class TicketDao {
 				d.setType(rs.getString(11));
 				d.setImportance(rs.getString(12));
 				d.setTags(rs.getString(13));
-				d.setProgress(rs.getString(14));
+				d.setPhase(rs.getString(14));
+				d.setProgress(rs.getString(15));
 				if (type.equalsIgnoreCase("requirement")) {
-					((Requirement) d).setStoryPoint(rs.getString(15));
+					((Requirement) d).setStoryPoint(rs.getString(16));
 				}
 				d.setComments(TicketDao.getComments(id));
 				
@@ -433,6 +436,7 @@ public class TicketDao {
 				"', f_milestone='" + ticket.getMilestone() + 
 				"', f_progress=" + ticket.getProgress() + 
 				", f_tags='" + TicketDao.nullCheck(ticket.getTags()) + 
+				"', f_phase='" + TicketDao.nullCheck(ticket.getPhase()) + 
 				"', f_importance='" + TicketDao.nullCheck(ticket.getImportance()) + "'";
 		 if(ticket.getType().equalsIgnoreCase("requirement")) {
 			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
