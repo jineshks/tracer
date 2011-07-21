@@ -1,6 +1,13 @@
 CREATE DATABASE tracer
   WITH OWNER = traceradmin;
 
+  
+DROP TABLE t_comments;
+DROP TABLE t_config;
+DROP TABLE t_defectdetails;
+DROP TABLE t_requirementdetails;
+DROP TABLE t_taskdetails;
+DROP TABLE t_userdetails;
 
 
 CREATE SEQUENCE sequence_ticketid
