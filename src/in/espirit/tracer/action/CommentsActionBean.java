@@ -1,8 +1,5 @@
 package in.espirit.tracer.action;
 
-import org.apache.log4j.Logger;
-
-import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Task;
 import in.espirit.tracer.util.DateUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -12,6 +9,8 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
+
+import org.apache.log4j.Logger;
 
 @UrlBinding("/comments")
 public class CommentsActionBean extends TicketActionBean implements
