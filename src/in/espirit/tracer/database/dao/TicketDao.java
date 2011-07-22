@@ -462,6 +462,39 @@ public class TicketDao {
 		return row;	
 		
 	}
+	
+	public static boolean updatePhase(String ticket_id, String ticket_type, String phase, String loggedUser) throws Exception {
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		Integer row = 0;
+	
+		 String query = "UPDATE " + tableName(ticket_type) +
+				" SET f_phase='" + phase + "'"+
+				" WHERE f_id='" + ticket_id + "'";
+		 try {
+			st = con.createStatement();
+			row = st.executeUpdate(query);
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			logger.error("Edited save of ticket failed with " + e.getMessage());
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally
+		String activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+phase+" phase";
+		handleActivity(activity, loggedUser);
+		return (row==0)?  false:  true;
+	}
 
 	public static ArrayList<Comment> getComments(String id) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
