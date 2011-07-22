@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
+
+import org.apache.log4j.Logger;
 
 @UrlBinding("/taskboard")
 public class TaskBoardActionBean extends BaseActionBean {
-	
+	private static Logger logger = Logger.getLogger(TaskBoardActionBean.class.getName());
 	private static final String URL = "/WEB-INF/jsp/taskboard.jsp";
 	
 	@DefaultHandler
@@ -43,6 +46,28 @@ public class TaskBoardActionBean extends BaseActionBean {
 	
 	public ArrayList<Ticket> getReleased() throws Exception {		
 		return TicketDao.getTaskBoardList(MilestoneDao.getCurrentMilestone(), "Released");	
+	}
+	
+	//persist
+	public Resolution persist() {
+		boolean flag = false;
+		String output = "<p>Sorry! could not save the new state </p>";
+		String ticket_id = this.getContext().getRequest().getParameter("ticket_id");
+		String ticket_type = this.getContext().getRequest().getParameter("ticket_type");
+		String phase = this.getContext().getRequest().getParameter("phase");
+		logger.debug("Ticket id:"+ticket_id +" Phase :"+phase);
+		try {
+			TicketDao.updatePhase(ticket_id, ticket_type, phase, getContext().getLoggedUser());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		if (flag) {
+			output = "success";
+		}else{
+			output = "error";
+		}
+		return new StreamingResolution("text/html", output);
 	}
 
 }
