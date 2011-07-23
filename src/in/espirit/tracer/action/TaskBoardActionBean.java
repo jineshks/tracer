@@ -57,7 +57,8 @@ public class TaskBoardActionBean extends BaseActionBean {
 		String phase = this.getContext().getRequest().getParameter("phase");
 		logger.debug("Ticket id:"+ticket_id +" Phase :"+phase);
 		try {
-			TicketDao.updatePhase(ticket_id, ticket_type, phase, getContext().getLoggedUser());
+			TicketDao ticket = new TicketDao();
+			ticket.updatePhase(ticket_id, ticket_type, phase, getContext().getLoggedUser());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();

@@ -11,7 +11,7 @@
 									<c:forEach var="ticket" items="${actionBean.backlog}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">Jinesh</span> </p> 
+											<p class="${ticket.priority}"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span> </p> 
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>								
@@ -25,7 +25,7 @@
 									<c:forEach var="ticket" items="${actionBean.development}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </p> 
+											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a><span class="right">${ticket.owner}</span> </p> 
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>	
@@ -40,7 +40,7 @@
 									<c:forEach var="ticket" items="${actionBean.readyForTest}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </p> 
+											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>
@@ -55,7 +55,7 @@
 								<c:forEach var="ticket" items="${actionBean.testing}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </p> 
+											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
 											<p> ${ticket.title} </p>								
 									</li>									
 								</c:forEach>
@@ -70,7 +70,7 @@
 									<c:forEach var="ticket" items="${actionBean.readyForRelease}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </p> 
+											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>
