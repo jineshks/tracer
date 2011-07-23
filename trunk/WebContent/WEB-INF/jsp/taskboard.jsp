@@ -105,6 +105,7 @@
 		$( "ul.droptrue" ).sortable({
 			connectWith: ".droptrue",
 			placeholder: 'dropzone',
+			cursor: 'move',
 			stop: function(event, ui) { 
 				$.get(  
 		            loadUrl,  
