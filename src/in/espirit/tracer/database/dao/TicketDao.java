@@ -105,6 +105,11 @@ public class TicketDao {
 		handleActivity(activity, loggedUser);			
 		return id;	
 	}
+	
+	public static ArrayList<Ticket> getTicketForMilestone(String milestone) throws Exception{
+		return getAllTickets("requirement", null, null, null, milestone, null, null, null, "f_priority");
+	}
+		
 		
 	public static ArrayList<Ticket> getAllTickets(String type, String userName, String priority, String status, String milestone, String reporter, String importance, String parentTicket, String sortBy) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
@@ -164,6 +169,8 @@ public class TicketDao {
 		if (!(sortBy==null)) {
 			query +=" ORDER By " + sortBy + " ASC";
 		}
+		
+		System.out.println(query);
 				
 		try {
 			st = con.createStatement();
@@ -463,37 +470,52 @@ public class TicketDao {
 		
 	}
 	
-	public static boolean updatePhase(String ticket_id, String ticket_type, String phase, String loggedUser) throws Exception {
+	private static boolean executeUpdate(String query) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		Integer row = 0;
+		
+		 try {
+				st = con.createStatement();
+				row = st.executeUpdate(query);
+				if (st != null) {
+					st.close();
+				}
+			} catch (Exception e) {
+				logger.error("Edited save of ticket failed with " + e.getMessage());
+				if (st != null) {
+					st.close();
+				}
+				throw new Exception(e.getMessage());
+			} // catch Close
+
+			finally {
+				if (con != null)
+					con.close(); 	
+			}
+			return (row==0)?  false:  true;
+		
+	}
 	
+	public boolean updatePhase(String ticket_id, String ticket_type, String phase, String loggedUser) throws Exception {
 		 String query = "UPDATE " + tableName(ticket_type) +
 				" SET f_phase='" + phase + "'"+
 				" WHERE f_id='" + ticket_id + "'";
-		 try {
-			st = con.createStatement();
-			row = st.executeUpdate(query);
-			if (st != null) {
-				st.close();
-			}
-		} catch (Exception e) {
-			logger.error("Edited save of ticket failed with " + e.getMessage());
-			if (st != null) {
-				st.close();
-			}
-			throw new Exception(e.getMessage());
-
-		} // catch Close
-
-		finally {
-			if (con != null)
-				con.close(); // close connection		
-		}// end finally
+		boolean flag = executeUpdate(query);
 		String activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+phase+" phase";
 		handleActivity(activity, loggedUser);
-		return (row==0)?  false:  true;
+		return flag;
+	}
+	
+	public boolean updateMilestone(String ticket_id, String ticket_type, String milestone, String loggedUser) throws Exception {
+		 String query = "UPDATE " + tableName(ticket_type) +
+				" SET f_milestone='" + milestone + "'"+
+				" WHERE f_id='" + ticket_id + "'";
+		boolean flag = executeUpdate(query);
+		String activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+milestone;
+		handleActivity(activity, loggedUser);
+		return flag;
 	}
 
 	public static ArrayList<Comment> getComments(String id) throws Exception{
@@ -799,13 +821,13 @@ public class TicketDao {
 		ResultSet rs = null;
 		ArrayList<Ticket> result = new ArrayList<Ticket>();
 		
-		String query = "SELECT f_id, f_title, f_priority, f_type " +
+		String query = "SELECT f_id, f_title, f_priority, f_type, f_owner " +
 				"FROM t_defectdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "' " +
 				"UNION ALL " +
-				"select f_id, f_title, f_priority, f_type " +
+				"select f_id, f_title, f_priority, f_type, f_owner " +
 				"from t_taskdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "' " + 
 				"UNION ALL " +
-				"select f_id, f_title, f_priority, f_type " +
+				"select f_id, f_title, f_priority, f_type, f_owner  " +
 				"from t_requirementdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "'";
 	
 		try {
@@ -818,6 +840,7 @@ public class TicketDao {
 				d.setTitle(rs.getString(2));
 				d.setPriority(rs.getString(3));
 				d.setType(rs.getString(4));
+				d.setOwner(rs.getString(5));
 				result.add(d);
 			}
 			if (rs != null) {			

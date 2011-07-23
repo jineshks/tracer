@@ -88,6 +88,9 @@
 							<p>
 								<a href="taskboard"> Taskboard </a>
 							</p>
+							<p>
+								<a href="planner"> Sprint Planner </a>
+							</p>
 						</div>
 						<div class="box">
 							<h6>Team</h6>
