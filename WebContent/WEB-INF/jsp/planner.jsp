@@ -67,7 +67,7 @@
 		            {	ticket_id: $(ui.item).attr("id"), 
 		            	milestone: $(ui.item).parent().attr("id"),
 		            	ticket_type:$(ui.item).find(">:first-child").html(),
-		            	operation:'updateImportance'
+		            	operation:'updateMilestone'
 		            },  
 		            function(responseText){ 
 		                // Do nothing for success, inform for failure
