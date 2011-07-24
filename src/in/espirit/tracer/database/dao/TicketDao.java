@@ -508,14 +508,24 @@ public class TicketDao {
 		return flag;
 	}
 	
-	public boolean updateMilestone(String ticket_id, String ticket_type, String milestone, String loggedUser) throws Exception {
-		 String query = "UPDATE " + tableName(ticket_type) +
-				" SET f_milestone='" + milestone + "'"+
-				" WHERE f_id='" + ticket_id + "'";
-		boolean flag = executeUpdate(query);
-		String activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+milestone;
-		handleActivity(activity, loggedUser);
-		return flag;
+	public boolean updateProperty(String ticket_id, String ticket_type, String property, String value, String loggedUser) throws Exception {
+		 String query = "UPDATE " + tableName(ticket_type);
+		 String activity = "";
+		 if(property.equalsIgnoreCase("milestone")){
+			 query += " SET f_milestone='" + value + "'";
+			 activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+value;
+		 }else if (property.equalsIgnoreCase("importance")) {
+			 query += " SET f_importance='" + value + "'";
+			 activity = loggedUser + " has updated property of" + ticket_type+ " ticket #" + ticket_id +" to "+value;
+		 }else if (property.equalsIgnoreCase("priority")) {
+			query += " SET f_priority='" + value + "'"; 
+			activity = loggedUser + " has updated property of" + ticket_type+ " ticket #" + ticket_id +" to "+value;
+	 	 }
+		 query += " WHERE f_id='" + ticket_id + "'";
+
+		 boolean flag = executeUpdate(query);
+		 handleActivity(activity, loggedUser);
+		 return flag;
 	}
 
 	public static ArrayList<Comment> getComments(String id) throws Exception{
