@@ -170,7 +170,7 @@ public class TicketDao {
 			query +=" ORDER By " + sortBy + " ASC";
 		}
 		
-		System.out.println(query);
+		logger.debug("getAllTickets query :"+query);
 				
 		try {
 			st = con.createStatement();
