@@ -116,13 +116,7 @@
 	        );	
 		});
 		
-		var myFunction = function ($) { 
-		    // Javascript code
-		    //{ticket_id: $(ui.item).attr("id"),
-		// phase: $(ui.item).parent().attr("id"),
-		// ticket_type:$(ui.item).find(">:first-child").html()}, 
-		};
-		
+	
 		$("li>.prio").click(function(ev) {
 		  var pos = $(this).offset();  
 		  $("#priomenu").css( { "left": (pos.left) + "px", "top":(pos.top - 40) + "px" } );
