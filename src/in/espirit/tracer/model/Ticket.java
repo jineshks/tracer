@@ -21,6 +21,7 @@ public class Ticket {
 	private String progress;
 	private String tags;
 	private String phase;
+	private ArrayList<Attachment> attachments;
 
 	public Ticket() {
 		super();
@@ -161,4 +162,14 @@ public class Ticket {
 	public String getPhase() {
 		return phase;
 	}
+
+	public void setAttachments(ArrayList<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+
+	public ArrayList<Attachment> getAttachments() {
+		return attachments;
+	}
+
+
 }

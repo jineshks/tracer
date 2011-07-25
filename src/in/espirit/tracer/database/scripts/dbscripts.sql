@@ -48,7 +48,6 @@ CREATE TABLE t_defectdetails
   f_component character varying(30),
   f_milestone character varying(30),
   f_type character varying(6) DEFAULT 'defect'::character varying,
-  f_comments text,
   f_importance character varying(30),
   f_progress integer,
   f_tags character varying,
@@ -69,7 +68,6 @@ CREATE TABLE t_requirementdetails
   f_parentticket integer,
   f_component character varying(30),
   f_milestone character varying(30),
-  f_comments text,
   f_type character varying(11) DEFAULT 'requirement'::character varying,
   f_importance character varying(30),
   f_progress integer,
@@ -91,7 +89,6 @@ CREATE TABLE t_taskdetails
   f_parentticket integer,
   f_component character varying(30),
   f_milestone character varying(30),
-  f_comments text,
   f_type character varying(4) DEFAULT 'task'::character varying,
   f_importance character varying(30),
   f_progress integer,
@@ -124,4 +121,12 @@ CREATE TABLE t_milestone
   f_description character varying,
   f_current boolean,
   CONSTRAINT pk_milestone PRIMARY KEY (f_id)
+);
+
+CREATE TABLE t_attachments
+(
+  f_username character varying(35),
+  f_timestamp character varying(25),
+  f_name text,
+  f_ticketid integer
 );

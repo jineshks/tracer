@@ -25,6 +25,10 @@
     	<param-name>Extension.Packages</param-name>
     	<param-value>in.espirit.tracer.ext</param-value>
     </init-param>
+    <init-param>
+   		<param-name>MultipartWrapper.Class</param-name>
+    	<param-value>net.sourceforge.stripes.controller.multipart.CommonsMultipartWrapper</param-value>
+</init-param>
   </filter>
 
   <filter-mapping>

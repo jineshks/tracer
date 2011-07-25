@@ -17,7 +17,7 @@ public class CustomDao {
 	private static PropertyResourceBundle bundle =(PropertyResourceBundle) PropertyResourceBundle.getBundle("custom"); 
 		
 				
-	private static String getResourceMessage(String code) {
+	public static String getResourceMessage(String code) {
 		try {
 			return bundle.getString(code);
 		} catch (MissingResourceException e) {

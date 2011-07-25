@@ -3,6 +3,7 @@ package in.espirit.tracer.database.dao;
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
 import in.espirit.tracer.model.Activity;
+import in.espirit.tracer.model.Attachment;
 import in.espirit.tracer.model.Comment;
 import in.espirit.tracer.model.Defect;
 import in.espirit.tracer.model.Requirement;
@@ -389,7 +390,7 @@ public class TicketDao {
 					((Requirement) d).setStoryPoint(rs.getString(16));
 				}
 				d.setComments(TicketDao.getComments(id));
-				
+				d.setAttachments(TicketDao.getAttachments(id));				
 			}
 			if (rs != null) {
 			
@@ -615,8 +616,6 @@ public class TicketDao {
 		}else{
 			return false;
 		}
-		
-		
 	}
 	
 	public static String getSeqID() throws Exception{
@@ -874,6 +873,95 @@ public class TicketDao {
 		}// end finally	
 
 	return result;
+	}	
+
+
+	public static boolean insertAttachments(String id, Attachment attachment) throws Exception {
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		int updateCount = 0;
+
+		String query = "Insert into t_attachments (f_ticketid, f_username, f_timestamp, f_name) VALUES (" +
+		id +",'" + attachment.getUserName() + "','" + attachment.getTimeStamp() + "','" + attachment.getFileName() + "')"; 
+		
+		try {
+			st = con.createStatement();
+			updateCount = st.executeUpdate(query);
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			logger.error("Inserting comment failed with " + e.getMessage());
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		if(updateCount != 0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
+	public static ArrayList<Attachment> getAttachments(String id) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Attachment> result = new ArrayList<Attachment>();
+				
+		String query = "";
+		
+		query = "SELECT f_username, f_timestamp, f_name FROM t_attachments where f_ticketid='" + id + "'";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				Attachment a = new Attachment();
+				a.setUserName(rs.getString(1));
+				a.setTimeStamp(rs.getString(2));
+				a.setFileName(rs.getString(3));	
+				result.add(a);
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting comments failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
+	}	
+
 }
