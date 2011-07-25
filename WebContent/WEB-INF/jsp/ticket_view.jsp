@@ -230,7 +230,7 @@
   				return false;
   			}
   			  			
-  			for(i=0;i<atemp.length;i++) {
+  			for(i=0; i < atemp.length; i++) {
   			 	if (atemp[i].innerHTML.trim() == file.value) {
   			  		alert("File with same name is already attached to the ticket. Please select a different file.");
   			  		document.uploadForm.hAttachment.value = '';
