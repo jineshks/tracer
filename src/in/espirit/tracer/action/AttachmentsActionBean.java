@@ -26,14 +26,13 @@ public class AttachmentsActionBean extends BaseActionBean{
 	@DefaultHandler
 	public Resolution submit() {	
 		
-		//doesn't handle the scenario if that file is already existing. 
-		
 		Boolean flag = false;
 		String output = "<li><p><span class='bold'>File Upload Failed!</span></p></li>";
 		if(attachment !=null) {
 			try {
 				File temp = new File(CustomDao.getResourceMessage("filestorage")+"/"+ticket.getId() + "-" + attachment.getFileName());
 				attachment.save(temp);
+				logger.debug("Attachment - " + attachment.getFileName());
 								
 				Attachment att = new Attachment();
 				att.setFileName(attachment.getFileName());
@@ -55,7 +54,10 @@ public class AttachmentsActionBean extends BaseActionBean{
 						
 			return new StreamingResolution("text/html", "<script> window.top.window.responseUpload(" + output + ")</script>");
 		}
-		else {return null;}
+		else {
+			logger.debug("Attachment is null. This shouldn't happen since javascript client side validation is there");
+			return null;
+			}
 			
 	}
 
