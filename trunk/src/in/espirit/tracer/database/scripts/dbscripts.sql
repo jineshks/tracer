@@ -8,6 +8,7 @@ DROP TABLE t_defectdetails;
 DROP TABLE t_requirementdetails;
 DROP TABLE t_taskdetails;
 DROP TABLE t_userdetails;
+DROP TABLE t_attachments;
 
 
 CREATE SEQUENCE sequence_ticketid

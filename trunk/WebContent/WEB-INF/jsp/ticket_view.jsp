@@ -74,17 +74,19 @@
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
 							<div class="il">
 							    <dl>
-								  <dt> <s:file id="hAttachment" name="attachment"/> </dt>								
+								  <dt> <s:file id="hAttachment" name="attachment"/> 
+								  </dt>	
+								 						
 								<dd>
-								  <s:submit name="submit" id="uploadButton" value="Upload File" onclick="javascript:startUpload()"></s:submit>	
+								<input name="uploadFile" type="button" id="uploadButton" value="Upload File" class="orange" onclick="javascript:startUpload()">		
+								 	
 								</dd>											
 								</dl>							
 							</div>	
-							<div id="uploadProcess" style="visibility:hidden;"> Uploading is in progress..... (Replace it with image)</div>
-																												
+							<div id="uploadProcess" style="visibility:hidden;"> Uploading is in progress..... (Replace it with image)</div>																												
 						</s:form>
 					</div>
-					
+													
 					<iframe id="uploadTarget" name="uploadTarget" src="#" style="width:0;height:0;border:0px solid #fff;">			
 					</iframe>  
 		</div>
@@ -211,16 +213,42 @@
 </s:layout-component>
 <s:layout-component name="inlineScripts">
  
- function startUpload() {
+ function startUpload() { 			
+ 			var temp = document.getElementById('attachments');
+  			var atemp = temp.getElementsByTagName('a');
+  			var file = document.getElementById('hAttachment');
+  			var i=0;
+  			  			
+  			if(file.value==''){
+  				alert('No File selected. Please select one');
+  				return false;
+  			}	
+  			
+  			if(file.files[0].size>10485760) {
+  				alert('Files below 10 MB only can be uploaded. Please select a other file');
+  				document.uploadForm.hAttachment.value = '';
+  				return false;
+  			}
+  			  			
+  			for(i=0;i<atemp.length;i++) {
+  			 	if (atemp[i].innerHTML.trim() == file.value) {
+  			  		alert("File with same name is already attached to the ticket. Please select a different file.");
+  			  		document.uploadForm.hAttachment.value = '';
+  			  		return false;
+  			  	}
+  			} 			
  			document.getElementById('uploadProcess').style.visibility='visible';
+ 			document.forms['uploadForm'].submit();
 		}
-
+	
+	
 		function responseUpload(text) { 
 			document.getElementById('uploadProcess').style.visibility='hidden';
 			fileName = document.uploadForm.hAttachment.value;
 			var divTag = document.createElement("div");
 			divTag.innerHTML = text;
 			document.getElementById('uploadResult').appendChild(divTag);
+			document.uploadForm.hAttachment.value = '';
 			//document.getElementById('uploadResult').innerHTML = fileName + " The file was uploaded successfully!";			
 		}
  
