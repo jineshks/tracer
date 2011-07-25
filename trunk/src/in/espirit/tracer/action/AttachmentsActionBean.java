@@ -1,6 +1,8 @@
 package in.espirit.tracer.action;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import in.espirit.tracer.database.dao.CustomDao;
@@ -14,21 +16,26 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-@UrlBinding("/attachments")
+@UrlBinding("/attachments/{event}/{fileName}")
 public class AttachmentsActionBean extends BaseActionBean{
 	
 	private FileBean attachment;
 	private Ticket ticket;
+	private String fileName;
 	
 	@DefaultHandler
 	public Resolution submit() {	
+		
+		//doesn't handle the scenario if that file is already existing. 
+		
 		Boolean flag = false;
 		String output = "<li><p><span class='bold'>File Upload Failed!</span></p></li>";
 		if(attachment !=null) {
 			try {
 				File temp = new File(CustomDao.getResourceMessage("filestorage")+"/"+ticket.getId() + "-" + attachment.getFileName());
 				attachment.save(temp);
-					
+				System.out.println(attachment.getContentType());
+						
 				Attachment att = new Attachment();
 				att.setFileName(attachment.getFileName());
 				att.setTimeStamp(DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm"));
@@ -46,13 +53,27 @@ public class AttachmentsActionBean extends BaseActionBean{
 			getContext().getLoggedUser() + "<span class=\"tar right\">" + DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm") + 
 			"</span></p></li></ul>";
 			}
-					
+						
 			return new StreamingResolution("text/html", "<script> window.top.window.responseUpload(" + output + ")</script>");
 		}
 		else {return null;}
 			
 	}
 
+	public Resolution download() {		
+
+		File file = new File(CustomDao.getResourceMessage("filestorage")+"/"+getFileName());		
+		try {
+			return new StreamingResolution( "application/octet-stream", new FileInputStream(file));
+		} catch (FileNotFoundException e) {
+			logger.debug("File is not in location for download");
+			e.printStackTrace();
+		}
+		// error handling parts needs to be put in
+		return null;		
+	}
+	
+		
 	public void setAttachment(FileBean attachment) {
 		this.attachment = attachment;
 	}
@@ -67,6 +88,14 @@ public class AttachmentsActionBean extends BaseActionBean{
 
 	public Ticket getTicket() {
 		return ticket;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileName() {
+		return fileName;
 	}
 	
 		

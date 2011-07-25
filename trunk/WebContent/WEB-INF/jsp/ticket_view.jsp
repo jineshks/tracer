@@ -42,13 +42,23 @@
 		
 		<div class="box">
 					<div id="attachments" class="comments">  
-						<h4>Attachments (Download wont work!)</h4>			
-						
-						
+						<h4>Attachments</h4>	
 						<ul>
 						<c:forEach var="attachment" items="${actionBean.ticket.attachments}">
 							<li>
-								<p><span class="bold"><a href="#">${attachment.fileName}</a></span> (${attachment.userName})
+								<p><span class="bold">
+								
+								<!--  
+								<s:link event="download" beanclass="in.espirit.tracer.action.AttachmentsActionBean">
+									<s:param name="fileName" value="${actionBean.ticket.id}-${attachment.fileName}"/>
+									${attachment.fileName}
+								</s:link>
+								-->
+								
+								<a href="${contextPath}/attachments/download/${actionBean.ticket.id}-${attachment.fileName}"> 
+								${attachment.fileName} </a>
+								
+								</span> (${attachment.userName})
 								<span class="tar right">${attachment.timeStamp}</span>
 								</p>
 							</li>
