@@ -39,25 +39,44 @@
 			</c:if></div>
 			</div>
 		</c:if>
-
+		
 		<div class="box">
-					<div id="attachments" class="comments">
-						<h4>Attachments (Not yet Implemented!)</h4>																	
-						<div id="attachresult"> </div>						
-						<s:form action="/attachments">	
+					<div id="attachments" class="comments">  
+						<h4>Attachments (Download wont work!)</h4>			
+						
+						
+						<ul>
+						<c:forEach var="attachment" items="${actionBean.ticket.attachments}">
+							<li>
+								<p><span class="bold"><a href="#">${attachment.fileName}</a></span> (${attachment.userName})
+								<span class="tar right">${attachment.timeStamp}</span>
+								</p>
+							</li>
+						</c:forEach>
+						</ul>	
+						
+						<div id="uploadResult">
+						
+						</div>	
+																									
+						<s:form name="uploadForm" action="/attachments" target="uploadTarget">	
 							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
 							<div class="il">
-								<dl>
-									<dd>
-										<s:file name="attachment"/>
-									</dd>
-								</dl>
-								<s:submit name="submit" value="Submit"/>
-								
-							</div>
+							    <dl>
+								  <dt> <s:file id="hAttachment" name="attachment"/> </dt>								
+								<dd>
+								  <s:submit name="submit" id="uploadButton" value="Upload File" onclick="javascript:startUpload()"></s:submit>	
+								</dd>											
+								</dl>							
+							</div>	
+							<div id="uploadProcess" style="visibility:hidden;"> Uploading is in progress..... (Replace it with image)</div>
+																												
 						</s:form>
 					</div>
+					
+					<iframe id="uploadTarget" name="uploadTarget" src="#" style="width:0;height:0;border:0px solid #fff;">			
+					</iframe>  
 		</div>
 
 		<div class="box">
@@ -181,7 +200,21 @@
 	
 </s:layout-component>
 <s:layout-component name="inlineScripts">
- $(document).ready(function(){
+ 
+ function startUpload() {
+ 			document.getElementById('uploadProcess').style.visibility='visible';
+		}
+
+		function responseUpload(text) { 
+			document.getElementById('uploadProcess').style.visibility='hidden';
+			fileName = document.uploadForm.hAttachment.value;
+			var divTag = document.createElement("div");
+			divTag.innerHTML = text;
+			document.getElementById('uploadResult').appendChild(divTag);
+			//document.getElementById('uploadResult').innerHTML = fileName + " The file was uploaded successfully!";			
+		}
+ 
+$(document).ready(function(){
   
   $.ajaxSetup ({
 		cache: false
@@ -215,7 +248,7 @@
 	            "html"  
 	        ); 
       } 
-   });  
+   });   
  });
  
 </s:layout-component>
