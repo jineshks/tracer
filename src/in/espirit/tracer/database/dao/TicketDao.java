@@ -618,7 +618,7 @@ public class TicketDao {
 		}
 	}
 	
-	public static String getSeqID() throws Exception{
+	public static synchronized String getSeqID() throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
