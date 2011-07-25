@@ -48,10 +48,6 @@ public class TicketDao {
 	
 	public static String registerTicket(Ticket ticket, String loggedUser) throws Exception {
 		
-		ConnectionPool pool = ConnectionFactory.getPool();
-		Connection con = pool.getConnection();
-		Statement st = null;
-		
 		String id = TicketDao.getSeqID();
 		String query = "INSERT INTO " + tableName(ticket.getType());
 				
@@ -79,29 +75,8 @@ public class TicketDao {
 			"','" + StringUtils.nullCheck(ticket.getMilestone()) +"','" +  StringUtils.nullCheck(ticket.getImportance()) + 
 			"','" + StringUtils.nullCheck(ticket.getTags()) + "','" + StringUtils.nullCheck(ticket.getPhase()) + 
 			"'," + ticket.getProgress()+")";
-		}
-		try {
-			st = con.createStatement();
-			st.executeUpdate(query);
-
-			if (st != null) {
-				st.close();
-			}
-
-		} catch (Exception e) {
-			logger.error("registration of ticket failed with " + e.getMessage());
-			if (st != null) {
-				st.close();
-			}
-			throw new Exception(e.getMessage());
-
-		} // catch Close
-
-		finally {
-			if (con != null)
-				con.close(); // close connection		
-		}// end finally	
-		//register activity
+		}		
+		executeUpdate(query);		 
 		String activity = loggedUser + " has created " + ticket.getType() + " #" + id;
 		handleActivity(activity, loggedUser);			
 		return id;	
@@ -422,13 +397,8 @@ public class TicketDao {
 		return d;
 	}
 
-	public static Integer editTicket(Ticket ticket, String loggedUser) throws Exception {
-		ConnectionPool pool = ConnectionFactory.getPool();
-		Connection con = pool.getConnection();
-		Statement st = null;
-		Integer row;
-	
-		 String query = "UPDATE " + tableName(ticket.getType()) +
+	public static boolean editTicket(Ticket ticket, String loggedUser) throws Exception {
+		String query = "UPDATE " + tableName(ticket.getType()) +
 				" SET f_title='" + ticket.getTitle() + 
 				"', f_description='" + ticket.getDesc() +
 				"', f_priority='" + StringUtils.nullCheck(ticket.getPriority()) + 
@@ -446,28 +416,11 @@ public class TicketDao {
 			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 
 			query +=" WHERE f_id='" + ticket.getId() + "'";
-		 try {
-			st = con.createStatement();
-			row = st.executeUpdate(query);
-			if (st != null) {
-				st.close();
-			}
-		} catch (Exception e) {
-			logger.error("Edited save of ticket failed with " + e.getMessage());
-			if (st != null) {
-				st.close();
-			}
-			throw new Exception(e.getMessage());
-
-		} // catch Close
-
-		finally {
-			if (con != null)
-				con.close(); // close connection		
-		}// end finally
+		
+		boolean flag = executeUpdate(query);			
 		String activity = loggedUser + " has updated " + ticket.getType() + " #" + ticket.getId();
 		handleActivity(activity, loggedUser);	
-		return row;	
+		return flag;	
 		
 	}
 	
@@ -484,7 +437,7 @@ public class TicketDao {
 					st.close();
 				}
 			} catch (Exception e) {
-				logger.error("Edited save of ticket failed with " + e.getMessage());
+				logger.error("Execute Updated Failed with " + e.getMessage());
 				if (st != null) {
 					st.close();
 				}
@@ -582,40 +535,12 @@ public class TicketDao {
 	}	
 	
 	public static boolean insertComment(String id,Comment comment) throws Exception {
-		ConnectionPool pool = ConnectionFactory.getPool();
-		Connection con = pool.getConnection();
-		Statement st = null;
-		int updateCount = 0;
-		
 		String query = "Insert into t_comments (f_ticketid, f_username, f_timestamp,f_comment) VALUES ('" +
 		id +"','" + comment.getUserName() +"','" + comment.getTimeStamp() + "','" +
 		comment.getComment() +"')";
-	
-		try {
-			st = con.createStatement();
-			updateCount = st.executeUpdate(query);
-			if (st != null) {
-				st.close();
-			}
-		} catch (Exception e) {
-			logger.error("Inserting comment failed with " + e.getMessage());
-			if (st != null) {
-				st.close();
-			}
-			throw new Exception(e.getMessage());
-
-		} // catch Close
-
-		finally {
-			if (con != null)
-				con.close(); // close connection		
-		}// end finally	
+		boolean flag = executeUpdate(query);
+		return flag;
 		
-		if(updateCount != 0){
-			return true;
-		}else{
-			return false;
-		}
 	}
 	
 	public static synchronized String getSeqID() throws Exception{
@@ -877,39 +802,10 @@ public class TicketDao {
 
 
 	public static boolean insertAttachments(String id, Attachment attachment) throws Exception {
-		ConnectionPool pool = ConnectionFactory.getPool();
-		Connection con = pool.getConnection();
-		Statement st = null;
-		int updateCount = 0;
-
 		String query = "Insert into t_attachments (f_ticketid, f_username, f_timestamp, f_name) VALUES (" +
 		id +",'" + attachment.getUserName() + "','" + attachment.getTimeStamp() + "','" + attachment.getFileName() + "')"; 
-		
-		try {
-			st = con.createStatement();
-			updateCount = st.executeUpdate(query);
-			if (st != null) {
-				st.close();
-			}
-		} catch (Exception e) {
-			logger.error("Inserting comment failed with " + e.getMessage());
-			if (st != null) {
-				st.close();
-			}
-			throw new Exception(e.getMessage());
-
-		} // catch Close
-
-		finally {
-			if (con != null)
-				con.close(); // close connection		
-		}// end finally	
-
-		if(updateCount != 0){
-			return true;
-		}else{
-			return false;
-		}
+		boolean flag = executeUpdate(query);
+		return flag;		
 	}
 	
 	public static ArrayList<Attachment> getAttachments(String id) throws Exception{
