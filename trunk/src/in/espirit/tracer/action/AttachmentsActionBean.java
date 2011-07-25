@@ -34,8 +34,7 @@ public class AttachmentsActionBean extends BaseActionBean{
 			try {
 				File temp = new File(CustomDao.getResourceMessage("filestorage")+"/"+ticket.getId() + "-" + attachment.getFileName());
 				attachment.save(temp);
-				System.out.println(attachment.getContentType());
-						
+								
 				Attachment att = new Attachment();
 				att.setFileName(attachment.getFileName());
 				att.setTimeStamp(DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm"));
@@ -49,7 +48,7 @@ public class AttachmentsActionBean extends BaseActionBean{
 			}
 				
 			if (flag) {
-				output = "<ul><li><p><span class='bold'><a href='#'>" + attachment.getFileName() + "</a></span>" + 
+				output = "<ul><li><p><span class='bold'><a href='../attachments/download/" + ticket.getId() +"-" + attachment.getFileName()  + "'>" + attachment.getFileName() + "</a></span>" + 
 			getContext().getLoggedUser() + "<span class=\"tar right\">" + DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm") + 
 			"</span></p></li></ul>";
 			}
