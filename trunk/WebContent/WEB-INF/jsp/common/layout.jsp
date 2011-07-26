@@ -4,7 +4,21 @@
 		<s:layout-component name="inlineScripts">
 			<script type="text/javascript">
 				${inlineScripts}
+				
+				function showInfo() {
+					if($("#infoPanel").html().trim()){
+					  $("#infoPanel").animate({top: "+=60px", }, 1000 ).delay(4000).animate({top: "-=60px", }, 1000 );
+				      //$("#infoPanel").show("slide", { direction: "up" }, 1000).delay(1000).hide("slide", { direction: "up" }, 1000);
+					}
+				};
+				
+				function showMessage(message) {
+					  $("#infoPanel").html("<p>"+message+"</p>");
+					  $("#infoPanel").animate({top: "+=60px", }, 1000 ).delay(4000).animate({top: "-=60px", }, 1000 );
+				};
+			
 			</script>
+			
 		</s:layout-component>
 		<s:layout-component name="header">
 			<header id="header">
@@ -29,6 +43,11 @@
 					
 				</div>
 			</header>
+		</s:layout-component>
+		<s:layout-component name="infoPanel">
+			<div id="infoPanel">
+				${infoPanel}
+			</div>
 		</s:layout-component>
 		<s:layout-component name="body">
 			<div class="bodyContainer"> ${body} </div>
@@ -97,7 +116,7 @@
 							<h6>Admin</h6>
 							<ul>
 								<li>
-									<s:link href="${contextPath}/list/config" >Milestone </s:link>
+									<s:link href="${contextPath}/list/config" >Config </s:link>
 								</li>
 							</ul>
 						</div>

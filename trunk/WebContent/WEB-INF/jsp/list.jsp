@@ -1,12 +1,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
+<s:layout-component name="infoPanel"> 
+	<s:messages/>
+</s:layout-component>
 <s:layout-component name="body">  
   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-12">
 				<div class="box tac">
-				
-					<s:messages/>
 					<d:table name="${actionBean.items}" id="ticket">
 					<d:column title="Id" property="id"></d:column>
 					<d:column title="Title">
@@ -90,7 +91,10 @@
 			
 		</div>
 	</div>	
-
-
 </s:layout-component>
+<s:layout-component name="inlineScripts">
+  $(document).ready(function() {	
+  	showInfo();
+  });
+</s:layout-component>  
 </s:layout-render>

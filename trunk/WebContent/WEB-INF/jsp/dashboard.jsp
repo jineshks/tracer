@@ -121,4 +121,10 @@
 			</div>
 		</div>
 	</s:layout-component>
+	<s:layout-component name="inlineScripts">
+  		$(document).ready(function() {
+  			showInfo();
+  		});	
+  		
+  	</s:layout-component>
 </s:layout-render>
