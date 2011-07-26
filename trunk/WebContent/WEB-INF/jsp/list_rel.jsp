@@ -1,7 +1,6 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<link rel="stylesheet" type="text/css" href="${contextPath}/css/style.css" >
 <title>Related Defects </title>
 
 <script type='text/javascript'>
