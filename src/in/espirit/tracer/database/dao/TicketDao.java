@@ -552,10 +552,10 @@ public class TicketDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		ResultSet rs = null;
-		String result="";
+		String result= null;
 				
 		String query = "";
-		query = "SELECT nextVal('sequence_ticketid')";
+		query = "SELECT f_id FROM t_sequence WHERE f_name='ticketseq'";
 		
 		try {
 			st = con.createStatement();
@@ -589,8 +589,15 @@ public class TicketDao {
 		finally {
 			if (con != null)
 				con.close(); // close connection		
-		}// end finally	
-		
+		}// end finally
+		if (result==null) {
+			executeUpdate("INSERT INTO t_sequence(f_name, f_id) values('ticketseq',1);"); // When there is no value in the table for this serial
+			result = "1";
+		}
+		else {
+			executeUpdate("UPDATE t_sequence set f_id=f_id+1 WHERE f_name='ticketseq';"); // To increment the value of sequence in table
+		}
+		 
 		return result;
 	}	
 	
