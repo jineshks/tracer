@@ -84,35 +84,51 @@
 							</div>
 						</div>
 						<div class="box">
-							<h6>Sprint</h6>
-							<p>
-								<a href="taskboard"> Taskboard </a>
-							</p>
-							<p>
-								<a href="planner"> Sprint Planner </a>
-							</p>
+							<div class="title">
+								<h6>Sprint</h6>
+							</div>
+							<div class="pt">
+								<p>
+									<a href="taskboard"> Taskboard </a>
+								</p>
+								<p>
+									<a href="planner"> Sprint Planner </a>
+								</p>
+							</div>
 						</div>
 						<div class="box">
-							<h6>Team</h6>
-							<p>
-								<a href="team.html"> view people </a>
-							</p>
+							<div class="title">
+								<h6>Team</h6>
+							</div>
+							<div class="pt">
+								<p>
+									<a href="team.html"> view people </a>
+								</p>
+							</div>
 						</div>
 					</div>
 
 					<div class="column grid-4">
 						<div class="box orange">
-							<h6>Alerts</h6>
+							<div class="title">
+								<h6>Alerts</h6>
+							</div>
 						</div>
 
 						<div class="box">
-							<h6>Messaging</h6>
-							<p>
-								<a href="chat.html"> Chat </a>
-							</p>
+							<div class="title">
+								<h6>Messaging</h6>
+							</div>
+							<div class="pt">
+								<p>
+									<a href="chat.html"> Chat </a>
+								</p>
+							</div>
 						</div>
 						<div class="box">
-							<h6>Documents</h6>
+							<div class="title">
+								<h6>Links</h6>
+							</div>
 						</div>
 
 					</div>
