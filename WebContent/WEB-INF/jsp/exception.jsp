@@ -7,15 +7,12 @@
 					<div class="column grid-16">
 						<div class="box">
 							<div class="exception mt">
-								<span> 
-									<p class="error">We apologize, an error occured. </p> 
-								 </span>
+									<p class="error">We apologize, an error occurred. </p> 
 							 </div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>	
-
 </s:layout-component>
 </s:layout-render>
