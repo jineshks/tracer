@@ -14,7 +14,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 import org.apache.log4j.Logger;
 
-@UrlBinding("/planner")
+@UrlBinding("/planner/{event}/{leftMilestone}/{rightMilestone}")
 public class PlannerActionBean extends BaseActionBean {
 	private static Logger logger = Logger.getLogger(PlannerActionBean.class
 			.getName());
@@ -26,8 +26,12 @@ public class PlannerActionBean extends BaseActionBean {
 	@DefaultHandler
 	public Resolution view() {
 		try {
-			leftMilestone = "Backlog";
-			rightMilestone = MilestoneDao.getCurrentMilestone();
+			if (leftMilestone ==null) {
+				leftMilestone = "Backlog";
+			}
+			if (rightMilestone == null) {
+				rightMilestone = MilestoneDao.getCurrentMilestone();
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,17 +39,17 @@ public class PlannerActionBean extends BaseActionBean {
 	}
 
 	public ArrayList<Ticket> getBacklogTickets() throws Exception {
-		return TicketDao.getTicketForMilestone("Backlog");
+		//return TicketDao.getTicketForMilestone("Backlog");
+		return TicketDao.getTicketForMilestone(leftMilestone);
 	}
 
 	public ArrayList<Ticket> getCurrentSprintTickets() throws Exception {
-		return TicketDao.getTicketForMilestone(MilestoneDao
-				.getCurrentMilestone());
+		return TicketDao.getTicketForMilestone(rightMilestone);
+		//return TicketDao.getTicketForMilestone(MilestoneDao.getCurrentMilestone());
 	}
 
 	// persist
 	public Resolution persist() {
-		System.out.println("persist planner");
 		boolean flag = false;
 		String output = "<p>Sorry! could not save the new state </p>";
 		String ticket_id = this.getContext().getRequest()
@@ -83,7 +87,6 @@ public class PlannerActionBean extends BaseActionBean {
 		} else {
 			output = "error";
 		}
-		System.out.println("Flag "+flag);
 		return new StreamingResolution("text/html", output);
 	}
 
