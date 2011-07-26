@@ -17,6 +17,25 @@
    		<span class="P5 prio">P5</span>
 	</div>
     <div id="main-section">
+    	<div class="row">
+		<jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
+		<s:form action="/planner">
+			<div class="column grid-8">
+				<s:select name="leftMilestone">
+					<s:option value=""></s:option>
+					<s:options-collection collection="${configView.milestone}"/>
+				</s:select>
+			</div>
+			<div class="column grid-8">
+				<s:select name="rightMilestone">
+					<s:option value=""></s:option>
+					<s:options-collection collection="${configView.milestone}"/>
+				</s:select>
+				<s:submit name="view" value="Update Planner"></s:submit>
+			</div>
+		
+		</s:form>
+		</div>
     		<div class="row">
 					<div class="column grid-8">
 						<div class="box">
