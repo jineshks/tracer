@@ -474,10 +474,10 @@ public class TicketDao {
 			 activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+value;
 		 }else if (property.equalsIgnoreCase("importance")) {
 			 query += " SET f_importance='" + value + "'";
-			 activity = loggedUser + " has updated property of" + ticket_type+ " ticket #" + ticket_id +" to "+value;
+			 activity = loggedUser + " has updated property of " + ticket_type+ " ticket #" + ticket_id +" to "+value;
 		 }else if (property.equalsIgnoreCase("priority")) {
 			query += " SET f_priority='" + value + "'"; 
-			activity = loggedUser + " has updated property of" + ticket_type+ " ticket #" + ticket_id +" to "+value;
+			activity = loggedUser + " has updated property of " + ticket_type+ " ticket #" + ticket_id +" to "+value;
 	 	 }
 		 query += " WHERE f_id='" + ticket_id + "'";
 
