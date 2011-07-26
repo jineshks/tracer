@@ -28,7 +28,8 @@ public class ConfigViewHelper {
 	}
 	
 	public ArrayList<String> getStatus() throws Exception{
-		return ConfigDao.getConfig("Status");	
+		return CustomDao.getValues("status");
+		//return ConfigDao.getConfig("Status");	
 	}
 	
 	public ArrayList<String> getMilestone() throws Exception{

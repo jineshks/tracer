@@ -27,7 +27,7 @@ public class ConfigListActionBean extends BaseActionBean {
 
 	public HashMap<String, ArrayList<Config>> getListItems() throws Exception {		
 		HashMap<String, ArrayList<Config>> result = new HashMap<String, ArrayList<Config>>();		
-		result.put("Importance", ConfigDao.getConfigList("Importance"));
+		//result.put("Importance", ConfigDao.getConfigList("Importance"));
 		//result.put("Milestone", ConfigDao.getConfigList("Milestone"));  
 		//result.put("Priority", ConfigDao.getConfigList("Priority"));  now moved to properties file
 		//result.put("Status", ConfigDao.getConfigList("Status"));	

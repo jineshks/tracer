@@ -4,7 +4,7 @@
 		<div id="bodycontent">
 			<div class="box">
 				<s:messages />
-
+				<%--   Config List is moved to properties flie..so it is removed
 				<c:forEach var="arrList" items="${actionBean.listItems}">
 					<br>
 					 <h5>${arrList.key}</h5>
@@ -31,6 +31,7 @@
 					</d:table>
 				</c:forEach>
 				</div>
+				--%>
 				<div class="box">
 				<br> <br><br> <br/>
 				 <h5>Milestone</h5>
