@@ -1,23 +1,28 @@
 CREATE DATABASE tracer
   WITH OWNER = traceradmin;
 
-  
+DROP TABLE t_sequence;
 DROP TABLE t_comments;
 DROP TABLE t_config;
 DROP TABLE t_defectdetails;
 DROP TABLE t_requirementdetails;
 DROP TABLE t_taskdetails;
 DROP TABLE t_userdetails;
+DROP TABLE t_milestone;
 DROP TABLE t_attachments;
 
+CREATE TABLE t_sequence
+(
+  f_name character varying(10),
+  f_id Integer
+);
 
-CREATE SEQUENCE sequence_ticketid
-  INCREMENT 1
-  MINVALUE 0
-  MAXVALUE 9223372036854775807
-  START 0
-  CACHE 1;
-COMMENT ON SEQUENCE sequence_ticketid IS 'For ID Incrementing';
+
+CREATE TABLE t_sequence
+(
+  f_name character varying(10),
+  f_id Integer
+);
 
 CREATE TABLE t_comments
 (
@@ -26,6 +31,7 @@ CREATE TABLE t_comments
   f_comment text,
   f_ticketid integer
 );
+
 
 CREATE TABLE t_config
 (
@@ -39,7 +45,7 @@ CREATE TABLE t_config
 CREATE TABLE t_defectdetails
 (
   f_id integer NOT NULL,
-  f_title character varying,
+  f_title character varying(250),
   f_description text,
   f_priority character varying(30),
   f_status character varying(30),
@@ -48,10 +54,10 @@ CREATE TABLE t_defectdetails
   f_parentticket integer,
   f_component character varying(30),
   f_milestone character varying(30),
-  f_type character varying(6) DEFAULT 'defect'::character varying,
+  f_type character varying(6) DEFAULT 'defect',
   f_importance character varying(30),
   f_progress integer,
-  f_tags character varying,
+  f_tags character varying(250),
   f_phase character varying(30),
   CONSTRAINT pk_defect PRIMARY KEY (f_id)
 );
@@ -60,7 +66,7 @@ CREATE TABLE t_defectdetails
 CREATE TABLE t_requirementdetails
 (
   f_id integer NOT NULL,
-  f_title character varying,
+  f_title character varying(250),
   f_description text,
   f_priority character varying(30),
   f_status character varying(30),
@@ -69,19 +75,20 @@ CREATE TABLE t_requirementdetails
   f_parentticket integer,
   f_component character varying(30),
   f_milestone character varying(30),
-  f_type character varying(11) DEFAULT 'requirement'::character varying,
+  f_type character varying(11) DEFAULT 'requirement',
   f_importance character varying(30),
   f_progress integer,
   f_storypoint integer,
-  f_tags character varying,
+  f_tags character varying(250),
   f_phase character varying(30),
   CONSTRAINT pk_requirement PRIMARY KEY (f_id)
 );
 
+
 CREATE TABLE t_taskdetails
 (
   f_id integer NOT NULL,
-  f_title character varying,
+  f_title character varying(250),
   f_description text,
   f_priority character varying(30),
   f_status character varying(30),
@@ -90,13 +97,14 @@ CREATE TABLE t_taskdetails
   f_parentticket integer,
   f_component character varying(30),
   f_milestone character varying(30),
-  f_type character varying(4) DEFAULT 'task'::character varying,
+  f_type character varying(4) DEFAULT 'task',
   f_importance character varying(30),
   f_progress integer,
-  f_tags character varying,
+  f_tags character varying(250),
   f_phase character varying(30),
   CONSTRAINT pk_task PRIMARY KEY (f_id)
 );
+
 
 CREATE TABLE t_userdetails
 (
@@ -105,6 +113,7 @@ CREATE TABLE t_userdetails
   f_email character varying(35),
   CONSTRAINT pk_user PRIMARY KEY (f_username)
 );
+
 
 CREATE TABLE t_activity
 (
@@ -115,14 +124,16 @@ CREATE TABLE t_activity
   CONSTRAINT pk_activity PRIMARY KEY (f_id)
 );
 
+
 CREATE TABLE t_milestone
 (
   f_id serial NOT NULL,
   f_name character varying(35),
-  f_description character varying,
+  f_description character varying(100),
   f_current boolean,
   CONSTRAINT pk_milestone PRIMARY KEY (f_id)
 );
+
 
 CREATE TABLE t_attachments
 (
