@@ -495,3 +495,27 @@ input,textarea,select {
 	opacity:0.8;
 	z-index:10;
 }
+
+#infoPanel{
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+    border: 1px solid #B7B7B7;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 3px 3px 4px #A7A7A7;
+    color: #333;
+    //display:none; //enable this to use show() instead of animate();
+    margin:0 10%;
+    padding-top:5px;
+    height: 50px;
+    opacity: 0.9;
+    position: fixed;
+    text-align: center;
+    top: -10px; // change to 50 to use show() instead of animate();
+    width: 80%;
+    z-index:5;
+    p{
+    	 text-align: center;
+    	 margin-top:5px;
+    }
+}

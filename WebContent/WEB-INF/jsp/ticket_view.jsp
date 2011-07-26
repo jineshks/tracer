@@ -220,12 +220,12 @@
   			var i=0;
   			  			
   			if(file.value==''){
-  				alert('No File selected. Please select one');
+  				showMessage('No File selected. Please select one');
   				return false;
   			}	
   			
   			if(file.files[0].size>10485760) {
-  				alert('Files below 10 MB only can be uploaded. Please select a other file');
+  				showMessage('Files below 10 MB only can be uploaded. Please select a other file');
   				document.uploadForm.hAttachment.value = '';
   				return false;
   			}
@@ -264,7 +264,7 @@ $(document).ready(function(){
    $("#commentButton").click(function(event){
      
      if($("#newComment").val()==""){
-     	alert("Please enter a comment");
+     	showMessage("Please enter a comment");
      }else{
      	 var commentid = $('.comments li a:last').attr('id');
      	 var ncomment;

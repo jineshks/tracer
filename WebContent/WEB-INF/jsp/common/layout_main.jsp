@@ -18,14 +18,17 @@
 		</head>
 		<body>
 			<s:layout-component name="header">
-				<div id="header"></div>
+				<header> </header>
 			</s:layout-component>
-		
+			
+			<s:layout-component name="infoPanel">
+			</s:layout-component>
+			
 			<s:layout-component name="body">
 			</s:layout-component>
 		
 			<s:layout-component name="footer">
-				<div id="footer"></div>
+				<footer> </footer>
 			</s:layout-component>
 		
 		</body>
