@@ -108,10 +108,29 @@ public static ArrayList<Activity> getActivities(String count) throws Exception{
 			Integer pos = s1.lastIndexOf("#");  // This is to determine whether the activity has a number associated with it.
 			if (pos > 0) {
 				// Pattern will be <username> has <action> <tickettype> #<no.>. Action can be created, edited or commented.
-				String[] a1 = s1.split(" ");  
-				String id = s1.substring(pos);				
-				String link = "<a href='./" + a1[3] + "/" + id.substring(1)  + "'>" + id + "</a>";	
-				a.setActivity(a1[0] + " " + a1[1] + " " + a1[2] + " " + a1[3] + " " + link);				
+				String[] a1 = s1.split(" "); 				
+				String id = "";
+				String link = "";			
+				if(a1.length==5){
+					id = s1.substring(pos);				
+					link = "<a href='./" + a1[3] + "/" + id.substring(1)  + "'>" + id + "</a>";	
+					a.setActivity(a1[0] + " " + a1[1] + " " + a1[2] + " " + a1[3] + " " + link);
+				}
+				else {
+					id = s1.substring(pos, s1.substring(pos, s1.length()).indexOf(" ") + pos);
+					link =  "<a href='./";
+					if (s1.indexOf("defect") > 0) {
+						link +=  "defect";		
+					}
+					else if (s1.indexOf("task") > 0) {
+						link +=  "task";	
+					}
+					else if (s1.indexOf("requirement") > 0) {
+						link +=  "requirement";	
+					}
+					link +=  "/" + id.substring(1)  + "'>" + id + "</a>";	
+					a.setActivity(s1.replaceFirst(id, link));					
+				}			
 			}		
 		}	
 	}
