@@ -26,12 +26,18 @@
 					<s:options-collection collection="${configView.milestone}"/>
 				</s:select>
 			</div>
-			<div class="column grid-8">
-				<s:select name="rightMilestone">
-					<s:option value=""></s:option>
-					<s:options-collection collection="${configView.milestone}"/>
-				</s:select>
-				<s:submit name="view" value="Update Planner"></s:submit>
+			<div class="column grid-5">
+				<span>
+					<s:select name="rightMilestone">
+						<s:option value=""></s:option>
+						<s:options-collection collection="${configView.milestone}"/>
+					</s:select>
+				</span>
+			</div>
+			<div class="column grid-3">
+				<span class="right">
+					<s:submit name="view" value="Update Planner"></s:submit>
+				</span>
 			</div>
 		
 		</s:form>
