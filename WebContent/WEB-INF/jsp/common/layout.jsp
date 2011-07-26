@@ -97,7 +97,7 @@
 							<h6>Admin</h6>
 							<ul>
 								<li>
-									<s:link href="${contextPath}/list/config" >Config </s:link>
+									<s:link href="${contextPath}/list/config" >Milestone </s:link>
 								</li>
 							</ul>
 						</div>
