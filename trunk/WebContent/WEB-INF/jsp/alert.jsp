@@ -60,12 +60,46 @@
 	<s:layout-component name="inlineScripts">
 	
 $(document).ready(function(){
-	$("#startDate").datepicker();
+	$.datepicker.formatDate('yy-mm-dd', new Date(2007, 1 - 1, 26));
+	$("#startDate").datepicker({ dateFormat: 'yy-mm-dd' });
 	$("#startTime").timepicker({});	
-	$("#endDate").datepicker();
+	$("#endDate").datepicker({ dateFormat: 'yy-mm-dd' });
 	$("#endTime").timepicker({});
 	
+	
+	$("form").bind("submit", function(event) {
+		if($("#startTime").val()!='') {
+			if($("#startDate").val()=='') {
+				showMessage('Please select a start date as well');
+				return false;
+			}
+		}	
+		
+		if($("#endTime").val()!='') {
+			if($("#endDate").val()=='') {
+				showMessage('Please select a end date as well');
+				return false;
+			}
+		}	
+		
+		if($("#startDate").val()!='') {
+			if($("#startTime").val()=='') {
+				$("#startTime").val('00:00');			
+			}
+		}	
+		
+		if($("#endDate").val()!='') {
+			if($("#endTime").val()=='') {
+				$("#endTime").val('00:00');	
+			}
+		}	
+		
+		
+	});
+	
 });
+
+
 	
 	
 	</s:layout-component>	

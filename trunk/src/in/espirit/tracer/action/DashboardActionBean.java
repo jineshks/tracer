@@ -24,7 +24,7 @@ public class DashboardActionBean extends BaseActionBean {
 	}
 	
 	public ArrayList<Alert> getAlerts() throws Exception {
-		return AlertDao.getAllAlert();		
+		return AlertDao.getActiveAlerts();		
 	}
 	
 	public ArrayList<Activity> getActivities() throws Exception {

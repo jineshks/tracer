@@ -28,15 +28,14 @@ CREATE TABLE t_comments
   f_ticketid integer
 );
 
+
 CREATE TABLE t_alert
 (
+  f_id serial NOT NULL,
   f_name character varying(250),
   f_desc character varying(500),
-  f_startDate character varying(30),
-  f_startTime character varying(30),
-  f_EndDate character varying(30),
-  f_EndTime character varying(30),
-  f_id serial NOT NULL,
+  f_startDateTime timestamp,
+  f_endDateTime timestamp,
   CONSTRAINT pk_alert PRIMARY KEY (f_id)
 );
 
