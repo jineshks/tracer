@@ -2,15 +2,12 @@ package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.AlertDao;
 import in.espirit.tracer.model.Alert;
-import in.espirit.tracer.util.DateUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.validation.Validate;
-import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 @UrlBinding("/alert/{id}")
 public class AlertActionBean extends BaseActionBean {
@@ -20,10 +17,8 @@ public class AlertActionBean extends BaseActionBean {
 	private Alert alert;
 	private String id;
 	
-
 	@DefaultHandler
 	public Resolution open() {
-		getContext().setCurrentSection("alert");
 		return new ForwardResolution(URL);
 	}
 	
@@ -42,7 +37,6 @@ public class AlertActionBean extends BaseActionBean {
 			AlertDao.editAlert(alert);
 			getContext().getMessages().add(new SimpleMessage("Alert Successfully Edited."));			
 		}		
-		getContext().setCurrentSection("alertlist");
 		return new RedirectResolution(AlertListActionBean.class);
 	}
 	
@@ -50,8 +44,7 @@ public class AlertActionBean extends BaseActionBean {
 		alert = getAlert();
 		AlertDao.deleteAlert(alert);
 		getContext().getMessages().add(new SimpleMessage("Alert Deleted."));	
-		getContext().setCurrentSection("alertlist");
-		return new RedirectResolution(ConfigListActionBean.class);
+		return new RedirectResolution(AlertListActionBean.class);
 	}
 	
 	public void setId(String id) {
