@@ -147,6 +147,9 @@
 						<div class="box">
 							<div class="title">
 								<h6>Links</h6>
+								<div class="pt">
+									<p><a href="notifyEvent"> Notify </a></p>
+								</div>			
 							</div>
 						</div>
 
