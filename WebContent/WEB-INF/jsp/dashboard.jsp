@@ -112,6 +112,25 @@
 						<div class="box orange">
 							<div class="title">
 								<h6>Alerts</h6>
+									<span class="right">
+									<s:link class="defect" href="list/alert/all" >All </s:link>
+									<s:link class="new ml" href="/alert/new" >New </s:link>
+								</span>
+							</div>
+							<div class="pt">
+								<ul>
+								<c:forEach var="alert" items="${actionBean.alerts}">
+									<li>
+										<p class="">
+											<span class="tal">
+											<a href="alert/${alert.id}">${alert.name}</a>	
+											</span>
+											<span class="tar right">${alert.endDate} ${alert.endTime}</span>
+										</p>	
+									</li>
+									
+								</c:forEach>								
+								</ul>
 							</div>
 						</div>
 

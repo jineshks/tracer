@@ -1,8 +1,10 @@
 package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.ActivityDao;
+import in.espirit.tracer.database.dao.AlertDao;
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Activity;
+import in.espirit.tracer.model.Alert;
 import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
@@ -19,6 +21,10 @@ public class DashboardActionBean extends BaseActionBean {
 	@DefaultHandler
 	public Resolution view() {
 		return new ForwardResolution(DASHBOARD);
+	}
+	
+	public ArrayList<Alert> getAlerts() throws Exception {
+		return AlertDao.getAllAlert();		
 	}
 	
 	public ArrayList<Activity> getActivities() throws Exception {

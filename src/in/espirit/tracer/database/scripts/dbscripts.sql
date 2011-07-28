@@ -3,6 +3,7 @@ CREATE DATABASE tracer
 
 DROP TABLE t_sequence;
 DROP TABLE t_comments;
+DROP TABLE t_alert;
 DROP TABLE t_config;
 DROP TABLE t_defectdetails;
 DROP TABLE t_requirementdetails;
@@ -11,18 +12,13 @@ DROP TABLE t_userdetails;
 DROP TABLE t_milestone;
 DROP TABLE t_attachments;
 
-CREATE TABLE t_sequence
-(
-  f_name character varying(10),
-  f_id Integer
-);
-
 
 CREATE TABLE t_sequence
 (
   f_name character varying(10),
   f_id Integer
 );
+
 
 CREATE TABLE t_comments
 (
@@ -30,6 +26,18 @@ CREATE TABLE t_comments
   f_timestamp character varying(25),
   f_comment text,
   f_ticketid integer
+);
+
+CREATE TABLE t_alert
+(
+  f_name character varying(250),
+  f_desc character varying(500),
+  f_startDate character varying(30),
+  f_startTime character varying(30),
+  f_EndDate character varying(30),
+  f_EndTime character varying(30),
+  f_id serial NOT NULL,
+  CONSTRAINT pk_alert PRIMARY KEY (f_id)
 );
 
 
