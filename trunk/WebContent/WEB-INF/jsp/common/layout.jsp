@@ -3,22 +3,8 @@
 	<s:layout-render name="/WEB-INF/jsp/common/layout_main.jsp">
 		<s:layout-component name="inlineScripts">
 			<script type="text/javascript">
-				${inlineScripts}
-				
-				function showInfo() {
-					if($("#infoPanel").html().trim()){
-					  $("#infoPanel").animate({top: "+=60px", }, 1000 ).delay(4000).animate({top: "-=60px", }, 1000 );
-				      //$("#infoPanel").show("slide", { direction: "up" }, 1000).delay(1000).hide("slide", { direction: "up" }, 1000);
-					}
-				};
-				
-				function showMessage(message) {
-					  $("#infoPanel").html("<p>"+message+"</p>");
-					  $("#infoPanel").animate({top: "+=60px", }, 1000 ).delay(4000).animate({top: "-=60px", }, 1000 );
-				};
-			
+				${inlineScripts}		
 			</script>
-			
 		</s:layout-component>
 		<s:layout-component name="header">
 			<header id="header">

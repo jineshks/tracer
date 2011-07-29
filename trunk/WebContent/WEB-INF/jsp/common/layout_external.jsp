@@ -1,6 +1,11 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-definition>
 	<s:layout-render name="/WEB-INF/jsp/common/layout_main.jsp">
+	<s:layout-component name="inlineScripts">
+			<script type="text/javascript">
+				${inlineScripts}
+			</script>
+		</s:layout-component>
 		<s:layout-component name="header">
 			<header id="header">
 				<div class="row">
@@ -11,6 +16,11 @@
 					</div>
 				</div>
 			</header>
+		</s:layout-component>
+		<s:layout-component name="infoPanel">
+			<div id="infoPanel">
+				${infoPanel}
+			</div>
 		</s:layout-component>
 		<s:layout-component name="body">
 			<div class="bodyContainer"> ${body} </div>

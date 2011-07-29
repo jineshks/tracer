@@ -10,6 +10,19 @@
 			<script type="text/javascript" src="${contextPath}/javascripts/less-1.0.41.js"></script>
 			<script type="text/javascript" src="${contextPath}/javascripts/jquery-1.5.1.min.js"> </script>
 			<script type="text/javascript" src="${contextPath}/javascripts/jquery-ui-1.8.14.custom.min.js"> </script>
+			<script type="text/javascript">
+				function showInfo() {
+					if($("#infoPanel").html().trim()){
+					  $("#infoPanel").animate({top: "+=60px", }, 1000 ).delay(4000).animate({top: "-=60px", }, 1000 );
+				      //$("#infoPanel").show("slide", { direction: "up" }, 1000).delay(1000).hide("slide", { direction: "up" }, 1000);
+					}
+				};
+				
+				function showMessage(message) {
+					  $("#infoPanel").html("<p>"+message+"</p>");
+					  $("#infoPanel").animate({top: "+=60px", }, 1000 ).delay(4000).animate({top: "-=60px", }, 1000 );
+				};
+			</script>
 			<!--[if lt IE 9]>
 			    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 			  <![endif]-->
