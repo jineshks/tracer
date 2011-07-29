@@ -16,9 +16,9 @@ import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 import net.sourceforge.stripes.validation.ValidationState;
 
-@UrlBinding("/user/{event}")
+@UrlBinding("/login/{event}")
 public class LoginActionBean extends BaseActionBean{
-	private static final String URL = "/WEB-INF/jsp/login.jsp";
+	private static final String URL = "/login.jsp";
 	
 	private User user;
 	
@@ -48,27 +48,22 @@ public class LoginActionBean extends BaseActionBean{
 	
 	@DontValidate
 	@DefaultHandler
-	public Resolution signin() {
+	public Resolution open() {
 		return new ForwardResolution(URL);
 	}
 		
 	public Resolution login() {
 		logger.debug("User logged in > " + user.getUserName());
 		getContext().setLoggedUser(user.getUserName());
-		return new ForwardResolution(DashboardActionBean.class);
+		return new RedirectResolution(DashboardActionBean.class);
 	}
-	
-	@DontValidate
-	public Resolution cancel() {		
-		return new RedirectResolution(LoginActionBean.class);		
-	}	
-	
+		
 	@DontValidate
 	public Resolution logout() {
 		logger.debug("User logged out > " + getContext().getLoggedUser());
 		getContext().deleteLoggedUser();
 		getContext().getMessages().add(new SimpleMessage("User Logged Out."));	
-		return new RedirectResolution(LoginActionBean.class);		
+		return new RedirectResolution("/login/open");		
 	}
 
 }
