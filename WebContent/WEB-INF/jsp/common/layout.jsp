@@ -113,6 +113,20 @@
 					</div>
 					<div class="column grid-2">
 						<div class="tal">
+							<h6>User</h6>
+							<ul>
+								<li>
+									<s:link href="${contextPath}/requirement/new" >My Profile</s:link>
+								</li>
+								<li>
+									<s:link href="${contextPath}/login/logout">
+									[Log Out] </s:link>
+								</li>								
+							</ul>
+						</div>
+					</div>					
+					<div class="column grid-2">
+						<div class="tal">
 							<h6>Admin</h6>
 							<ul>
 								<li>
