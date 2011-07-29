@@ -102,7 +102,7 @@
 							<h6>User</h6>
 							<ul>
 								<li>
-									<s:link href="${contextPath}/requirement/new" >My Profile</s:link>
+									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}" >My Profile</s:link>
 								</li>
 								<li>
 									<s:link href="${contextPath}/login/logout">

@@ -1,10 +1,12 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
+<s:layout-component name="infoPanel"> 
+	<s:messages/>
+</s:layout-component>
 	<s:layout-component name="body">
 		<div id="bodycontent">
 			<div id="main-section">
 				<div class="row">
-
 					<div class="column grid-4">
 						<div class="box">
 							<div class="title">

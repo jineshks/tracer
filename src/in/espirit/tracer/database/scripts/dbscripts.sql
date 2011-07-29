@@ -118,6 +118,17 @@ CREATE TABLE t_userdetails
   f_username character varying(35) NOT NULL,
   f_password character varying(15),
   f_email character varying(35),
+  f_displayname character varying(35),
+  f_emailsecond character varying(35),
+  f_phone character varying(20),
+  f_chatid character varying(20),
+  f_web character varying(35),
+  f_status character varying(200),
+  f_skills character varying(100),
+  f_passion character varying(200),
+  f_team character varying(100),
+  f_whoami character varying(200),
+  f_approvalstatus integer DEFAULT 0,
   CONSTRAINT pk_user PRIMARY KEY (f_username)
 );
 
