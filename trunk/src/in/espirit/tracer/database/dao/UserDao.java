@@ -2,46 +2,117 @@ package in.espirit.tracer.database.dao;
 
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
+import in.espirit.tracer.model.Milestone;
+import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.User;
+import in.espirit.tracer.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 
 public class UserDao{
 	
-	public static Integer registerUser(User user) throws Exception {
+	private static Logger logger = Logger.getLogger(UserDao.class.getName());
 	
-	ConnectionPool pool = ConnectionFactory.getPool();
-	Connection con = pool.getConnection();
-	Statement st = null;
-	//ResultSet rs = null;
-	Integer row;
+	public static boolean registerUser(User user) throws Exception {
 	
-	String query = "INSERT INTO t_userdetails VALUES('" + user.getUserName().toLowerCase()+"','" + user.getPassword() +"','" + user.getEmail() +"')";
-	try {
-		st = con.createStatement();
-		row = st.executeUpdate(query);
-		if (st != null) {
-			st.close();
-		}
-	} catch (Exception e) {
-
-		if (st != null) {
-			st.close();
-		}
-		throw new Exception(e.getMessage());
-
-	} // catch Close
-
-	finally {
-		if (con != null)
-			con.close(); // close connection		
-	}// end finally	
-	return row;	
+	//The userstatus will default have an approvalStatus value of 0.
+	
+	String query = "INSERT INTO t_userdetails (f_username, f_password, f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion)" +
+		"VALUES('" + user.getUserName().toLowerCase() +"','" + user.getPassword() + "','" + StringUtils.nullCheck(user.getDisplayName()) + 
+		"','" + StringUtils.nullCheck(user.getEmail()) + "','" + StringUtils.nullCheck(user.getEmailSecond()) +  "','" + StringUtils.nullCheck(user.getPhone()) + 
+		"','" + StringUtils.nullCheck(user.getChatId()) + "','" + StringUtils.nullCheck(user.getWeb()) + "','" + StringUtils.nullCheck(user.getTeam()) +
+		"','" + StringUtils.nullCheck(user.getStatus()) + "','" + StringUtils.nullCheck(user.getWhoAmI()) + "','" + StringUtils.nullCheck(user.getSkills()) +
+		"','" + StringUtils.nullCheck(user.getPassion()) + "')";
+	
+		boolean flag = executeUpdate(query);
+		return flag ;
 	}
+	
+	public static User getUserByName(String userName) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		User u = new User();
+			
+		String query = "SELECT f_username, f_password, f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion FROM t_userdetails where f_userName='" + userName + "'";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+			
+			while (rs.next()) {		
+				u.setUserName(rs.getString(1));
+				u.setPassword(rs.getString(2));
+				u.setDisplayName(rs.getString(3));
+				u.setEmail(rs.getString(4));
+				u.setEmailSecond(rs.getString(5));
+				u.setPhone(rs.getString(6));
+				u.setChatId(rs.getString(7));
+				u.setWeb(rs.getString(8));
+				u.setTeam(rs.getString(9));
+				u.setStatus(rs.getString(10));
+				u.setWhoAmI(rs.getString(11));
+				u.setSkills(rs.getString(12));
+				u.setPassion(rs.getString(13));						
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting milestone failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return u;
+	}
+	
+	public static boolean editUser(User user) throws Exception {
+		
+		//The userstatus will default have an approvalStatus value of 0.
+				
+		String query = "UPDATE t_userdetails" +
+		" SET f_displayname='" + StringUtils.nullCheck(user.getDisplayName()) + 
+		"', f_email='" + StringUtils.nullCheck(user.getEmail()) +
+		"', f_emailsecond='" + StringUtils.nullCheck(user.getEmailSecond()) + 
+		"', f_phone='" + StringUtils.nullCheck(user.getPhone()) + 
+		"', f_chatid='" + StringUtils.nullCheck(user.getChatId()) + 
+		"', f_web='" + StringUtils.nullCheck(user.getWeb()) + 
+		"', f_team='" +  StringUtils.nullCheck(user.getTeam()) + 
+		"', f_status='" +  StringUtils.nullCheck(user.getStatus()) + 
+		"', f_whoami='" + StringUtils.nullCheck(user.getWhoAmI()) + 
+		"', f_skills='" + StringUtils.nullCheck(user.getSkills()) + 
+		"', f_passion='" + StringUtils.nullCheck(user.getPassion()) + 
+		"' WHERE f_userName='" + user.getUserName() +"'";
+		System.out.println(query);
+		boolean flag = executeUpdate(query);
+		return flag;		
+		}
 	
 	public static Boolean userExists(String userName) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
@@ -196,6 +267,34 @@ public class UserDao{
 			if (con != null)
 				con.close(); // close connection		
 		}		
+	}
+	
+	private static boolean executeUpdate(String query) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		Integer row = 0;
+		
+		 try {
+				st = con.createStatement();
+				row = st.executeUpdate(query);
+				if (st != null) {
+					st.close();
+				}
+			} catch (Exception e) {
+				logger.error("Execute Updated Failed with " + e.getMessage());
+				if (st != null) {
+					st.close();
+				}
+				throw new Exception(e.getMessage());
+			} // catch Close
+
+			finally {
+				if (con != null)
+					con.close(); 	
+			}
+			return (row==0)?  false:  true;
+		
 	}
 	
 }

@@ -68,8 +68,8 @@ public class RegisterActionBean extends BaseActionBean {
 
 	public Resolution register() throws Exception {
 		user = getUser();		
-		Integer row = UserDao.registerUser(user);		
-		if (row==1) {
+		boolean row = UserDao.registerUser(user);		
+		if (row) {
 			getContext().getMessages().add(new SimpleMessage("User Registered Successfully. Please login now."));	
 		}
 		else {
