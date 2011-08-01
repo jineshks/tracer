@@ -83,6 +83,7 @@ public class User {
 		this.team = team;
 	}
 	public String getTeam() {
+		if (team==null) setTeam("No Team Specified");
 		return team;
 	}
 	public int getApprovalStatus() {

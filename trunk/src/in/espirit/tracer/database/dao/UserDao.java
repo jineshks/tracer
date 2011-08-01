@@ -92,6 +92,65 @@ public class UserDao{
 		return u;
 	}
 	
+	public static ArrayList<User> getUserList() throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		
+		ArrayList<User> result = new ArrayList<User>();
+			
+		String query = "SELECT f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion FROM t_userdetails ORDER BY f_team ASC";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+			
+			while (rs.next()) {	
+				User u = new User();
+				u.setDisplayName(rs.getString(1));
+				u.setEmail(rs.getString(2));
+				u.setEmailSecond(rs.getString(3));
+				u.setPhone(rs.getString(4));
+				u.setChatId(rs.getString(5));
+				u.setWeb(rs.getString(6));
+				u.setTeam(rs.getString(7));
+				u.setStatus(rs.getString(8));
+				u.setWhoAmI(rs.getString(9));
+				u.setSkills(rs.getString(10));
+				u.setPassion(rs.getString(11));		
+				result.add(u);
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting user list failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return result;
+	}
+	
 	public static boolean editUser(User user) throws Exception {
 		
 		//The userstatus will default have an approvalStatus value of 0.
@@ -109,7 +168,7 @@ public class UserDao{
 		"', f_skills='" + StringUtils.nullCheck(user.getSkills()) + 
 		"', f_passion='" + StringUtils.nullCheck(user.getPassion()) + 
 		"' WHERE f_userName='" + user.getUserName() +"'";
-		System.out.println(query);
+	
 		boolean flag = executeUpdate(query);
 		return flag;		
 		}
