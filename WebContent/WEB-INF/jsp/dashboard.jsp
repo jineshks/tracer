@@ -104,7 +104,7 @@
 							</div>
 							<div class="pt">
 								<p>
-									<a href="team.html"> view people </a>
+									<a href="list/user"> view people </a>
 								</p>
 							</div>
 						</div>
