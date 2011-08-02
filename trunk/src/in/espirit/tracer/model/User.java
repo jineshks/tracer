@@ -92,4 +92,8 @@ public class User {
 	public void setApprovalStatus(int approvalStatus) {
 		this.approvalStatus = approvalStatus;
 	}	
+	@Override
+	public boolean equals(Object obj) {			
+		return this.userName.equals(((User)obj).userName);
+	}
 }
