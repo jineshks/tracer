@@ -105,6 +105,9 @@
 									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}" >My Profile</s:link>
 								</li>
 								<li>
+									<s:link href="${contextPath}/user/changepassword" >Change Password</s:link>
+								</li>
+								<li>
 									<s:link href="${contextPath}/login/logout">
 									[Log Out] </s:link>
 								</li>								
