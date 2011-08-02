@@ -142,7 +142,7 @@
 							</div>
 							<div class="pt">
 								<p>
-									<a href="chat.html"> Chat </a>
+									<a href="chat"> Chat </a>
 								</p>
 							</div>
 						</div>
