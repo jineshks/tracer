@@ -9,23 +9,22 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.SimpleError;
-import net.sourceforge.stripes.validation.ValidationError;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
-import net.sourceforge.stripes.validation.ValidationState;
 
 import org.apache.log4j.Logger;
 
-@UrlBinding("/user/{userName}")
+@UrlBinding("/user/{userName}/{action}")
 public class UserActionBean extends BaseActionBean {
 	
 	private static final Logger logger = Logger.getLogger(UserActionBean.class.getName());
-	private static final String URL = "/WEB-INF/jsp/user.jsp";
+	private static final String URL_EDIT = "/WEB-INF/jsp/user_edit.jsp";
+	private static final String URL_VIEW = "/WEB-INF/jsp/user_view.jsp";
 	
 	private User user;
 	private String userName;
+	private String action;
 	
 	public String getUserName() {
 		return userName;
@@ -37,8 +36,27 @@ public class UserActionBean extends BaseActionBean {
 
 	
 	@DefaultHandler
-	public Resolution open() {
-		return new ForwardResolution(URL);
+	public Resolution open() {		
+		//String displayView = action==null?URL_VIEW:(action.equalsIgnoreCase("edit")?URL_EDIT:URL_VIEW);
+		String displayView;
+		if (userName.equalsIgnoreCase("new")) {
+			displayView = URL_EDIT;
+		}
+		else if (getContext().getLoggedUser()==null) {
+			getContext().getMessages().add(new SimpleMessage("You need to login first to view details"));
+			return new ForwardResolution(LoginActionBean.class);			
+		}
+		else if (action==null) {
+			displayView = URL_VIEW;
+		}
+		else if (action.equalsIgnoreCase("edit") && userName.equalsIgnoreCase(getContext().getLoggedUser())) {
+			displayView = URL_EDIT;
+		}
+		else {
+			getContext().getMessages().add(new SimpleMessage("You can't edit other person profiles. You can only view them"));
+			displayView = URL_VIEW;
+		}		
+		return new ForwardResolution(displayView);		
 	}
 	
 	@ValidationMethod(on="submit")
@@ -75,7 +93,8 @@ public class UserActionBean extends BaseActionBean {
 	}
 
 	public User getUser() {
-		if (userName!=null) {
+		if (userName!=null && !userName.equalsIgnoreCase("new")) {
+			System.out.println("in getting user details");
 			try {
 				return UserDao.getUserByName(userName);
 			} catch (Exception e) {
@@ -88,5 +107,13 @@ public class UserActionBean extends BaseActionBean {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public String getAction() {
+		return action;
 	}
 }
