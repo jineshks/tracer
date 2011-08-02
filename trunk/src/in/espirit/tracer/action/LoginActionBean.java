@@ -1,7 +1,13 @@
 package in.espirit.tracer.action;
 
+import in.espirit.tracer.database.dao.ChatDAO;
 import in.espirit.tracer.database.dao.UserDao;
 import in.espirit.tracer.model.User;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpSession;
+
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -54,6 +60,14 @@ public class LoginActionBean extends BaseActionBean{
 		
 	public Resolution login() {
 		logger.debug("User logged in > " + user.getUserName());
+		
+		HttpSession session = this.getContext().getRequest().getSession();
+		session.setAttribute("loggedInDateTime", new Date());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Used :"+user.getUserName()+"Logged In:"+new Date());
+	     }	
+		//Add user in logged in user List.
+		ChatDAO.getInstance().logUserIn(user);	
 		getContext().setLoggedUser(user.getUserName());
 		return new RedirectResolution(DashboardActionBean.class);
 	}
