@@ -2,8 +2,6 @@ package in.espirit.tracer.database.dao;
 
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
-import in.espirit.tracer.model.Milestone;
-import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.User;
 import in.espirit.tracer.util.StringUtils;
 
