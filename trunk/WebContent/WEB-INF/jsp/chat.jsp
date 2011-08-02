@@ -1,26 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
 <s:layout-component name="body"> 
-<body onLoad="javascript:init()">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Chat - TRACER </title>
-  
-  <link href="stylesheets/custom.less" media="all" rel="stylesheet/less" type="text/css" />
-  <script src="javascripts/less-1.0.41.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    // Under development you should uncomment the following lines,
-    // to make the browser refresh the changes that you are makeing in your app.less file.
-    less.env = "development";
-    less.watch();
-  </script>
-  <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-
-</head>
-
-  <div id="bodycontent">
+ <div id="bodycontent">
     <div id="main-section">
     	
       <div class="row">
@@ -79,109 +60,116 @@
     </div>
   </div>
   </s:layout-component>
- </s:layout-render> 
- </body>
- <script type="text/javascript" charset="utf-8">
- timerChatList = null;
- timerChatMessage = null;
- timerChatListDelay = 2000;
- timerChatMessageDelay = 1000;
- var selectedChatWindow = "";
- var currentChatWindow= "";
- oldUserListHTML = "";
- 
- function init(){
-	 $("#chat").hide();
-	 getChatUserList(); 
- }
- 
- function getChatSession(div) {
-	 
-	 $("#chat").show();	 
-	 selectedChatWindow = div.id;
-	 var chatHeader = document.getElementById(selectedChatWindow);	
-	 $("#chatHeading").html(chatHeader.textContent.toUpperCase()); 
-	 
-	 getPastMessages();		
- }
- 
- function getPastMessages() {
-	 if(currentChatWindow != selectedChatWindow ){
-		
-		$.ajax( {
-					type : "POST",
-					data :  "userWindow="+selectedChatWindow, 
-					url : "pastChatMessages",					
-					error : function(xhr, ajaxOptions, thrownError) {					
-					},
-					success : function(data) {
-												
-							$("#chatMessageArea").html(data);					
-					}
-				});
-		
-		currentChatWindow = selectedChatWindow;
-	 
-		getMessage();
-	 }
- }
-
- 
- function getMessage() {
-	 
-		$.ajax( {
-					type : "POST",
-					data :  "userWindow="+selectedChatWindow, 
-					url : "chatMessages",
-					error : function(xhr, ajaxOptions, thrownError) {
-						
-					},
-					success : function(data) {
-					     $("#chatMessageArea").append(data);
-					}
-				});
-		
-		 timerChatMessage = setTimeout("getMessage()", timerChatMessageDelay);
-	}
- 
-  function getChatUserList() {	
-		
-		$.ajax( {
-					type : "GET",
-					data : "userWindow="+selectedChatWindow,
-					url : "chatUsers",
-					error : function(xhr, ajaxOptions, thrownError) {
-
-					},
-					success : function(data) {						
-						if(data !=oldUserListHTML){
-							$("#chatUser").html(data);
-							oldUserListHTML = data;
-						}
-					}
-				});
-
-		 timerChatList = setTimeout("getChatUserList()", timerChatListDelay);
-	}
+  <s:layout-component name="inlineScripts">
   
-  function sendChatMessage() {	
-	  
-	    var msg = $("#messageText").val();
-
-	    $.ajax( {
-			        type : "POST",
-			        data :  "userWindow="+selectedChatWindow+"&msg="+msg ,
-			        url : "SendChatMessage",
-			        error : function(xhr, ajaxOptions, thrownError) {
-
-			        },
-			        success : function() {
-				    $("#messageText").val("");
-			        }
-		       });
-  }
-  
-  </script>
-
-        
-
+		var timerChatList = null;
+		var timerChatMessage = null;
+		var timerChatListDelay = 2000;
+		var timerChatMessageDelay = 1000;
+		var selectedChatWindow = "";
+		var currentChatWindow= "";
+		var oldUserListHTML = "";
+		 
+		function init(){
+			 $("#chat").hide();
+			 getChatUserList(); 
+		};
+		 
+		function getChatSession(div) {
+			 
+			 $("#chat").show();	 
+			 selectedChatWindow = div.id;
+			 var chatHeader = document.getElementById(selectedChatWindow);	
+			 $("#chatHeading").html(chatHeader.textContent.toUpperCase()); 
+			 
+			 getPastMessages();		
+		};
+		 
+		 
+		function getPastMessages() {
+			 if(currentChatWindow != selectedChatWindow ){
+				
+				$.ajax( {
+							type : "POST",
+							data :  "userWindow="+selectedChatWindow, 
+							url : "pastChatMessages",					
+							error : function(xhr, ajaxOptions, thrownError) {					
+							},
+							success : function(data) {
+														
+									$("#chatMessageArea").html(data);					
+							}
+						});
+				
+				currentChatWindow = selectedChatWindow;
+			 
+				getMessage();
+			 }
+		};
+		
+		 
+		function getMessage() {
+			 
+				$.ajax( {
+							type : "POST",
+							data :  "userWindow="+selectedChatWindow, 
+							url : "chatMessages",
+							error : function(xhr, ajaxOptions, thrownError) {
+								
+							},
+							success : function(data) {
+							     $("#chatMessageArea").append(data);
+							}
+						});
+				
+				 timerChatMessage = setTimeout("getMessage()", timerChatMessageDelay);
+			
+		};
+		
+		
+		function getChatUserList() {
+				
+					$.ajax( {
+							type : "GET",
+							data : "userWindow="+selectedChatWindow,
+							url  : "chatUsers",
+							error : function(xhr, ajaxOptions, thrownError) {
+		
+							},
+							success : function(data) {
+								if(data != oldUserListHTML){
+									$("#chatUser").html(data);
+									oldUserListHTML = data;
+								}
+							}
+					});
+				timerChatList = setTimeout("getChatUserList()", timerChatListDelay);
+				
+		};
+		 
+		  
+		function sendChatMessage() {	
+			  
+			    var msg = $("#messageText").val();
+		
+			    $.ajax( {
+					        type : "POST",
+					        data :  "userWindow="+selectedChatWindow+"&msg="+msg ,
+					        url : "SendChatMessage",
+					        error : function(xhr, ajaxOptions, thrownError) {
+		
+					        },
+					        success : function() {
+						    	$("#messageText").val("");
+					        }
+				       });
+		};
+				
+	 $(document).ready(function() {
+	  	 showInfo();
+	  	 init();
+	 });
+	
+	
+  </s:layout-component>  
+</s:layout-render> 
