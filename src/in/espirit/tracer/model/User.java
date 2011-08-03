@@ -5,6 +5,8 @@ public class User {
 	private String email, emailSecond, phone, chatId, web;
 	private String team, status, whoAmI, skills, passion;
 	
+	private String role;
+	
 	private int approvalStatus;
 	
 	public String getUserName() {
@@ -95,5 +97,11 @@ public class User {
 	@Override
 	public boolean equals(Object obj) {			
 		return this.userName.equals(((User)obj).userName);
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getRole() {
+		return role;
 	}
 }

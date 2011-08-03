@@ -76,7 +76,13 @@
    
    		<c:if test="${actionBean.context.userAdmin eq true && user.approvalStatus eq 0}">	
 							<s:form beanclass="in.espirit.tracer.action.UserActionBean">
-								<s:hidden name="userName">${user.userName}</s:hidden>
+								<s:hidden name="user.userName">${user.userName}</s:hidden>
+								<s:select name="user.role">
+									<s:option></s:option>
+									<s:option>Viewer</s:option>
+									<s:option>Editor</s:option>
+									<s:option>Admin</s:option>
+								</s:select>																
 								<s:submit name="approve" value="Approve"/>
 								<s:submit name="reject" value="Reject"/>							
 							</s:form>
@@ -88,6 +94,21 @@
 	
 $(document).ready(function(){
 	showInfo();	
+	
+	$("form input[type=submit]").click(function() {
+ 	   $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+       $(this).attr("clicked", "true");
+	});
+	
+	
+	$("form").bind("submit", function(event) {
+		if ($("input[type=submit][clicked=true]").val()=='Approve') {
+			if ($("select[name='user.role']").val()=="") {
+				showMessage('User Role is a mandatory field');
+				return false;
+			}
+		}			
+	});	
 });
 
 
