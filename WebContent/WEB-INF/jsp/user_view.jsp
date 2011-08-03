@@ -6,6 +6,11 @@
 <s:layout-component name="body">  
   <div id="bodycontent">
   <c:set var="user" value="${actionBean.user}"></c:set>
+  <c:if test="${actionBean.context.loggedUser eq user.userName}">         
+  	<div class="tar right">
+  		<input type="button" name="Edit" class="orange"  onclick="javascript:location.href+='/edit'" value="Edit">
+  	</div>
+  </c:if>
     <div class="row">      
    	   <div class="column grid-5">
    	      <div class="box">
