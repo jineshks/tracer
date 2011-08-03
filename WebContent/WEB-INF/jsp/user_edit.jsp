@@ -27,21 +27,22 @@
           				<dt>User Id</dt>
           				<dd>${actionBean.user.userName}</dd>          			
           			</c:otherwise>       
-          	</c:choose>	    
-          			<dt>Display Name</dt>          													
-          			<dd> <s:text name="user.displayName" placeholder="Display name"></s:text></dd>
-          		</dl>	
+          	</c:choose>	             	
+          			<dt>E-Mail</dt>          													
+          			<dd> <s:text name="user.email" placeholder="E-Mail"></s:text></dd>          		 
+          			</dl>	
           	      		
           	</div>	
           </div>           
       </div>
+      <c:if test="${actionBean.user.userName ne null}">
       <div class="column grid-5">
           <div class="box">
           	<h4>Contact Details</h4>
           	<div class="il">
-          		<dl>
-          			<dt>E-Mail</dt>          													
-          			<dd> <s:text name="user.email" placeholder="E-Mail"></s:text></dd>
+          		<dl><dt>Display Name</dt>          													
+          			<dd> <s:text name="user.displayName" placeholder="Display name"></s:text></dd>
+          			<dt>E-Mail (Additional)</dt>
           			<dd> <s:text name="user.emailSecond" placeholder="E-Mail - Secondary"></s:text></dd>
           			<dt>Phone</dt>
           			<dd> <s:text name="user.phone" placeholder="Phone"/></dd>
@@ -72,6 +73,9 @@
 				</div>
 			</div>           
       </div> 
+    </c:if>
+    </div>
+    <div class="row">
     <c:choose>
     	<c:when test="${actionBean.user.userName eq null}">
     		<s:submit name="submit" value="Submit"/>
@@ -79,8 +83,8 @@
     	<c:otherwise>
     		<s:submit name="update" value="Update"/>
     	</c:otherwise>
-    </c:choose>  
-	<s:submit name="cancel" value="Cancel"/>	
+    </c:choose> 
+		
     </div>
   </div>
 </s:form>
@@ -102,23 +106,36 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		if ($("input[name='user.email']").val()=='') {
+			showMessage('E-mail is a mandatory field');
+			return false;
+		}
+		
 		// Make a check for valid email address.. if needed verify against the db.
 		
 		if ($("form :submit").attr('name')=='submit') { 
-			var loadUrl = "/tracer/user/"+$("input[name='user.userName']").val()+"?checkUserName";
+			var loadUrl = "/tracer/user/"+$("input[name='user.userName']").val()+"~"+ $("input[name='user.email']").val() +"?checkUserNameEmail";
 			$.ajax({
 	       		url : loadUrl,  
 	           	success : function(responseText){ 
-	            			if(responseText=="exists") {
+	            			if(responseText=="UserNameEmail") {
+	            				showMessage('UserName & E-mail is already taken. Please enter a different Name & E-Mail')
 	               				submitFlag = false;	               				
-	               			}               			
+	               			}  
+	               			else if (responseText=="UserName") {
+	               				showMessage('UserName is already taken. Please enter a different Name')
+	               				submitFlag = false;
+	               			}             				               			
+	               			else if (responseText=="Email") {
+	               				showMessage('E-mail is already taken. Please enter a different E-mail')
+	               				submitFlag = false;
+	               			}             			
 	             		},  
 	            async : false  
 	     	}); 	
 	     
 	     	if (submitFlag==false) {
-	     		showMessage('UserName is already taken. Please enter a different Name')
-	     	return false;
+	     		return false;
 	     	}
 	     }
 	         		

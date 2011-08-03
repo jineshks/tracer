@@ -20,8 +20,8 @@ import net.sourceforge.stripes.validation.ValidationState;
 import org.apache.log4j.Logger;
 
 @UrlBinding("/signup")
-public class RegisterActionBean extends BaseActionBean {
-	private static final Logger logger = Logger.getLogger(RegisterActionBean.class.getName());
+public class ZZNotUsedRegisterActionBean extends BaseActionBean {
+	private static final Logger logger = Logger.getLogger(ZZNotUsedRegisterActionBean.class.getName());
 	private static final String URL = "/WEB-INF/jsp/register.jsp";
 	
 	private User user;
@@ -54,9 +54,9 @@ public class RegisterActionBean extends BaseActionBean {
 		if (!getConfirmPassword().equals(user.getPassword())) {
 			errors.add("confirmPassword", new LocalizableError("confirmPassword.mismatch"));			
 		}
-		if (UserDao.userExists(user.getUserName().toLowerCase())) {			
-			errors.add("user.userName", new LocalizableError("user.userName.exists"));				
-		}
+		//if (UserDao.userExists(user.getUserName().toLowerCase())) {			
+		//	errors.add("user.userName", new LocalizableError("user.userName.exists"));				
+		//}
 	}
 	
 	@DontValidate

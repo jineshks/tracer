@@ -16,6 +16,15 @@
           			<dd>${user.userName}</dd>          			
           			<dt>Display Name</dt>          													
           			<dd> ${user.displayName}</dd>
+          			<c:if test="${actionBean.context.loggedUser eq user.userName}">
+          			<dt>Change Password</dt>
+          			<dd>
+          				Click 
+          				<a href="${contextPath}/user/changepassword">
+    						here      			
+	          			</a>	          			        			
+          			</dd>          			
+          			</c:if>
           		</dl>         	      		
           	</div>	
           </div>           
