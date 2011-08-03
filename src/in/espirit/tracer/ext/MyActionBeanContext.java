@@ -1,5 +1,6 @@
 package in.espirit.tracer.ext;
 
+import in.espirit.tracer.database.dao.UserDao;
 import net.sourceforge.stripes.action.ActionBeanContext;
 
 public class MyActionBeanContext extends ActionBeanContext {
@@ -10,6 +11,10 @@ public class MyActionBeanContext extends ActionBeanContext {
 	
 	public String getLoggedUser() {
 		return (String) getRequest().getSession().getAttribute("loggedUser");
+	}
+	
+	public boolean isUserAdmin() throws Exception {
+		return UserDao.isUserAdmin(getLoggedUser());
 	}
 	
 	public void deleteLoggedUser() {

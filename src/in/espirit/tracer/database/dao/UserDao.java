@@ -39,7 +39,7 @@ public class UserDao{
 		ResultSet rs = null;
 		User u = new User();
 			
-		String query = "SELECT f_username, f_password, f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion FROM t_userdetails where f_userName='" + userName + "'";
+		String query = "SELECT f_username, f_password, f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion, f_approvalstatus FROM t_userdetails where f_userName='" + userName + "'";
 		
 		try {
 			st = con.createStatement();
@@ -58,7 +58,8 @@ public class UserDao{
 				u.setStatus(rs.getString(10));
 				u.setWhoAmI(rs.getString(11));
 				u.setSkills(rs.getString(12));
-				u.setPassion(rs.getString(13));						
+				u.setPassion(rs.getString(13));		
+				u.setApprovalStatus(Integer.parseInt(rs.getString(14)));
 			}
 			if (rs != null) {
 
@@ -70,7 +71,7 @@ public class UserDao{
 			}
 
 		} catch (Exception e) {
-			logger.error("Getting milestone failed with error " + e.getMessage());
+			logger.error("Getting user details failed with error " + e.getMessage());
 			if (rs != null) {
 				rs.close();
 			}
@@ -98,7 +99,7 @@ public class UserDao{
 		
 		ArrayList<User> result = new ArrayList<User>();
 			
-		String query = "SELECT f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion FROM t_userdetails ORDER BY f_team ASC";
+		String query = "SELECT f_displayname, f_email, f_emailsecond, f_phone, f_chatid, f_web, f_team, f_status, f_whoami, f_skills, f_passion, f_userName FROM t_userdetails where f_approvalStatus=1 ORDER BY f_team ASC";
 		
 		try {
 			st = con.createStatement();
@@ -117,6 +118,7 @@ public class UserDao{
 				u.setWhoAmI(rs.getString(9));
 				u.setSkills(rs.getString(10));
 				u.setPassion(rs.getString(11));		
+				u.setUserName(rs.getString(12));
 				result.add(u);
 			}
 			if (rs != null) {
@@ -130,6 +132,59 @@ public class UserDao{
 
 		} catch (Exception e) {
 			logger.error("Getting user list failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return result;
+	}
+	
+	public static ArrayList<User> getUserApprovalList() throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		
+		ArrayList<User> result = new ArrayList<User>();
+			
+		String query = "SELECT f_userName, f_displayname, f_email, f_team, f_skills  FROM t_userdetails where f_approvalStatus=0";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+			
+			while (rs.next()) {	
+				User u = new User();
+				u.setUserName(rs.getString(1));
+				u.setDisplayName(rs.getString(2));
+				u.setEmail(rs.getString(3));
+				u.setTeam(rs.getString(4));
+				u.setSkills(rs.getString(5));
+				result.add(u);
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting approval user list failed with error " + e.getMessage());
 			if (rs != null) {
 				rs.close();
 			}
@@ -216,6 +271,64 @@ public class UserDao{
 		return userExists;
 	}
 	
+	public static Boolean isUserAdmin(String userName) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		Boolean isUserAdmin = false;
+		
+		String[] adminUser = CustomDao.getResourceMessage("admin.userNames").split(",");
+		
+		for(String s: adminUser)  {
+			if (s.equalsIgnoreCase(userName)) { 
+				isUserAdmin = true;
+				break;
+			}
+		}
+		
+		return isUserAdmin;
+		
+		/*
+		 * 
+		 
+		String query = "SELECT * FROM t_userdetails WHERE f_username='" + userName +"'";
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				userExists = true;
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		*/
+	}
+	
 	public static Boolean checkPassword(String userName, String password) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -299,31 +412,53 @@ public class UserDao{
 	}
 	
 	public static void changePassword(String userName, String password) throws Exception {
+		String query = "Update t_userdetails SET f_password='" + password + "' where  f_username='" + userName +"'";
+		executeUpdate(query);
+	}
+	
+	public static void userAdminAction(String userName, int status) throws Exception {
+		// the value status 1 stands for approve where as -1 stands for rejection.
+		String query = "Update t_userdetails SET f_approvalStatus=" + status + " where  f_username='" + userName +"'";
+		executeUpdate(query);
+	}
+	
+	
+	public static int UserApprovalStatus(String userName) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
-		    
-		String query = "Update t_userdetails SET f_password='" + password + "' where  f_username='" + userName +"'";
+		ResultSet rs = null;
+		int status = -2;   // just other value than -1, 0 and 1 used in our application.
+		
+		String query = "SELECT f_approvalStatus FROM t_userdetails WHERE f_username='" + userName +"'";
+
 		try {
 			st = con.createStatement();
-			st.executeUpdate(query);
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				status = Integer.parseInt(rs.getString(1));
+			}
+			if (rs != null) {			
+				rs.close();
+			}
 			if (st != null) {
 				st.close();
 			}
-
 		} catch (Exception e) {
-
+			if (rs != null) {
+				rs.close();
+			}
 			if (st != null) {
 				st.close();
 			}
 			throw new Exception(e.getMessage());
-
 		} // catch Close
-
 		finally {
 			if (con != null)
 				con.close(); // close connection		
-		}		
+		}// end finally		
+		return status;
 	}
 	
 	private static boolean executeUpdate(String query) throws Exception{

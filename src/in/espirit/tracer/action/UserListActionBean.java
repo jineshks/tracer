@@ -11,11 +11,14 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-@UrlBinding("/list/user")
+@UrlBinding("/list/user/{view}")
 public class UserListActionBean extends BaseActionBean {
 	
-	private static final String URL = "/WEB-INF/jsp/user_list.jsp";
-
+	private static final String URL_LISTING = "/WEB-INF/jsp/user_list.jsp";
+	private static final String URL_ADMINAPPROVAL = "/WEB-INF/jsp/user_approval_list.jsp";
+	
+	private String view;
+	
 	public HashMap<String, ArrayList<User>> getUserList() throws Exception {
 		HashMap<String, ArrayList<User>> result = new HashMap<String, ArrayList<User>>();
 		ArrayList<User> from_db = UserDao.getUserList();
@@ -51,9 +54,23 @@ public class UserListActionBean extends BaseActionBean {
 		return result;
 	}
 		
+	public ArrayList<User> getUserApprovalList() throws Exception {
+		return UserDao.getUserApprovalList();
+	}
+	
+	
 	@DefaultHandler
 	public Resolution open() throws Exception {
-		return new ForwardResolution(URL);	
+		//Make a check whether the user is admin or not.
+		
+		return new ForwardResolution((view.equalsIgnoreCase("approval"))?URL_ADMINAPPROVAL:URL_LISTING);	
+	}
+
+	public String getView() {
+		return view;
+	}
+
+	public void setView(String view) {
+		this.view = view;
 	}	
-	
 }

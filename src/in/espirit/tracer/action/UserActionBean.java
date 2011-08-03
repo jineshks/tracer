@@ -8,6 +8,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
+import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.ValidationErrors;
@@ -91,10 +92,31 @@ public class UserActionBean extends BaseActionBean {
 		logger.debug("User document edited -" + user.getUserName());		
 		return new RedirectResolution(DashboardActionBean.class);			
 	}
+	
+	public Resolution approve() throws Exception {
+		//call function to sent email.
+		UserDao.userAdminAction(userName, 1);
+		getContext().getMessages().add(new SimpleMessage("User Registration is approved. E-Mail sent to user"));	
+		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
+	}
+	
+	public Resolution reject() throws Exception {
+		//call function to sent email.
+		UserDao.userAdminAction(userName, -1);
+		getContext().getMessages().add(new SimpleMessage("User Registration is rejected. E-Mail sent to user"));	
+		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
+	}
+	
+	public Resolution checkUserName() throws Exception {
+		boolean flag = UserDao.userExists(userName);
+		if (flag) {
+			return new StreamingResolution("text/plain", "exists");
+		}
+		return new StreamingResolution("text/plain", "avail");
+	}
 
 	public User getUser() {
 		if (userName!=null && !userName.equalsIgnoreCase("new")) {
-			System.out.println("in getting user details");
 			try {
 				return UserDao.getUserByName(userName);
 			} catch (Exception e) {

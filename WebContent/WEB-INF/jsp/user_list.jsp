@@ -19,7 +19,7 @@
 				<div class="column grid-5 il">
 				<dl>
 					<dt>Name</dt>
-					<dd>${user.displayName}</dd>
+					<dd><a href="${contextPath}/user/${user.userName}">${user.displayName}</a></dd>
 					<dt>Status</dt>
 					<dd>${user.status}</dd>
 					<dt>Who am i?</dt>
