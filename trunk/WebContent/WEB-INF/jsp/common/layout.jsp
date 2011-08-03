@@ -102,7 +102,10 @@
 							<h6>User</h6>
 							<ul>
 								<li>
-									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}" >My Profile</s:link>
+									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}" >View My Profile</s:link>
+								</li>
+								<li>
+									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}/edit" >Edit My Profile</s:link>
 								</li>
 								<li>
 									<s:link href="${contextPath}/user/changepassword" >Change Password</s:link>
@@ -113,17 +116,22 @@
 								</li>								
 							</ul>
 						</div>
-					</div>					
+					</div>
+					<c:if test="${actionBean.context.userAdmin eq true}">		
 					<div class="column grid-2">
 						<div class="tal">
 							<h6>Admin</h6>
 							<ul>
 								<li>
-									<s:link href="${contextPath}/list/config" >Config </s:link>
+									<s:link href="${contextPath}/list/config" >Milestone </s:link>
+								</li>
+								<li>
+									<s:link href="${contextPath}/list/user/approval" >User Approval</s:link>
 								</li>
 							</ul>
 						</div>
 					</div>
+					</c:if>
 					<div class="column grid-2">
 						<p class="tal">
 						</p>

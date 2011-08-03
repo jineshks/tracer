@@ -59,7 +59,7 @@
 				<div class="il">
 				<dl>
 					<dt>Team</dt>          													
-          			<dd> <s:text name="user.team" placeholder="Status"></s:text></dd>
+          			<dd> <s:text name="user.team" placeholder="Team"></s:text></dd>
           			<dt>Status</dt>          													
           			<dd> <s:text name="user.status" placeholder="Status"></s:text></dd>
           			<dt>Who am I?</dt>          													
@@ -88,9 +88,11 @@
 <s:layout-component name="inlineScripts">
 	
 $(document).ready(function(){
+	
 	showInfo();
 
 	$("form").bind("submit", function(event) {
+		var submitFlag = true;
 		if ($("input[name='user.userName']").val()=='') {
 			showMessage('User Name is a mandatory field');
 			return false;
@@ -98,7 +100,28 @@ $(document).ready(function(){
 		if ($("input[name='user.password']").val()!=$("input[name='confirmPassword']").val()) {
 			showMessage('Password and Confirm Password doesn\'t match!');
 			return false;
-		}	
+		}
+		
+		// Make a check for valid email address.. if needed verify against the db.
+		
+		if ($("form :submit").attr('name')=='submit') { 
+			var loadUrl = "/tracer/user/"+$("input[name='user.userName']").val()+"?checkUserName";
+			$.ajax({
+	       		url : loadUrl,  
+	           	success : function(responseText){ 
+	            			if(responseText=="exists") {
+	               				submitFlag = false;	               				
+	               			}               			
+	             		},  
+	            async : false  
+	     	}); 	
+	     
+	     	if (submitFlag==false) {
+	     		showMessage('UserName is already taken. Please enter a different Name')
+	     	return false;
+	     	}
+	     }
+	         		
 	});
 	
 });

@@ -16,6 +16,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.LocalizableError;
+import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrors;
@@ -42,14 +43,23 @@ public class LoginActionBean extends BaseActionBean{
 	
 	@ValidationMethod(when=ValidationState.NO_ERRORS)
 	public void checkLogin(ValidationErrors errors) throws Exception {
+		int status = UserDao.UserApprovalStatus(user.getUserName().toLowerCase());
 		if (!UserDao.userExists(user.getUserName().toLowerCase())) {		
 			logger.warn("Login Attempt Failed - Incorrect user Name >> " + user.getUserName());
-			errors.add("user.userName", new LocalizableError("user.userName.wrong"));				
+			errors.add("user.userName", new LocalizableError("user.userName.wrong"));	
 		}
 		else if (!UserDao.checkPassword(user.getUserName().toLowerCase(), user.getPassword())) {
 			logger.warn("Login Attempt Failed - Incorrect password >> " + user.getUserName());
-			errors.add("user.password", new LocalizableError("user.password.wrong"));	
+			errors.add("user.password", new LocalizableError("user.password.wrong"));			
 		}	
+		else if (status==0) { //only if status is 1 permit login.
+			logger.warn("Login Attempt Failed - User not yet approved >> " + user.getUserName());
+			errors.addGlobalError(new LocalizableError("user.waitingforapproval"));	
+		}
+		else if (status==-1) {
+			logger.warn("Login Attempt Failed - User application rejected>> " + user.getUserName());
+			errors.addGlobalError(new LocalizableError("user.applicationrejected"));			
+		}
 	}
 	
 	@DontValidate

@@ -58,9 +58,15 @@
 				</div>
 			</div>           
       </div> 
-    
-	
-    </div>
+   </div>
+   
+   		<c:if test="${actionBean.context.userAdmin eq true && user.approvalStatus eq 0}">	
+							<s:form beanclass="in.espirit.tracer.action.UserActionBean">
+								<s:hidden name="userName">${user.userName}</s:hidden>
+								<s:submit name="approve" value="Approve"/>
+								<s:submit name="reject" value="Reject"/>							
+							</s:form>
+		</c:if>
   </div>
 
 </s:layout-component>
