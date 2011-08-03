@@ -88,14 +88,14 @@ public class UserActionBean extends BaseActionBean {
 	
 	public Resolution approve() throws Exception {
 		//call function to sent email.
-		UserDao.adminApprove(userName);
+		UserDao.adminApprove(user.getUserName(), user.getRole());
 		getContext().getMessages().add(new SimpleMessage("User Registration is approved. E-Mail sent to user"));	
 		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
 	}
 	
 	public Resolution reject() throws Exception {
 		//call function to sent email.
-		UserDao.adminReject(userName);
+		UserDao.adminReject(user.getUserName());
 		getContext().getMessages().add(new SimpleMessage("User Registration is rejected. E-Mail sent to user"));	
 		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
 	}

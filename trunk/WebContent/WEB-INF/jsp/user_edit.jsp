@@ -111,8 +111,6 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		// Make a check for valid email address.. if needed verify against the db.
-		
 		if ($("form :submit").attr('name')=='submit') { 
 			var loadUrl = "/tracer/user/"+$("input[name='user.userName']").val()+"~"+ $("input[name='user.email']").val() +"?checkUserNameEmail";
 			$.ajax({

@@ -416,9 +416,9 @@ public class UserDao{
 		executeUpdate(query);
 	}
 	
-	public static void adminApprove(String userName) throws Exception {
+	public static void adminApprove(String userName, String role) throws Exception {
 		// the value status 1 stands for approve where as -1 stands for rejection.
-		String query = "Update t_userdetails SET f_approvalStatus=1 where  f_username='" + userName +"'";
+		String query = "Update t_userdetails SET f_approvalStatus=1, f_role='" + role +"' where  f_username='" + userName +"'";
 		executeUpdate(query);
 	}
 	
