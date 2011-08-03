@@ -226,20 +226,20 @@ public class UserDao{
 		return flag;		
 		}
 	
-	public static Boolean userExists(String userName) throws Exception{
+	public static Boolean valueExists(String key, String value) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		ResultSet rs = null;
-		Boolean userExists = false;
+		Boolean exists = false;
 		
-		String query = "SELECT * FROM t_userdetails WHERE f_username='" + userName +"'";
+		String query = "SELECT * FROM t_userdetails WHERE " + key + "='" + value +"'";
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
 				
 			while (rs.next()) {
-				userExists = true;
+				exists = true;
 			}
 			if (rs != null) {
 			
@@ -268,7 +268,7 @@ public class UserDao{
 				con.close(); // close connection		
 		}// end finally	
 		
-		return userExists;
+		return exists;
 	}
 	
 	public static Boolean isUserAdmin(String userName) throws Exception{
@@ -416,12 +416,17 @@ public class UserDao{
 		executeUpdate(query);
 	}
 	
-	public static void userAdminAction(String userName, int status) throws Exception {
+	public static void adminApprove(String userName) throws Exception {
 		// the value status 1 stands for approve where as -1 stands for rejection.
-		String query = "Update t_userdetails SET f_approvalStatus=" + status + " where  f_username='" + userName +"'";
+		String query = "Update t_userdetails SET f_approvalStatus=1 where  f_username='" + userName +"'";
 		executeUpdate(query);
 	}
 	
+	public static void adminReject(String userName) throws Exception {
+		// the value status 1 stands for approve where as -1 stands for rejection.
+		String query = "DELETE FROM t_userdetails where  f_username='" + userName +"'";
+		executeUpdate(query);
+	}
 	
 	public static int UserApprovalStatus(String userName) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();

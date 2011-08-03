@@ -44,7 +44,7 @@ public class LoginActionBean extends BaseActionBean{
 	@ValidationMethod(when=ValidationState.NO_ERRORS)
 	public void checkLogin(ValidationErrors errors) throws Exception {
 		int status = UserDao.UserApprovalStatus(user.getUserName().toLowerCase());
-		if (!UserDao.userExists(user.getUserName().toLowerCase())) {		
+		if (!UserDao.valueExists("f_userName", user.getUserName().toLowerCase())) {		
 			logger.warn("Login Attempt Failed - Incorrect user Name >> " + user.getUserName());
 			errors.add("user.userName", new LocalizableError("user.userName.wrong"));	
 		}

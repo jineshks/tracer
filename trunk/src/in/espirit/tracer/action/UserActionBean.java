@@ -59,14 +59,7 @@ public class UserActionBean extends BaseActionBean {
 		}		
 		return new ForwardResolution(displayView);		
 	}
-	
-	@ValidationMethod(on="submit")
-	public void valMethod(ValidationErrors errors) throws Exception{	
-		if (UserDao.userExists(user.getUserName().toLowerCase())) {			
-			errors.addGlobalError(new SimpleError("User Name already exists. Please select a different name"));
-		}
-	}
-	
+		
 	public Resolution submit() throws Exception {
 		user = getUser();
 		boolean flag = UserDao.registerUser(user);		
@@ -95,24 +88,30 @@ public class UserActionBean extends BaseActionBean {
 	
 	public Resolution approve() throws Exception {
 		//call function to sent email.
-		UserDao.userAdminAction(userName, 1);
+		UserDao.adminApprove(userName);
 		getContext().getMessages().add(new SimpleMessage("User Registration is approved. E-Mail sent to user"));	
 		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
 	}
 	
 	public Resolution reject() throws Exception {
 		//call function to sent email.
-		UserDao.userAdminAction(userName, -1);
+		UserDao.adminReject(userName);
 		getContext().getMessages().add(new SimpleMessage("User Registration is rejected. E-Mail sent to user"));	
 		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
 	}
 	
-	public Resolution checkUserName() throws Exception {
-		boolean flag = UserDao.userExists(userName);
-		if (flag) {
-			return new StreamingResolution("text/plain", "exists");
+	public Resolution checkUserNameEmail() throws Exception {
+		String[] val = userName.split("~");  // userName shall have two values one is username and email separated by commas.
+		String res = "";
+		boolean userNameFlag = UserDao.valueExists("f_userName",val[0]);
+		if (userNameFlag) {
+			res +="UserName";
 		}
-		return new StreamingResolution("text/plain", "avail");
+		boolean emailFlag = UserDao.valueExists("f_email", val[1]);
+		if (emailFlag) {
+			res +="Email";
+		}			
+		return new StreamingResolution("text/plain", res);
 	}
 
 	public User getUser() {

@@ -160,3 +160,6 @@ CREATE TABLE t_attachments
   f_name text,
   f_ticketid integer
 );
+
+INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus) VALUES('admin','admin','Administrator',1)
+
