@@ -55,7 +55,7 @@ public class ReceiveChatMessageAction extends BaseActionBean {
 	          Message message = (Message)it.next();
 	          String postedBy = message.getSentBy();
 	          String messageText = message.getText();
-	          sb.append( "<font color=\"#000000\"><b>"  + postedBy + "</b></font> "+"    :"+"<font color=\"#A52A2A\">"+messageText +"</font><br/>");	
+	          sb.append( "<div class=\"bubble\"> <span class=\"bold\">"  + postedBy + "</span> "+"     :"+"<span class=\"text\">"+messageText +"</span> </div>");
 	          lastDateTime = message.getSentDateTime();
 	        }
 	      

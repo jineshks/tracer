@@ -17,12 +17,12 @@
 			 <div class="column  grid-6" >
 			 		<div class="box chatpane ">
 			 		<div id="chat">
-			 			<div class="item blue">
+			 			<div class="chatprofile green">
 								<span class="photo"> <img width="48px" height="48px" src="images/m48.png" alt=""> </span>
 								<div id="chatHeading"></div>											 				
 			 			</div>
 			 			
-			 			<div class="chatprofile blue" id ="chatMessageArea" >
+			 			<div class="chat" id ="chatMessageArea" >
 			 				
 			 			</div>
 			 			
