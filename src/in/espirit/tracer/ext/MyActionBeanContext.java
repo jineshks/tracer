@@ -13,8 +13,8 @@ public class MyActionBeanContext extends ActionBeanContext {
 		return (String) getRequest().getSession().getAttribute("loggedUser");
 	}
 	
-	public boolean isUserAdmin() throws Exception {
-		return UserDao.isUserAdmin(getLoggedUser());
+	public String getUserRole() throws Exception {
+		return UserDao.getUserRole(getLoggedUser());
 	}
 	
 	public void deleteLoggedUser() {

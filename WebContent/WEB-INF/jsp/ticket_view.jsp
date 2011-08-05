@@ -11,6 +11,7 @@
 <c:if test="${actionBean.ticket.type eq 'requirement'}">
 <c:set var="beanclass" value="in.espirit.tracer.action.RequirementActionBean"></c:set>
 </c:if>
+  <c:set var="userRole" value="${actionBean.context.userRole}"></c:set>		
   <jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
   	<div id="bodycontent">
 		<div class="row">
@@ -68,7 +69,7 @@
 						<div id="uploadResult">
 						
 						</div>	
-																									
+						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">																	
 						<s:form name="uploadForm" action="/attachments" target="uploadTarget">	
 							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
@@ -85,6 +86,7 @@
 							</div>	
 							<div id="uploadProcess" style="visibility:hidden;"> Uploading is in progress..... (Replace it with image)</div>																												
 						</s:form>
+						</c:if>
 					</div>
 													
 					<iframe id="uploadTarget" name="uploadTarget" src="#" style="width:0;height:0;border:0px solid #fff;">			
@@ -107,7 +109,7 @@
 						<div id="result">
 						
 						</div>
-						
+						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
 						<s:form action="/comments">	
 							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
@@ -121,6 +123,7 @@
 							<input name="postComment" type="button" id="commentButton" value="Post comment" class="orange">
 						</div>
 						</s:form>
+						</c:if>
 					</div>
 
 				</div>
@@ -190,7 +193,9 @@
 			          			<dt> Tags </dt>
           						<dd><s:text name="ticket.tags" placeholder="Tags, comma separated"/> </dd>
 							</dl>
-						<s:submit name="submit" value="Submit"/>
+							<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+								<s:submit name="submit" value="Submit"/>
+							</c:if>
 					</div>
 				</s:form>
 				</div>
