@@ -74,7 +74,7 @@
       </div> 
    </div>
    
-   		<c:if test="${actionBean.context.userAdmin eq true && user.approvalStatus eq 0}">	
+   		<c:if test="${actionBean.context.userRole eq 'Admin' && user.approvalStatus eq 0}">	
 							<s:form beanclass="in.espirit.tracer.action.UserActionBean">
 								<s:hidden name="user.userName">${user.userName}</s:hidden>
 								<s:select name="user.role">

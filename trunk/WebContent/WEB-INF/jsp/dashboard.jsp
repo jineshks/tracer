@@ -4,6 +4,7 @@
 	<s:messages/>
 </s:layout-component>
 	<s:layout-component name="body">
+		<c:set var="userRole" value="${actionBean.context.userRole}"></c:set>			
 		<div id="bodycontent">
 			<div id="main-section">
 				<div class="row">
@@ -13,7 +14,9 @@
 								<h6>Tasks</h6>	
 								<span class="right">
 									<s:link class="task" href="list/task/all" >All </s:link>
-									<s:link class="new ml" href="/task/new" >New </s:link>
+									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+										<s:link class="new ml" href="/task/new" >New </s:link>
+									</c:if>
 								</span>
 							</div>
 							<div class="pt">
@@ -32,7 +35,9 @@
 								<h6>Defects</h6>	
 								<span class="right">
 									<s:link class="defect" href="list/defect/all" >All </s:link>
-									<s:link class="new ml" href="/defect/new" >New </s:link>
+									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+										<s:link class="new ml" href="/defect/new" >New </s:link>
+									</c:if>
 								</span>
 							</div>
 							<div class="pt">
@@ -50,7 +55,9 @@
 								<h6>User Stories</h6>	
 								<span class="right">
 									<s:link class="story" href="list/requirement/all" >All </s:link>
-									<s:link class="new ml" href="/requirement/new" >New </s:link>
+									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+										<s:link class="new ml" href="/requirement/new" >New </s:link>
+									</c:if>
 								</span>
 							</div>
 							<div class="pt">
@@ -116,7 +123,9 @@
 								<h6>Alerts</h6>
 									<span class="right">
 									<s:link class="defect" href="list/alert/all" >All </s:link>
-									<s:link class="new ml" href="/alert/new" >New </s:link>
+									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+										<s:link class="new ml" href="/alert/new" >New </s:link>
+									</c:if>
 								</span>
 							</div>
 							<div class="pt">

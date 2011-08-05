@@ -271,34 +271,23 @@ public class UserDao{
 		return exists;
 	}
 	
-	public static Boolean isUserAdmin(String userName) throws Exception{
+	public static String getUserRole(String userName) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		ResultSet rs = null;
-		Boolean isUserAdmin = false;
+		String role = "";
 		
-		String[] adminUser = CustomDao.getResourceMessage("admin.userNames").split(",");
-		
-		for(String s: adminUser)  {
-			if (s.equalsIgnoreCase(userName)) { 
-				isUserAdmin = true;
-				break;
-			}
-		}
-		
-		return isUserAdmin;
-		
-		/*
-		 * 
+			
 		 
-		String query = "SELECT * FROM t_userdetails WHERE f_username='" + userName +"'";
+		String query = "SELECT f_role FROM t_userdetails WHERE f_username='" + userName +"'";
+		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
 				
 			while (rs.next()) {
-				userExists = true;
+				role = rs.getString(1);
 			}
 			if (rs != null) {
 			
@@ -326,7 +315,9 @@ public class UserDao{
 			if (con != null)
 				con.close(); // close connection		
 		}// end finally	
-		*/
+		
+		return role;
+		
 	}
 	
 	public static Boolean checkPassword(String userName, String password) throws Exception{
