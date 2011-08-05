@@ -19,7 +19,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
-@UrlBinding("/defect/{ticket}")
+@UrlBinding("/defect/{ticket}/{parentTicketId}")
 public class DefectActionBean extends TicketActionBean {
 	
 	/*
@@ -34,6 +34,7 @@ public class DefectActionBean extends TicketActionBean {
 	 */
 		
 	private Defect ticket;
+	private String parentTicketId;
 	
 	
 	@DefaultHandler
@@ -41,6 +42,9 @@ public class DefectActionBean extends TicketActionBean {
 		logger.debug("Opening defect edit / new");
 		getContext().setCurrentSection("new" + ticket.getType());
 		if (ticket.getId() == null ){
+			if (parentTicketId != null) {
+				ticket.setParentTicket(parentTicketId);
+			}
 			return new ForwardResolution(URL_New);
 		}
 		else {
@@ -89,5 +93,13 @@ public class DefectActionBean extends TicketActionBean {
 	
 	public ArrayList<Ticket> getSubTickets() throws Exception {
 		return TicketDao.getSubTicketDetails(ticket.getId());		
+	}
+
+	public void setParentTicketId(String parentTicketId) {
+		this.parentTicketId = parentTicketId;
+	}
+
+	public String getParentTicketId() {
+		return parentTicketId;
 	}	
 }
