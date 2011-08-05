@@ -18,7 +18,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
-@UrlBinding("/task/{ticket}")
+@UrlBinding("/task/{ticket}/{parentTicketId}")
 public class TaskActionBean extends TicketActionBean {
 	
 	/*	 
@@ -30,12 +30,16 @@ public class TaskActionBean extends TicketActionBean {
 	*/
 	
 	private Task ticket;
+	private String parentTicketId;
 
 	@DefaultHandler
 	public Resolution open() {
 		logger.debug("Opening task edit / new");
 		getContext().setCurrentSection("new" + ticket.getType());
 		if (ticket.getId() == null ){
+			if (parentTicketId != null) {
+				ticket.setParentTicket(parentTicketId);
+			}
 			return new ForwardResolution(URL_New);
 		}
 		else {
@@ -84,6 +88,13 @@ public class TaskActionBean extends TicketActionBean {
 	
 	public ArrayList<Ticket> getSubTickets() throws Exception {
 		return TicketDao.getSubTicketDetails(ticket.getId());		
-	}	
+	}
 
+	public void setParentTicketId(String parentTicketId) {
+		this.parentTicketId = parentTicketId;
+	}
+
+	public String getParentTicketId() {
+		return parentTicketId;
+	}	
 }

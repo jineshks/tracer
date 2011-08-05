@@ -15,7 +15,7 @@ import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
-@UrlBinding("/requirement/{ticket}")
+@UrlBinding("/requirement/{ticket}/{parentTicketId}")
 public class RequirementActionBean extends TicketActionBean {
 	
 	/*
@@ -27,12 +27,16 @@ public class RequirementActionBean extends TicketActionBean {
 	})	
 	*/
 	private Requirement ticket;
+	private String parentTicketId;
 	
 	@DefaultHandler
 	public Resolution open() {
 		logger.debug("Opening requirement edit / new");
 		getContext().setCurrentSection("new" + ticket.getType());
 		if (ticket.getId() == null ){
+			if (parentTicketId != null) {
+				ticket.setParentTicket(parentTicketId);
+			}
 			return new ForwardResolution(URL_New);
 		}
 		else {
@@ -81,5 +85,13 @@ public class RequirementActionBean extends TicketActionBean {
 	
 	public ArrayList<Ticket> getSubTickets() throws Exception {
 		return TicketDao.getSubTicketDetails(ticket.getId());		
+	}
+
+	public void setParentTicketId(String parentTicketId) {
+		this.parentTicketId = parentTicketId;
+	}
+
+	public String getParentTicketId() {
+		return parentTicketId;
 	}	
 }

@@ -17,13 +17,13 @@
 		<div class="row">
 		<div class="column grid-10"><s:errors globalErrorsOnly="true"></s:errors>
 		<div class="box">
-		<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4>
+		<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4> 
 		<h5>Description</h5>
 		<p>${actionBean.ticket.desc}</p>
 		</div>
 		<c:set var="parentTicket" value="${actionBean.parentTicket}"></c:set>
-		<c:set var="subTickets" value="${actionBean.subTickets}"></c:set> <c:if
-			test="${parentTicket ne null  or subTickets ne null}">
+		<c:set var="subTickets" value="${actionBean.subTickets}"></c:set> 
+		<c:if test="${parentTicket ne null  or subTickets ne null}">
 			<div class="box">
 			<div><c:if test="${parentTicket ne null}">
 				<h4>Parent Ticket</h4>
@@ -131,14 +131,27 @@
 			
 			<div class="column grid-6">
 				<div class="box">
-					<h4>Properties</h4>
 					<s:form beanclass="${beanclass}">	
+					<h4>Properties</h4>
+						
 						<s:hidden name="ticket.id"></s:hidden>
 						<s:hidden name="ticket.type"></s:hidden>
 						<s:hidden name="ticket.title"></s:hidden>
 						<s:hidden name="ticket.desc"></s:hidden>
 						<div class="il">
 							<dl>
+								<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+									<dt>Create Sub ticket</dt>
+									<dd>
+										<a href="${contextPath}/task/new/${actionBean.ticket.id}">task</a> | 
+											<c:if test="${actionBean.ticket.type ne 'requirement'}">
+												<a href="${contextPath}/defect/new/${actionBean.ticket.id}">defect</a> |
+											</c:if>
+										<c:if test="${actionBean.ticket.type ne 'defect'}">
+										 	<a href="${contextPath}/requirement/new/${actionBean.ticket.id}">story</a>
+										 </c:if>
+									</dd>
+								</c:if>
 								<dt> Importance </dt>
 			          			<dd>
 			          				<s:select name="ticket.importance">
