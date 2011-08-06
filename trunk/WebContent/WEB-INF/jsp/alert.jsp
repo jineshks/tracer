@@ -60,7 +60,7 @@
 	<s:layout-component name="inlineScripts">
 	
 $(document).ready(function(){
-	$.datepicker.formatDate('yy-mm-dd', new Date(2007, 1 - 1, 26));
+	$.datepicker.formatDate('yy-mm-dd');
 	$("#startDate").datepicker({ dateFormat: 'yy-mm-dd' });
 	$("#startTime").timepicker({});	
 	$("#endDate").datepicker({ dateFormat: 'yy-mm-dd' });
