@@ -131,6 +131,20 @@
 			
 			<div class="column grid-6">
 				<div class="box">
+					<h4>New</h4>
+					<p class="pt">
+						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+								<a class="new ml"href="${contextPath}/task/new/${actionBean.ticket.id}">Task</a>
+								<c:if test="${actionBean.ticket.type ne 'requirement'}">
+									<a class="new ml" href="${contextPath}/defect/new/${actionBean.ticket.id}">Defect</a>
+								</c:if>
+								<c:if test="${actionBean.ticket.type ne 'defect'}">
+								 	<a class="new ml" href="${contextPath}/requirement/new/${actionBean.ticket.id}">Story</a>
+								 </c:if>
+						</c:if>
+					</p>
+				</div>						
+				<div class="box">
 					<s:form beanclass="${beanclass}">	
 					<h4>Properties</h4>
 						
@@ -140,18 +154,6 @@
 						<s:hidden name="ticket.desc"></s:hidden>
 						<div class="il">
 							<dl>
-								<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
-									<dt>Create Sub ticket</dt>
-									<dd>
-										<a href="${contextPath}/task/new/${actionBean.ticket.id}">task</a> | 
-											<c:if test="${actionBean.ticket.type ne 'requirement'}">
-												<a href="${contextPath}/defect/new/${actionBean.ticket.id}">defect</a> |
-											</c:if>
-										<c:if test="${actionBean.ticket.type ne 'defect'}">
-										 	<a href="${contextPath}/requirement/new/${actionBean.ticket.id}">story</a>
-										 </c:if>
-									</dd>
-								</c:if>
 								<dt> Importance </dt>
 			          			<dd>
 			          				<s:select name="ticket.importance">

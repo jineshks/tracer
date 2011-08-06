@@ -4,6 +4,7 @@
 	<s:messages/>
 </s:layout-component>
 <s:layout-component name="body">  
+	<c:set var="userRole" value="${actionBean.context.userRole}"></c:set>	
   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-12">
@@ -31,6 +32,16 @@
 				</div>
 			</div>
 			<div class="column grid-4">
+				<div class="box">
+					<h4>New</h4>
+					<p class="pt">
+						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+								<a class="new ml" href="${contextPath}/task/new/">Task</a> 
+								<a class="new ml" href="${contextPath}/defect/new/">Defect</a>
+							 	<a class="new ml"href="${contextPath}/requirement/new/">Story</a>
+						</c:if>
+					</p>
+				</div>	
 				<div class="box">
 					<h4>Filter</h4>
 					<jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>
