@@ -23,9 +23,13 @@
 			          			<dd>
 			          				<s:text name="userName" placeholder="User Name"/>
 			        			</dd>
-			          			<dt> Date </dt>
+			          			<dt> From Date </dt>
 			          			<dd> 
-			          				<s:text id="activityDate" name="activityDate" placeholder="Activity Date"/>
+			          				<s:text id="fromDate" name="fromDate" placeholder="From Date"/>
+			        			</dd>
+			        			<dt> To Date </dt>
+			          			<dd> 
+			          				<s:text id="toDate" name="toDate" placeholder="To Date"/>
 			        			</dd>
 							</dl>
 							<s:submit name="filter" value="Filter"></s:submit>	
@@ -40,7 +44,8 @@
 	
 $(document).ready(function(){
 	$.datepicker.formatDate('yy-mm-dd');
-	$("#activityDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#fromDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#toDate").datepicker({ dateFormat: 'yy-mm-dd' });
 		
 	$("form").bind("submit", function(event) {	
 		
