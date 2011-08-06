@@ -28,7 +28,7 @@ public class DashboardActionBean extends BaseActionBean {
 	}
 	
 	public ArrayList<Activity> getActivities() throws Exception {
-		return ActivityDao.getActivities("5");		
+		return ActivityDao.getRecentActivities();		
 	}
 
 	public ArrayList<Ticket> getMyTasks() throws Exception {

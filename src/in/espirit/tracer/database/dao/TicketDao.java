@@ -40,7 +40,7 @@ public class TicketDao {
 	
 	public static void handleActivity(String activity, String loggedUser) throws Exception {		
 		Activity a = new Activity();
-		a.setTimeStamp(DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm"));		
+		a.setTimeStamp(DateUtils.getDatetimeInFormat("yyyy-MM-dd HH:mm"));		
 		a.setActivity(activity);
 		a.setUserName(loggedUser);
 		ActivityDao.registerActivity(a);		
