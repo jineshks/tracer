@@ -210,7 +210,7 @@ public class TicketDao {
 		
 		String query="";
 		
-		query = "SELECT f_id, f_title FROM " + tableName(type) + " WHERE f_owner='" + userName +"'";
+		query = "SELECT f_id, f_title, f_priority FROM " + tableName(type) + " WHERE f_owner='" + userName +"'";
 		
 		try {
 			st = con.createStatement();
@@ -220,6 +220,7 @@ public class TicketDao {
 				Ticket d = new Ticket();
 				d.setId(rs.getString(1));
 				d.setTitle(rs.getString(2));
+				d.setPriority(rs.getString(3));
 				result.add(d);
 			}
 			if (rs != null) {
