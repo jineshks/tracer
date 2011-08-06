@@ -8,6 +8,13 @@
 		<div class="row">
 			<div class="column grid-12">
 				<div class="box tac">
+					<ul id="tab">
+						<li class="${actionBean.type eq 'task' ? 'selected' : ''}"><a href="/tracer/list/task/all">Tasks</a></li>
+						<li class="${actionBean.type eq 'defect' ? 'selected' : ''}"><a href="/tracer/list/defect/all">Defects</a></li>
+						<li class="${actionBean.type eq 'requirement' ? 'selected' : ''}"><a href="/tracer/list/requirement/all">Stories</a></li>					
+						<li class="shadow"></li>
+					</ul>
+					
 					<d:table name="${actionBean.items}" id="ticket">
 					<d:column title="Id" property="id"></d:column>
 					<d:column title="Title">
@@ -95,6 +102,7 @@
 <s:layout-component name="inlineScripts">
   $(document).ready(function() {	
   	showInfo();
+  
   });
 </s:layout-component>  
 </s:layout-render>
