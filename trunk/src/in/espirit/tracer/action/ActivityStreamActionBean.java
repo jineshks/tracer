@@ -15,11 +15,11 @@ public class ActivityStreamActionBean extends BaseActionBean {
 	private static final String URL = "/WEB-INF/jsp/activitystream.jsp";
 	
 	private String userName;
-	private String activityDate;
+	private String fromDate, toDate;
 	
 	public ArrayList<Activity> getItems() throws Exception {
 		logger.debug("In the Activity Stream Listing page>>");
-		return ActivityDao.getActivities("all", userName, activityDate);				
+		return ActivityDao.getActivities("all", userName, fromDate, toDate);				
 	}
 	
 	@DefaultHandler
@@ -31,19 +31,27 @@ public class ActivityStreamActionBean extends BaseActionBean {
 		return new ForwardResolution(URL);
 	}
 
-	public void setActivityDate(String activityDate) {
-		this.activityDate = activityDate;
-	}
-
-	public String getActivityDate() {
-		return activityDate;
-	}
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
 }

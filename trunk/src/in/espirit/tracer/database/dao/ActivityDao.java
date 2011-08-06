@@ -47,7 +47,7 @@ public class ActivityDao {
 		}// end finally	
 	}
 
-	public static ArrayList<Activity> getActivities(String count, String userName, String activityDate) throws Exception{
+	public static ArrayList<Activity> getActivities(String count, String userName, String fromDate, String toDate) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -55,27 +55,40 @@ public class ActivityDao {
 		ArrayList<Activity> result = new ArrayList<Activity>();
 
 		String query="";
+		String selQuery = "";
 
 		query = "SELECT f_timeStamp, f_activity FROM t_activity";
+		
+		String[] filter = new String[3];
 			
-
-		if (userName != null || activityDate != null) {
-			query +=" WHERE ";			
-		}
-		
 		if (userName != null) {
-			query += " f_userName='" + userName + "'";
+			filter[0] = "f_userName='" + userName + "'";
 		}
 		
-		if (userName != null && activityDate != null) {
-			query +=" AND";			
+		if (fromDate !=null) {
+			filter[1]=" date(f_timestamp)>='" +  fromDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
+		}
+		
+		if (toDate !=null) {
+			filter[2]=" date(f_timestamp)<='" +  toDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.			
 		}
 
-		if (activityDate !=null) {
-			query +=" date(f_timestamp)='" +  activityDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
+		for(String s:filter){
+			if (!(s==null)) {
+				if (selQuery.equals("")) {
+					selQuery = s;
+				}
+				else {
+					selQuery = selQuery + " AND " + s;
+ 				}
+			}	
+		}	
+		
+		if (!selQuery.equalsIgnoreCase("")) {
+			query += " WHERE " + selQuery;
 		}
 		
-		query +=" ORDER BY f_ID DESC";
+		query += " ORDER BY f_ID DESC";
 		
 		try {
 			st = con.createStatement();
