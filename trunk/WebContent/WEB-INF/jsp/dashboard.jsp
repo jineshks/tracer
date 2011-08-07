@@ -118,7 +118,7 @@
 					</div>
 
 					<div class="column grid-4">
-						<div class="box orange">
+						<div class="box alert">
 							<div class="title">
 								<h6>Alerts</h6>
 									<span class="right">
