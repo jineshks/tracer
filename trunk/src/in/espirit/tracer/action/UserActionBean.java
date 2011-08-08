@@ -8,11 +8,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
-import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.validation.SimpleError;
-import net.sourceforge.stripes.validation.ValidationErrors;
-import net.sourceforge.stripes.validation.ValidationMethod;
 
 import org.apache.log4j.Logger;
 
@@ -27,52 +23,22 @@ public class UserActionBean extends BaseActionBean {
 	private String userName;
 	private String action;
 	
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	
 	@DefaultHandler
-	public Resolution open() {		
-		//String displayView = action==null?URL_VIEW:(action.equalsIgnoreCase("edit")?URL_EDIT:URL_VIEW);
-		String displayView;
-		if (userName.equalsIgnoreCase("new")) {
-			displayView = URL_EDIT;
-		}
-		else if (getContext().getLoggedUser()==null) {
-			getContext().getMessages().add(new SimpleMessage("You need to login first to view details"));
-			return new ForwardResolution(LoginActionBean.class);			
-		}
-		else if (action==null) {
+	public Resolution open() {
+		String displayView="";
+		if (action==null) {
 			displayView = URL_VIEW;
 		}
 		else if (action.equalsIgnoreCase("edit") && userName.equalsIgnoreCase(getContext().getLoggedUser())) {
 			displayView = URL_EDIT;
 		}
-		else {
+		else {  //to handle scenario where person is trying to edit other profiles or something else. 
 			getContext().getMessages().add(new SimpleMessage("You can't edit other person profiles. You can only view them"));
 			displayView = URL_VIEW;
 		}		
 		return new ForwardResolution(displayView);		
 	}
-		
-	public Resolution submit() throws Exception {
-		user = getUser();
-		boolean flag = UserDao.registerUser(user);		
-		if (flag) {
-			getContext().getMessages().add(new SimpleMessage("User Registered. Email sent for approval."));	
-		}
-		else {
-			getContext().getMessages().add(new SimpleMessage("Problem with Registration. Register Again"));	
-		}	
-		logger.debug("User regsitered and email sent for approval -" + user.getUserName());		
-		return new RedirectResolution(LoginActionBean.class);		
-	}
-	
+
 	public Resolution update() throws Exception {
 		user = getUser();
 		boolean flag = UserDao.editUser(user);
@@ -86,36 +52,9 @@ public class UserActionBean extends BaseActionBean {
 		return new RedirectResolution(DashboardActionBean.class);			
 	}
 	
-	public Resolution approve() throws Exception {
-		//call function to sent email.
-		UserDao.adminApprove(user.getUserName(), user.getRole());
-		getContext().getMessages().add(new SimpleMessage("User Registration is approved. E-Mail sent to user"));	
-		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
-	}
-	
-	public Resolution reject() throws Exception {
-		//call function to sent email.
-		UserDao.adminReject(user.getUserName());
-		getContext().getMessages().add(new SimpleMessage("User Registration is rejected. E-Mail sent to user"));	
-		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
-	}
-	
-	public Resolution checkUserNameEmail() throws Exception {
-		String[] val = userName.split("~");  // userName shall have two values one is username and email separated by commas.
-		String res = "";
-		boolean userNameFlag = UserDao.valueExists("f_userName",val[0]);
-		if (userNameFlag) {
-			res +="UserName";
-		}
-		boolean emailFlag = UserDao.valueExists("f_email", val[1]);
-		if (emailFlag) {
-			res +="Email";
-		}			
-		return new StreamingResolution("text/plain", res);
-	}
 
 	public User getUser() {
-		if (userName!=null && !userName.equalsIgnoreCase("new")) {
+		if (userName!=null) {
 			try {
 				return UserDao.getUserByName(userName);
 			} catch (Exception e) {
@@ -128,6 +67,14 @@ public class UserActionBean extends BaseActionBean {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public void setAction(String action) {
