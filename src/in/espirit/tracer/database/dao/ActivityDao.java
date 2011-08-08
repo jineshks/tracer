@@ -46,8 +46,8 @@ public class ActivityDao {
 				con.close(); // close connection		
 		}// end finally	
 	}
-
-	public static ArrayList<Activity> getActivities(String count, String userName, String fromDate, String toDate) throws Exception{
+			
+	public static ArrayList<Activity> getListingActivities(String userName, String fromDate, String toDate, Integer offset, Integer size) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -58,38 +58,10 @@ public class ActivityDao {
 		String selQuery = "";
 
 		query = "SELECT f_timeStamp, f_activity FROM t_activity";
-		
-		String[] filter = new String[3];
+		selQuery = formFilterQuery(userName, fromDate, toDate);
+		//query += " ORDER BY f_ID DESC";
+		query += selQuery + " ORDER BY f_ID DESC OFFSET " + offset + " LIMIT " + size;
 			
-		if (userName != null) {
-			filter[0] = "f_userName='" + userName + "'";
-		}
-		
-		if (fromDate !=null) {
-			filter[1]=" date(f_timestamp)>='" +  fromDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
-		}
-		
-		if (toDate !=null) {
-			filter[2]=" date(f_timestamp)<='" +  toDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.			
-		}
-
-		for(String s:filter){
-			if (!(s==null)) {
-				if (selQuery.equals("")) {
-					selQuery = s;
-				}
-				else {
-					selQuery = selQuery + " AND " + s;
- 				}
-			}	
-		}	
-		
-		if (!selQuery.equalsIgnoreCase("")) {
-			query += " WHERE " + selQuery;
-		}
-		
-		query += " ORDER BY f_ID DESC";
-		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -129,6 +101,93 @@ public class ActivityDao {
 		}// end finally	
 
 		return changeLinks(result);
+	}
+	
+	private static String formFilterQuery(String userName, String fromDate, String toDate) {
+		String selQuery = "";
+			
+		String[] filter = new String[3];
+			
+		if (userName != null) {
+			filter[0] = "f_userName='" + userName + "'";
+		}
+		
+		if (fromDate !=null) {
+			filter[1]=" date(f_timestamp)>='" +  fromDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
+		}
+		
+		if (toDate !=null) {
+			filter[2]=" date(f_timestamp)<='" +  toDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.			
+		}
+
+		for(String s:filter){
+			if (!(s==null)) {
+				if (selQuery.equals("")) {
+					selQuery = s;
+				}
+				else {
+					selQuery = selQuery + " AND " + s;
+ 				}
+			}	
+		}	
+		
+		if (!selQuery.equalsIgnoreCase("")) {
+			selQuery = " WHERE " + selQuery;
+		}
+		return selQuery;		
+	}
+	
+	public static Integer getActivitiesCount(String userName,String fromDate,String toDate) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		Integer result = 0;
+
+		String query="";
+		String selQuery = "";
+			
+		query = "SELECT count(f_id) FROM t_activity";
+		selQuery = formFilterQuery(userName, fromDate, toDate);
+
+		query += selQuery;
+				
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				result  = Integer.parseInt(rs.getString(1));
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting recent activities failed with " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			//throw new Exception(e.getMessage()+query+"-SELECTED QUERY>-"+selQuery+"-STATUS>-"+status+"-USERNAME>-"+UserName+"-PRIORITY-"+priority);
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return result;
 	}
 	
 	public static ArrayList<Activity> getRecentActivities() throws Exception{
