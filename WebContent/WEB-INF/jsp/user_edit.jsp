@@ -8,40 +8,27 @@
   <div id="bodycontent">
     <div class="row">      
    	   <div class="column grid-5">
-   	   				<s:hidden name="user.approvalStatus"></s:hidden>  <!-- only for new users. It will be zero. On approval it is one -->
-          <div class="box">
-          <h4>Login Details</h4>
+   	      <div class="box">
+          <h4>Name Details</h4>
           	<div class="il">
           		<dl>
-          		<c:choose>
-          			<c:when test="${actionBean.user.userName eq null}">          		
-          				<dt>User Id</dt>
-          				<dd> <s:text name="user.userName" placeholder="User ID"/></dd>
-          				<dt>Password</dt>          													
-          				<dd> <s:password name="user.password" placeholder="Password"></s:password></dd>
-          				<dt>Confirm Password</dt>
-          				<dd> <s:password name="confirmPassword" placeholder="Retype Password"/></dd>          				    
-          			</c:when>
-          			<c:otherwise>
           				<s:hidden name="user.userName"></s:hidden>
           				<dt>User Id</dt>
-          				<dd>${actionBean.user.userName}</dd>          			
-          			</c:otherwise>       
-          	</c:choose>	             	
-          			<dt>E-Mail</dt>          													
-          			<dd> <s:text name="user.email" placeholder="E-Mail"></s:text></dd>          		 
+          				<dd>${actionBean.user.userName}</dd>    
+          				<dt>Display Name</dt>          													
+          				<dd> <s:text name="user.displayName" placeholder="Display name"></s:text></dd>   
+          				<dt>E-Mail</dt>          													
+          				<dd> <s:text name="user.email" placeholder="E-Mail"></s:text></dd>  
           			</dl>	
-          	      		
           	</div>	
           </div>           
       </div>
-      <c:if test="${actionBean.user.userName ne null}">
+ 
       <div class="column grid-5">
           <div class="box">
           	<h4>Contact Details</h4>
           	<div class="il">
-          		<dl><dt>Display Name</dt>          													
-          			<dd> <s:text name="user.displayName" placeholder="Display name"></s:text></dd>
+          		<dl>
           			<dt>E-Mail (Additional)</dt>
           			<dd> <s:text name="user.emailSecond" placeholder="E-Mail - Secondary"></s:text></dd>
           			<dt>Phone</dt>
@@ -73,18 +60,11 @@
 				</div>
 			</div>           
       </div> 
-    </c:if>
     </div>
     <div class="row">
-    <c:choose>
-    	<c:when test="${actionBean.user.userName eq null}">
-    		<s:submit name="submit" value="Submit"/>
-    	</c:when>
-    	<c:otherwise>
+  
     		<s:submit name="update" value="Update"/>
-    	</c:otherwise>
-    </c:choose> 
-		
+  	
     </div>
   </div>
 </s:form>
@@ -96,46 +76,14 @@ $(document).ready(function(){
 	showInfo();
 
 	$("form").bind("submit", function(event) {
-		var submitFlag = true;
-		if ($("input[name='user.userName']").val()=='') {
-			showMessage('User Name is a mandatory field');
-			return false;
-		}	
-		if ($("input[name='user.password']").val()!=$("input[name='confirmPassword']").val()) {
-			showMessage('Password and Confirm Password doesn\'t match!');
+				
+		if (($("input[name='user.email']").val()=='') || ($("input[name='user.displayName']").val()=='')) {
+			showMessage('E-mail and Display Name is a mandatory field');
 			return false;
 		}
 		
-		if ($("input[name='user.email']").val()=='') {
-			showMessage('E-mail is a mandatory field');
-			return false;
-		}
 		
-		if ($("form :submit").attr('name')=='submit') { 
-			var loadUrl = "/tracer/user/"+$("input[name='user.userName']").val()+"~"+ $("input[name='user.email']").val() +"?checkUserNameEmail";
-			$.ajax({
-	       		url : loadUrl,  
-	           	success : function(responseText){ 
-	            			if(responseText=="UserNameEmail") {
-	            				showMessage('UserName & E-mail is already taken. Please enter a different Name & E-Mail')
-	               				submitFlag = false;	               				
-	               			}  
-	               			else if (responseText=="UserName") {
-	               				showMessage('UserName is already taken. Please enter a different Name')
-	               				submitFlag = false;
-	               			}             				               			
-	               			else if (responseText=="Email") {
-	               				showMessage('E-mail is already taken. Please enter a different E-mail')
-	               				submitFlag = false;
-	               			}             			
-	             		},  
-	            async : false  
-	     	}); 	
-	     
-	     	if (submitFlag==false) {
-	     		return false;
-	     	}
-	     }
+		
 	         		
 	});
 	
