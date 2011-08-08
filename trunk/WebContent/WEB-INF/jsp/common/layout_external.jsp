@@ -11,7 +11,7 @@
 				<div class="row">
 					<div class="column grid-16">
 						<p class="logoContainer">
-							<s:link  href="/user/new" class="logo"> <span class="hide">TRACER</span>	</s:link>
+							<s:link  href="/signup" class="logo"> <span class="hide">TRACER</span>	</s:link>
 						</p>
 					</div>
 				</div>
