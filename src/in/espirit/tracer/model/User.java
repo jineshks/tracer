@@ -85,7 +85,7 @@ public class User {
 		this.team = team;
 	}
 	public String getTeam() {
-		if (team==null) setTeam("No Team Specified");
+		if (team == null) return "No Team Specified";
 		return team;
 	}
 	public int getApprovalStatus() {

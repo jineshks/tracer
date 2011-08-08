@@ -20,7 +20,7 @@
 						<div class="login">
 							<s:form beanclass="in.espirit.tracer.action.LoginActionBean">
 								<ul>
-									<li> <s:link href="/user/new">Sign up</s:link> </li>
+									<li> <s:link href="/signup">Sign up</s:link> </li>
 									<li> <s:text name="user.userName" placeholder="Username"></s:text> </li>
 									<li> <s:password name="user.password" placeholder="Password"></s:password> </li>
 									<li> <s:submit name="login" value="Login" />	</li>

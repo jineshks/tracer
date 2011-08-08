@@ -19,7 +19,6 @@ import net.sourceforge.stripes.validation.ValidationState;
 
 import org.apache.log4j.Logger;
 
-@UrlBinding("/signup")
 public class ZZNotUsedRegisterActionBean extends BaseActionBean {
 	private static final Logger logger = Logger.getLogger(ZZNotUsedRegisterActionBean.class.getName());
 	private static final String URL = "/WEB-INF/jsp/register.jsp";

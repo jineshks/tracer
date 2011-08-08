@@ -2,7 +2,7 @@ package in.espirit.tracer.ext;
 
 import in.espirit.tracer.action.BaseActionBean;
 import in.espirit.tracer.action.LoginActionBean;
-import in.espirit.tracer.action.UserActionBean;
+import in.espirit.tracer.action.UserSignUpActionBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 public class LoginInterceptor implements Interceptor {
 	
 	@SuppressWarnings("unchecked")
-	private static final List<Class<? extends BaseActionBean>> EXC = Arrays.asList(LoginActionBean.class, UserActionBean.class);
+	private static final List<Class<? extends BaseActionBean>> EXC = Arrays.asList(LoginActionBean.class, UserSignUpActionBean.class);
 	
 	@Override
 	public Resolution intercept(ExecutionContext arg0) throws Exception {
