@@ -5,8 +5,11 @@
   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-12">
-				<div class="box tac">				
-					<d:table name="${actionBean.items}" id="activity">
+				<div class="box tac">			
+				
+					<d:table name="${actionBean.items}" id="activity" partialList="true" 
+					size="${actionBean.resultSize}" pagesize="${actionBean.pageSize}" varTotals="45"
+					requestURI="/activitystream">
 					<d:column title="Activity" property="activity"></d:column>
 					<d:column title="Date Time" property="timeStamp"></d:column>
 					</d:table>					
