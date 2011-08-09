@@ -3,6 +3,23 @@ package in.espirit.tracer.model;
 public class Milestone {
 	private String id, name, description, current;
 	
+	private String startDate, endDate;
+	
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 
 	public String getId() {
 		return id;

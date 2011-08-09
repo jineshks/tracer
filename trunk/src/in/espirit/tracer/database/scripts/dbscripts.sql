@@ -149,6 +149,8 @@ CREATE TABLE t_milestone
   f_id serial NOT NULL,
   f_name character varying(35),
   f_description character varying(100),
+  f_startdate character varying(30),
+  f_enddate character varying(30),
   f_current boolean,
   CONSTRAINT pk_milestone PRIMARY KEY (f_id)
 );

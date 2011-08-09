@@ -11,7 +11,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/milestone/{milestone}")
 public class MilestoneActionBean extends BaseActionBean {
-	private static final String view = "/WEB-INF/jsp/milestone_view.jsp";
+	private static final String view = "/WEB-INF/jsp/milestone.jsp";
 	//private static final String list = "/WEB-INF/jsp/milestone_list.jsp";
 	
 	private Milestone milestone;

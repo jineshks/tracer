@@ -1,30 +1,67 @@
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<s:layout-render name="/WEB-INF/jsp/common/layout_loggeduser.jsp"> 
-<s:layout-component name="body">
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
+	<s:layout-component name="body">
+	<link href="${contextPath}/stylesheets/jqueryui-smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet" type="text/css" />
+		<div id="bodycontent">
+		  <div class="row">    
+		  		<s:form beanclass="in.espirit.tracer.action.MilestoneActionBean">
+		 		   <div class="column grid-6">
+						<div class="box">
+							<s:hidden name="milestone.id"></s:hidden>
+							<dl>
+								<dt>Name</dt>
+								<dd><s:text name="milestone.name"></s:text></dd>
+								<dt>Description</dt>
+								<dd>
+									<s:textarea name="milestone.description" rows="4" cols="80"></s:textarea>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="column grid-5">
+						<div class="box">
+					 		<dl>
+					 			<dt>Start Date</dt>
+								<dd>
+								<s:text id="startDate" name="milestone.startDate" placeholder="Start Date"/>
+								</dd>				
+								<dt>End Date</dt>
+								<dd>
+								<s:text id="endDate" name="milestone.endDate" placeholder="End Date"/>
+								</dd>	
+					 		</dl>	
+						</div>
+					</div>
+					<div class="column grid-5">
+						<div class="box">
+							<dl>
+								<dt>Current Sprint</dt>
+								<dd>
+									<s:radio name="milestone.current" value="TRUE"></s:radio>Yes
+									<s:radio name="milestone.current" value="FALSE"/>No				
+								</dd>
+							</dl>
+							<s:submit name="submit" value="Submit" /> 
+						</div>
+					</div>
+				</s:form>
+			</div>
+		</div>
+	</s:layout-component>
+	<s:layout-component name="inlineScripts">
+	
+$(document).ready(function(){
 
-
-<c:forEach var="ListArr" items="${actionBean.listItems}" >
-<br><br>
-<div class="container">
-<span class="milestone">${ListArr.key}</span>
-<br><br>
-<d:table name="${ListArr.value}" id="list">
-<d:column title="Id" property="id"></d:column>
-<d:column title="Short Description">
-<s:link href="/${list.type}/${list.id}"> ${list.shortDesc}
-</s:link>
-</d:column>
-<d:column title="Priority" property="priority"></d:column>
-<d:column title="Status" property="status"></d:column>
-<d:column title="Reporter" property="reporter"></d:column>
-<d:column title="Owner" property="owner"></d:column>
-<d:column title="Component" property="component"></d:column>
-<d:column title="MileStone" property="milestone"></d:column>
-<d:column title="Type" property="type"></d:column>
-</d:table>
-</div>
-
-</c:forEach>
-
-</s:layout-component>
+	$("#startDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#endDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	
+	$("form").bind("submit", function(event) {
+		if($("#endDate").val()=='') {
+				//showMessage('Please select a end date as well');
+				//return false;
+			}
+	});
+	
+});
+	</s:layout-component>	
 </s:layout-render>
