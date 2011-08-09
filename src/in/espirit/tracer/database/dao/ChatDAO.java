@@ -59,6 +59,15 @@ public final class ChatDAO {
   } 
   
   /**
+   * Remove a user logged out users.
+   *
+   * @param inUser The user to logged out.
+   */
+  public synchronized void removeUser(User outUser) {      
+    users.remove(outUser);    
+  } 
+  
+  /**
    * Adds a user in to the chat session.
    *
    * @param userChatSession -Unique chat session.
@@ -70,32 +79,24 @@ public final class ChatDAO {
 	}	  	
 }
 
-
-public synchronized Vector<User> getUserList() {
+//logged-in user list
+public synchronized Vector<User> getOnlineUserList() {
 	    return users;
   } 
 
 public synchronized void sentMessage(String inRoom, Message inMessage) {	
 	ChatSession chatSession = (ChatSession)chatSessions.get(inRoom);
 	chatSession.postMessage(inMessage);
-
   } 
-
-/*public synchronized Vector<Message> getPastMessages(String inRoom) {
-	ChatSession chatSession = (ChatSession)chatSessions.get(inRoom);
-    return chatSession.getPastMessages();
-
-  }  */
 
 /**
  * Get the chat session message from date :inDate.
  *
  * @param inDate -chat sent time.
  */
-public synchronized Vector<Message> getMessages(String inRoom, Date inDate) {
-	ChatSession chatSession = (ChatSession)chatSessions.get(inRoom);
+public synchronized Vector<Message> getMessages(String userChatSession, Date inDate) {
+	ChatSession chatSession = (ChatSession)chatSessions.get(userChatSession);
     return chatSession.getMessages(inDate);
-
   } 
 
 /**
