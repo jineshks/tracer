@@ -86,6 +86,8 @@ public class LoginActionBean extends BaseActionBean{
 	public Resolution logout() {
 		logger.debug("User logged out > " + getContext().getLoggedUser());
 		getContext().deleteLoggedUser();
+		//Remove from active chat user list
+		ChatDAO.getInstance().removeUser(getContext().getUser());
 		getContext().getMessages().add(new SimpleMessage("User Logged Out."));	
 		return new RedirectResolution("/login/open");		
 	}
