@@ -8,8 +8,7 @@
 			 <div class="column  grid-5">
 			 		<div class="leftpane box">
 			 			
-			 			<div class="chatlist" id="chatUser">
-			 				
+			 			<div class="chatlist" id="chatUser">			 				
 			 			</div>
 			 		
 			 		</div>
@@ -22,8 +21,7 @@
 								<div id="chatHeading"></div>											 				
 			 			</div>
 			 			
-			 			<div class="chat" id ="chatMessageArea" >
-			 				
+			 			<div class="chat" id ="chatMessageArea" >			 				
 			 			</div>
 			 			
 			 			<div class="send">
@@ -66,8 +64,8 @@
 		var timerChatMessage = null;
 		var timerChatListDelay = 2000;
 		var timerChatMessageDelay = 1000;
-		var selectedChatWindow = "";
-		var currentChatWindow= "";
+		var selectedChatArea = "";
+		var currentChatArea= "";
 		var oldUserListHTML = "";
 		 
 		function init(){
@@ -78,8 +76,8 @@
 		function getChatSession(div) {
 			 
 			 $("#chat").show();	 
-			 selectedChatWindow = div.id;
-			 var chatHeader = document.getElementById(selectedChatWindow);	
+			 selectedChatArea = div.id;
+			 var chatHeader = document.getElementById(selectedChatArea);	
 			 $("#chatHeading").html(chatHeader.textContent.toUpperCase()); 
 			 
 			 getPastMessages();		
@@ -87,11 +85,11 @@
 		 
 		 
 		function getPastMessages() {
-			 if(currentChatWindow != selectedChatWindow ){
+			 if(currentChatArea != selectedChatArea ){
 				
 				$.ajax( {
 							type : "POST",
-							data :  "userWindow="+selectedChatWindow, 
+							data :  "userChatArea="+selectedChatArea, 
 							url : "pastChatMessages",					
 							error : function(xhr, ajaxOptions, thrownError) {					
 							},
@@ -101,7 +99,7 @@
 							}
 						});
 				
-				currentChatWindow = selectedChatWindow;
+				currentChatArea = selectedChatArea;
 			 
 				getMessage();
 			 }
@@ -112,7 +110,7 @@
 			 
 				$.ajax( {
 							type : "POST",
-							data :  "userWindow="+selectedChatWindow, 
+							data :  "userChatArea="+selectedChatArea, 
 							url : "chatMessages",
 							error : function(xhr, ajaxOptions, thrownError) {
 								
@@ -131,7 +129,7 @@
 				
 					$.ajax( {
 							type : "GET",
-							data : "userWindow="+selectedChatWindow,
+							data : "userChatArea="+selectedChatArea,
 							url  : "chatUsers",
 							error : function(xhr, ajaxOptions, thrownError) {
 		
@@ -154,7 +152,7 @@
 		
 			    $.ajax( {
 					        type : "POST",
-					        data :  "userWindow="+selectedChatWindow+"&msg="+msg ,
+					        data :  "userChatArea="+selectedChatArea+"&msg="+msg ,
 					        url : "SendChatMessage",
 					        error : function(xhr, ajaxOptions, thrownError) {
 		
