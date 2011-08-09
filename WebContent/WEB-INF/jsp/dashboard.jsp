@@ -103,6 +103,9 @@
 								<p>
 									<a href="planner"> Sprint Planner </a>
 								</p>
+									<p>
+									<a href="list/milestone"> Sprint View </a>
+								</p>
 							</div>
 						</div>
 						<div class="box">

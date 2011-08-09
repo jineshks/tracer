@@ -3,6 +3,7 @@ package in.espirit.tracer.database.dao;
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
 import in.espirit.tracer.model.Milestone;
+import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Ticket;
 import in.espirit.tracer.util.StringUtils;
 
@@ -25,13 +26,13 @@ public class MilestoneDao {
 		ResultSet rs = null;
 		ArrayList<Ticket> result = new ArrayList<Ticket>();
 		
-		String query = "SELECT f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone, f_type " +
+		String query = "SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
 				"FROM t_defectdetails where f_milestone='" + key +"' " +
 				"UNION ALL " +
-				"select f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone, f_type " +
+				"SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
 				"from t_taskdetails where f_milestone='" + key + "' " +
 				"UNION ALL " +
-				"select f_id, f_title, f_priority, f_status, f_reporter, f_owner, f_component, f_milestone, f_type " +
+				"SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
 				"from t_requirementdetails where f_milestone='" + key + "'";
 		try {
 			st = con.createStatement();
@@ -42,12 +43,9 @@ public class MilestoneDao {
 				d.setId(rs.getString(1));
 				d.setTitle(rs.getString(2));
 				d.setPriority(rs.getString(3));
-				d.setStatus(rs.getString(4));
-				d.setReporter(rs.getString(5));
-				d.setOwner(rs.getString(6));
-				d.setComponent(rs.getString(7));
-				d.setMilestone(rs.getString(8));
-				d.setType(rs.getString(9));
+				d.setOwner(rs.getString(4));
+				d.setImportance(rs.getString(5));
+				d.setType(rs.getString(6));
 				result.add(d);
 			}
 			if (rs != null) {			
@@ -80,8 +78,10 @@ public class MilestoneDao {
 		Statement st = null;
 		
 		String query = "INSERT INTO t_milestone" + 
-		" (f_name, f_description, f_current) " + 
-		"VALUES('" +  milestone.getName() +"','" + StringUtils.nullCheck(milestone.getDescription()) + "'," + milestone.getCurrent() + ")";
+		" (f_name, f_description, f_startdate, f_enddate, f_current) " + 
+		"VALUES('" +  milestone.getName() +"','" + StringUtils.nullCheck(milestone.getDescription()) +
+		"','" + StringUtils.nullCheck(milestone.getStartDate()) + "','" + StringUtils.nullCheck(milestone.getEndDate()) + 		
+		"'," + milestone.getCurrent() + ")";
 
 		try {
 			st = con.createStatement();
@@ -116,7 +116,7 @@ public class MilestoneDao {
 		ResultSet rs = null;
 		Milestone ms = new Milestone();
 	
-		String query = "SELECT f_id, f_name, f_description, f_current FROM t_milestone where f_id=" + id + "";
+		String query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone where f_id=" + id + "";
 
 		try {
 			st = con.createStatement();
@@ -126,10 +126,12 @@ public class MilestoneDao {
 				ms.setId(rs.getString(1));
 				ms.setName(rs.getString(2));
 				ms.setDescription(rs.getString(3));
-				if (rs.getString(4).equalsIgnoreCase("f")) {
+				ms.setStartDate(rs.getString(4));
+				ms.setEndDate(rs.getString(5));
+				if (rs.getString(6).equalsIgnoreCase("f")) {
 					ms.setCurrent("FALSE");
 				}
-				if (rs.getString(4).equalsIgnoreCase("t")) {
+				if (rs.getString(6).equalsIgnoreCase("t")) {
 					ms.setCurrent("TRUE");
 				}			
 			}
@@ -171,6 +173,8 @@ public class MilestoneDao {
 		String query = "UPDATE t_milestone" + 
 		" SET f_name='" + ms.getName() +
 		"', f_description='" + StringUtils.nullCheck(ms.getDescription()) +
+		"', f_startdate='" + StringUtils.nullCheck(ms.getStartDate()) + 
+		"', f_enddate='" + StringUtils.nullCheck(ms.getEndDate()) + 
 		"', f_current=" + ms.getCurrent() +
 		" WHERE f_id=" + ms.getId();
 		try {
@@ -205,7 +209,7 @@ public class MilestoneDao {
 		
 		String query="";
 	
-		query = "SELECT f_id, f_name, f_description, f_current FROM t_milestone";
+		query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone";
 				
 		try {
 			st = con.createStatement();
@@ -216,7 +220,9 @@ public class MilestoneDao {
 				ms.setId(rs.getString(1));
 				ms.setName(rs.getString(2));
 				ms.setDescription(rs.getString(3));
-				ms.setCurrent(rs.getString(4));			
+				ms.setStartDate(rs.getString(4));
+				ms.setEndDate(rs.getString(5));
+				ms.setCurrent(rs.getString(6));			
 				result.add(ms);
 			}
 			if (rs != null) {
@@ -337,5 +343,84 @@ public class MilestoneDao {
 		return result;
 	}
 	
+	public static ArrayList<Requirement> getMilestoneStory(String milestone) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Requirement> result = new ArrayList<Requirement>();
+		
+		String query = "select f_id, f_storypoint from t_requirementdetails where f_milestone='" + milestone + "'";
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				Requirement r = new Requirement();
+				r.setId(rs.getString(1));
+				r.setStoryPoint(rs.getString(2));
+				result.add(r);
+			}
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
 
+	return result;
+	}
+	
+	public static double getTaskProgressTotal(String parentId) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		double d = 0;
+		
+		String query = "select avg(f_progress) from t_taskdetails where f_parentticket =" + parentId;
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				if (rs.getString(1) != null) {
+					d = Double.parseDouble(rs.getString(1));
+				}
+			}
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+	return d;
+	}
 }

@@ -1,9 +1,11 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
+<s:layout-component name="infoPanel"> 
+	<s:messages/>
+</s:layout-component>
 	<s:layout-component name="body">
 		<div id="bodycontent">
 			<div class="box">
-				<s:messages />
 				<%--   Config List is moved to properties flie..so it is removed
 				<c:forEach var="arrList" items="${actionBean.listItems}">
 					<br>
@@ -46,10 +48,23 @@
 
 					</d:column>
 					<d:column title="Description" property="description"></d:column>
-					<d:column title="Current Sprint" property="current"></d:column>
-				</d:table>
+					<d:column title="Start Date" property="startDate"></d:column>
+					<d:column title="End Date" property="endDate"></d:column>
+					<d:column title="Current Sprint">
+						<c:if test="${milestone.current eq 't'}">
+							YES
+						</c:if>
+					</d:column>
+				</d:table> 
 
 			</div>
 		</div>
+		</div>
 	</s:layout-component>
+<s:layout-component name="inlineScripts">
+  $(document).ready(function() {	
+  	showInfo();
+  
+  });
+</s:layout-component>
 </s:layout-render>
