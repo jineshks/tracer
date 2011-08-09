@@ -28,20 +28,21 @@ public class SendChatMessageAction extends BaseActionBean {
 		if (logger.isDebugEnabled()) {
 			logger.debug("sendChatMessage()......");
 	     }
-		
-		String userWindow = this.getContext().getRequest().getParameter("userWindow");
+		//Get current user chat area
+		String userChatArea = this.getContext().getRequest().getParameter("userChatArea");
 		String chatMessage = this.getContext().getRequest().getParameter("msg");
 		String loggedUser = getContext().getLoggedUser();
 		if (logger.isDebugEnabled()) {
-			logger.debug("current chat window :"+userWindow+",Message:"+chatMessage+",From:"+loggedUser);
+			logger.debug("current chat window :"+userChatArea+",Message:"+chatMessage+",From:"+loggedUser);
 	     }
-		
-		Message message = new Message();
-		message.setSentBy(loggedUser);
-		message.setSentDateTime(new Date());
-		message.setText(chatMessage);
-		ChatDAO dao = ChatDAO.getInstance();
-		dao.sentMessage(userWindow, message);
+		if (chatMessage.trim().length() > 0) {
+			Message message = new Message();
+			message.setSentBy(loggedUser);
+			message.setSentDateTime(new Date());
+			message.setText(chatMessage);
+			ChatDAO dao = ChatDAO.getInstance();
+			dao.sentMessage(userChatArea, message);
+		}
 		 
         return null;
 	}

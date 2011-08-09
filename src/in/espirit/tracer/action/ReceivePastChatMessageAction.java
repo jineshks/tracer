@@ -17,7 +17,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * @author Bineesh
  *
@@ -34,26 +33,31 @@ public class ReceivePastChatMessageAction extends BaseActionBean {
 	     }
 		
 		HttpSession session = this.getContext().getRequest().getSession();
-		//get current user chat window.
-		String userWindow = this.getContext().getRequest().getParameter("userWindow");
+		//Get current user chat Area.
+		String userChatArea = this.getContext().getRequest().getParameter("userChatArea");
+		String loggedUser = getContext().getLoggedUser();
 		Date   loggedInDateTime = (Date)session.getAttribute("loggedInDateTime");
-		
+			//First message
 	      if (loggedInDateTime == null) {
 	    	  loggedInDateTime = new Date();
 	      }
-	      ChatDAO dao      = ChatDAO.getInstance();
-	      StringBuffer sb = new StringBuffer();
-	      Vector<Message>  messages = dao.getMessages(userWindow,loggedInDateTime);
-	      for (Iterator it = messages.iterator(); it.hasNext();) {
+	      ChatDAO dao = ChatDAO.getInstance();
+	      
+	      StringBuffer chatMessage = new StringBuffer();
+	      Vector<Message>  messages = dao.getMessages(userChatArea,loggedInDateTime);
+	      for (Iterator<Message> it = messages.iterator(); it.hasNext();) {
+	    	  String chatBubble ="green-bubble";
 	    	  Message message = (Message)it.next();
 	          String postedBy = message.getSentBy();
 	          String messageText = message.getText();
-	          sb.append( "<div class=\"bubble\"> <span class=\"bold\">"  + postedBy + "</span> "+"     :"+"<span class=\"text\">"+messageText +"</span> </div>");
-	                  
+	          //Different color code for me & their chat message bubble
+	          if(postedBy.equals(loggedUser)){	        	  
+	        	  chatBubble = "blue-bubble";	        	  
+	          }
+	          chatMessage.append("<div class=\"" + chatBubble + "\">"+messageText+"</div>");
 	        }
 	      session.setAttribute("lastDateTime", new Date());
-	      return new StreamingResolution("text/html", sb.toString());
-        
+	      return new StreamingResolution("text/html", chatMessage.toString());        
 	}
 	
 
