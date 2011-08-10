@@ -44,6 +44,7 @@ public class LoginActionBean extends BaseActionBean{
 	@ValidationMethod(when=ValidationState.NO_ERRORS)
 	public void checkLogin(ValidationErrors errors) throws Exception {
 		int status = UserDao.UserApprovalStatus(user.getUserName().toLowerCase());
+		status =1;
 		if (!UserDao.valueExists("f_userName", user.getUserName().toLowerCase())) {		
 			logger.warn("Login Attempt Failed - Incorrect user Name >> " + user.getUserName());
 			errors.add("user.userName", new LocalizableError("user.userName.wrong"));	
@@ -79,6 +80,7 @@ public class LoginActionBean extends BaseActionBean{
 		//Add user in logged in user List.
 		ChatDAO.getInstance().logUserIn(user);	
 		getContext().setLoggedUser(user.getUserName());
+		getContext().setUser(user);
 		return new RedirectResolution(DashboardActionBean.class);
 	}
 		
