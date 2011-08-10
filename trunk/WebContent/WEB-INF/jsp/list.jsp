@@ -32,16 +32,16 @@
 				</div>
 			</div>
 			<div class="column grid-4">
-				<div class="box">
-					<h4>New</h4>
-					<p class="pt">
-						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
-								<a class="new ml" href="${contextPath}/task/new/">Task</a> 
-								<a class="new ml" href="${contextPath}/defect/new/">Defect</a>
-							 	<a class="new ml"href="${contextPath}/requirement/new/">Story</a>
-						</c:if>
-					</p>
-				</div>	
+				<c:if test="${userRole eq '2' || userRole eq '3'}">
+					<div class="box">
+						<h4>New</h4>
+						<p class="pt">
+							<a class="new ml" href="${contextPath}/task/new/">Task</a> 
+							<a class="new ml" href="${contextPath}/defect/new/">Defect</a>
+						 	<a class="new ml"href="${contextPath}/requirement/new/">Story</a>						
+						</p>
+					</div>	
+				</c:if>
 				<div class="box">
 					<h4>Filter</h4>
 					<jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>

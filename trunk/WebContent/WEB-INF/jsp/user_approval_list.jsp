@@ -4,10 +4,12 @@
 	<s:messages/>
 </s:layout-component>
 <s:layout-component name="body">  
-  	<div id="bodycontent">
+<jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
+   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-15">
 				<div class="box tac">
+				<s:form partial="true" action="#">
 				<d:table name="${actionBean.userApprovalList}" id="user">				
 					<d:column title="User Id">
 					<s:link href="${contextPath}/user/${user.userName}"> ${user.userName}
@@ -19,12 +21,10 @@
 						<input type="text" name="team" id="team">
 					</d:column>
 					<d:column title="Role">
-						<select name="role" id="role">
+						<s:select name="role" id="role">
 									<option></option>
-									<option>Viewer</option>
-									<option>Editor</option>
-									<option>Admin</option>
-						</select>	
+									<s:options-collection collection="${configView.userRole}"/>									
+						</s:select>	
 					</d:column>
 					<d:column title="Approve">
 						<input type="button" value="Approve" class="orange">
@@ -33,6 +33,7 @@
 						<input type="button" value="Reject" class="orange">						
 					</d:column>							
 				</d:table>	
+				</s:form>
 				</div>
 			</div>		
 		</div>
@@ -50,6 +51,7 @@
   		var userName = $(this).parent().parent().find('a').text();
   		var team = $(this).parent().parent().find('#team').val();
   		var role = $(this).parent().parent().find('#role').val();
+  		
   		if (buttonName=='Approve') {
   			if (team=='' || role=='') {
   				showMessage('Team Name / Role is mandatory');

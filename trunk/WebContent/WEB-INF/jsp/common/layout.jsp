@@ -54,7 +54,7 @@
 						<div class="tal">
 							<h6>Tasks</h6>
 							<ul>
-								<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+								<c:if test="${userRole eq '2' || userRole eq '3'}">
 									<li>
 										<s:link href="${contextPath}/task/new" >New Task </s:link>
 									</li>
@@ -72,7 +72,7 @@
 						<div class="tal">
 							<h6>Defects</h6>
 							<ul>
-								<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+								<c:if test="${userRole eq '2' || userRole eq '3'}">
 									<li>
 										<s:link href="${contextPath}/defect/new" >New Defect </s:link>
 									</li>
@@ -90,7 +90,7 @@
 						<div class="tal">
 							<h6>User stories</h6>
 							<ul>
-								<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+								<c:if test="${userRole eq '2' || userRole eq '3'}">
 									<li>
 										<s:link href="${contextPath}/requirement/new" >New Story </s:link>
 									</li>
@@ -118,7 +118,7 @@
 							</ul>
 						</div>
 					</div>
-					<c:if test="${actionBean.context.userRole eq 'Admin'}">		
+					<c:if test="${actionBean.context.userRole eq '3'}">		
 					<div class="column grid-2">
 						<div class="tal">
 							<h6>Admin</h6>

@@ -14,7 +14,7 @@
 								<h6>Tasks</h6>	
 								<span class="right">
 									<s:link class="list" href="list/task/all" >All </s:link>
-									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+									<c:if test="${userRole eq '2' || userRole eq '3'}">
 										<s:link class="new ml" href="/task/new" >New </s:link>
 									</c:if>
 								</span>
@@ -35,7 +35,7 @@
 								<h6>Defects</h6>	
 								<span class="right">
 									<s:link class="list" href="list/defect/all" >All </s:link>
-									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+									<c:if test="${userRole eq '2' || userRole eq '3'}">
 										<s:link class="new ml" href="/defect/new" >New </s:link>
 									</c:if>
 								</span>
@@ -55,7 +55,7 @@
 								<h6>User Stories</h6>	
 								<span class="right">
 									<s:link class="list" href="list/requirement/all" >All </s:link>
-									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+									<c:if test="${userRole eq '2' || userRole eq '3'}">
 										<s:link class="new ml" href="/requirement/new" >New </s:link>
 									</c:if>
 								</span>
@@ -126,7 +126,7 @@
 								<h6>Alerts</h6>
 									<span class="right">
 									<s:link class="list" href="list/alert/all" >All </s:link>
-									<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+									<c:if test="${userRole eq '2' || userRole eq '3'}">
 										<s:link class="new ml" href="/alert/new" >New </s:link>
 									</c:if>
 								</span>

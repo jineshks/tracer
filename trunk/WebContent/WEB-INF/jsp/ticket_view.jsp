@@ -69,7 +69,7 @@
 						<div id="uploadResult">
 						
 						</div>	
-						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">																	
+						<c:if test="${userRole eq '2' || userRole eq '3'}">																	
 						<s:form name="uploadForm" action="/attachments" target="uploadTarget">	
 							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
@@ -109,7 +109,7 @@
 						<div id="result">
 						
 						</div>
-						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+						<c:if test="${userRole eq '2' || userRole eq '3'}">
 						<s:form action="/comments">	
 							<s:hidden id="hTicketId" name="ticket.id" value="${actionBean.ticket.id}"></s:hidden>
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
@@ -130,20 +130,20 @@
 			</div>
 			
 			<div class="column grid-6">
+			<c:if test="${userRole eq '2' || userRole eq '3'}">
 				<div class="box">
 					<h4>New</h4>
 					<p class="pt">
-						<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
-								<a class="new ml"href="${contextPath}/task/new/${actionBean.ticket.id}">Task</a>
+							<a class="new ml"href="${contextPath}/task/new/${actionBean.ticket.id}">Task</a>
 								<c:if test="${actionBean.ticket.type ne 'requirement'}">
 									<a class="new ml" href="${contextPath}/defect/new/${actionBean.ticket.id}">Defect</a>
 								</c:if>
 								<c:if test="${actionBean.ticket.type ne 'defect'}">
 								 	<a class="new ml" href="${contextPath}/requirement/new/${actionBean.ticket.id}">Story</a>
 								 </c:if>
-						</c:if>
 					</p>
-				</div>						
+					</div>	
+				</c:if>					
 				<div class="box">
 					<s:form beanclass="${beanclass}">	
 					<h4>Properties</h4>
@@ -208,7 +208,7 @@
 			          			<dt> Tags </dt>
           						<dd><s:text name="ticket.tags" placeholder="Tags, comma separated"/> </dd>
 							</dl>
-							<c:if test="${userRole eq 'Editor' || userRole eq 'Admin'}">
+							<c:if test="${userRole eq '2' || userRole eq '3'}">
 								<s:submit name="submit" value="Submit"/>
 							</c:if>
 					</div>
