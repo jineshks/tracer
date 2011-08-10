@@ -129,7 +129,7 @@ CREATE TABLE t_userdetails
   f_team character varying(100),
   f_whoami character varying(200),
   f_approvalstatus integer DEFAULT 0,
-  f_role character varying(10),
+  f_role integer,
   CONSTRAINT pk_user PRIMARY KEY (f_username)
 );
 
@@ -164,5 +164,5 @@ CREATE TABLE t_attachments
   f_ticketid integer
 );
 
-INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,'Admin')
+INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)
 

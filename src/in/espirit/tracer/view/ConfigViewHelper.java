@@ -45,4 +45,8 @@ public class ConfigViewHelper {
 	public ArrayList<String> getPhase() throws Exception{
 		return CustomDao.getValues("phase");	
 	}
+	
+	public ArrayList<String> getUserRole() throws Exception{
+		return CustomDao.getValues("user.role");	
+	}
 }

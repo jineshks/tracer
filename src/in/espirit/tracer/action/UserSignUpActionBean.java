@@ -1,5 +1,8 @@
 package in.espirit.tracer.action;
 
+import java.util.ArrayList;
+
+import in.espirit.tracer.database.dao.CustomDao;
 import in.espirit.tracer.database.dao.UserDao;
 import in.espirit.tracer.model.User;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -55,7 +58,7 @@ public class UserSignUpActionBean extends BaseActionBean {
 	
 	public Resolution approve() throws Exception {
 		//call function to sent email.
-		UserDao.adminApprove(userName, team, role);
+		UserDao.adminApprove(userName, team, CustomDao.getIndexValue("user.role", role));
 		getContext().getMessages().add(new SimpleMessage("User Registration is approved. E-Mail sent to user"));	
 		return new RedirectResolution(UserListActionBean.class).addParameter("view", "approval");
 	}
