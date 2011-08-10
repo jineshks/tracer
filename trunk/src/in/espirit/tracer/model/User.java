@@ -96,7 +96,7 @@ public class User {
 	}	
 	@Override
 	public boolean equals(Object obj) {			
-		return this.userName.equals(((User)obj).userName);
+		return this.userName.equalsIgnoreCase(((User)obj).userName);
 	}
 	public void setRole(String role) {
 		this.role = role;
