@@ -3,8 +3,10 @@ package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.ChatDAO;
 import in.espirit.tracer.model.Message;
+import in.espirit.tracer.model.Emoticons;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -51,8 +53,7 @@ public class ReceiveChatMessageAction extends BaseActionBean {
 	      //Creating a unique session for the logged-in user.
 	      session.setAttribute(loggedUser+userChatArea+"-lastDateTime", new Date());
 	      String chatBubble ="green-bubble";
-	      StringBuffer chatMessage = new StringBuffer();	
-	      
+	      StringBuffer chatMessage = new StringBuffer();	      
 	      for (Iterator<Message> it = messages.iterator(); it.hasNext();) {
 	          Message message = (Message)it.next();
 	          String postedBy = message.getSentBy();
@@ -61,13 +62,29 @@ public class ReceiveChatMessageAction extends BaseActionBean {
 	          if(postedBy.equals(loggedUser)){
 	        	  chatBubble = "blue-bubble";
 	          }
-	          chatMessage.append( "<div class=\"" + chatBubble + "\">"+messageText+"</div>");	        
+	          chatMessage.append( "<div class=\"" + chatBubble + "\">"+messageText+"</div>");	         
 	          lastDateTime = message.getSentDateTime();
 	        }
 	      
 	      session.setAttribute("lastDateTime", lastDateTime);
-	      return new StreamingResolution("text/html", chatMessage.toString());       
+	      return new StreamingResolution("text/html", replaceEmoticons(chatMessage.toString()));       
 	}
 	
+	private String replaceEmoticons(String msg) {
+		String imgTag = "<img src=\"images/smiley/{image}.gif\">";
+		String image = "{image}";
+		
+		Emoticons icons = new Emoticons();
+		HashMap<String, String> codeMap = icons.getIconsMap();
+
+		for (Object key: codeMap.keySet()) {
+			String val = codeMap.get(key);
+			if(msg.contains(key.toString()))
+			{
+				msg = msg.replace(key.toString(), imgTag.replace(image,val));
+			}
+		}
+		return msg;
+	}
 
 }
