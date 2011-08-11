@@ -25,8 +25,13 @@
 			 			</div>
 			 			
 			 			<div class="send">
+			 				<div id="emoticons">
+								<%@include file="emoticons.jsp" %>
+							</div>
 			 				<textarea id="messageText" rows="3" cols="35"  class="ta"></textarea>
 			 				<input class="orange" type="button"  value="send" onclick="sendChatMessage();"/>
+			 				<img id="GmailIcon" src="images/GMailSmiley.PNG" alt="Click to select icons" onclick="openEmoticon()"/>
+			 				<span class="droparea"> Drop files to send </span>
 			 				<span class="droparea"> Drop files to send </span>
 			 			</div>
 			 		</div>
@@ -168,6 +173,28 @@
 	  	 init();
 	 });
 	
+	function openEmoticon()
+	{
+		var $emoticonsPopup = $("#emoticons");
+		var visibility = $emoticonsPopup.css('display');
+
+		if(visibility == 'none')
+		{
+			$emoticonsPopup.show();
+		}
+		else{
+			$emoticonsPopup.hide();
+		}
+	}
+
+	function emoticonsCode(iconCode)
+	{
+		var $msgEle = $("#messageText");
+		$msgEle.val($msgEle.val()+" "+ iconCode);
+		var $ele = $("#emoticons");
+		$ele.hide();
+		$msgEle.focus();
+	}
 	
   </s:layout-component>  
 </s:layout-render> 
