@@ -167,7 +167,8 @@
 										<c:if test="${userRole eq '2' || userRole eq '3'}">
 											<s:link class="new ml" href="/link/new" >New </s:link>
 										</c:if>
-									</span>								
+									</span>	
+								</div>								
 								<div class="pt">
 								<ul>
 								<c:forEach var="link" items="${actionBean.myLinks}">
@@ -185,7 +186,6 @@
 								</c:forEach>								
 								</ul>
 							</div>	
-							</div>
 						</div>
 					</div>
 
