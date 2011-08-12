@@ -33,7 +33,8 @@ public class MilestoneDao {
 				"from t_taskdetails where f_milestone='" + key + "' " +
 				"UNION ALL " +
 				"SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
-				"from t_requirementdetails where f_milestone='" + key + "'";
+				"from t_requirementdetails where f_milestone='" + key + "' ORDER by f_priority ASC";
+	
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -209,7 +210,7 @@ public class MilestoneDao {
 		
 		String query="";
 	
-		query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone";
+		query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone ORDER by f_id DESC";
 				
 		try {
 			st = con.createStatement();
