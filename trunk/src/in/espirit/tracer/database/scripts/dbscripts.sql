@@ -164,5 +164,18 @@ CREATE TABLE t_attachments
   f_ticketid integer
 );
 
+CREATE TABLE t_link
+(
+  f_id serial NOT NULL,
+  f_name character varying(250),
+  f_desc character varying(500),
+  f_target character varying(250),
+  f_teamvisible integer,
+  f_tags character varying(250),
+  f_username character varying(35),
+  f_position serial,
+  CONSTRAINT pk_link PRIMARY KEY (f_id)
+)
+
 INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)
 
