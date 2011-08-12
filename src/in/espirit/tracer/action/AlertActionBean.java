@@ -57,7 +57,7 @@ public class AlertActionBean extends BaseActionBean {
 		this.alert = alert;
 	}
 	public Alert getAlert() throws Exception {
-		if (id!=null) {
+		if (id!=null && !id.equalsIgnoreCase("new")) {
 			return AlertDao.getAlert(id);		
 		}
 		return alert;
