@@ -12,7 +12,7 @@
 			<c:forEach var="user" items="${displayList.value}">
 				<div class="row">
 				<div class="column grid-16">
-				<div class="box clear">
+				<div class="box">
 				<div class="column grid-2"><img
 					src="${contextPath}/images/profile_m.png" alt="profile_img"
 					width="150" height="150" /></div>
