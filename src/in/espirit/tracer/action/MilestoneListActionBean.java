@@ -6,7 +6,7 @@ import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -21,10 +21,9 @@ public class MilestoneListActionBean extends BaseActionBean {
 	
 	private String milestoneId;
 
-	public HashMap<Milestone, Integer> getMilestoneList() throws Exception {
+	public LinkedHashMap<Milestone, Integer> getMilestoneList() throws Exception {
 		ArrayList<Milestone> mlList  = MilestoneDao.getAllEntries();
-		HashMap<Milestone, Integer> result = new HashMap<Milestone, Integer>();
-		
+		LinkedHashMap<Milestone, Integer> result = new LinkedHashMap<Milestone, Integer>();
 		//(((sum of task progress)/(no of tasks)x story point)+((sum of task progress)/(no of tasks)x story point)+...)/(sum of story points)
 		for(Milestone m : mlList) {	
 			ArrayList<Requirement> req = MilestoneDao.getMilestoneStory(m.getName());
@@ -40,7 +39,6 @@ public class MilestoneListActionBean extends BaseActionBean {
 			}			
 			result.put(m, (int) (top/bottom));			
 		}
-		
 		return result;
 	}
 	
