@@ -155,18 +155,38 @@
 							<div class="pt">
 								<p>
 									<a href="chat"> Chat </a>
+									<p><a href="notifyEvent"> Notify </a></p>
 								</p>
 							</div>
 						</div>
 						<div class="box">
 							<div class="title">
 								<h6>Links</h6>
+									<span class="right">
+										<s:link class="list" href="list/link/my" >All </s:link>
+										<c:if test="${userRole eq '2' || userRole eq '3'}">
+											<s:link class="new ml" href="/link/new" >New </s:link>
+										</c:if>
+									</span>								
 								<div class="pt">
-									<p><a href="notifyEvent"> Notify </a></p>
-								</div>			
+								<ul>
+								<c:forEach var="link" items="${actionBean.myLinks}">
+									<li>
+										<p class="">
+											<span class="tal">											
+											<a href="${link.target}" target="new">${link.name}</a>	
+											</span>
+											<span class="tar right"><a id="linkNote">[..No Ic..]</a></span>											
+										</p>	
+										<p id="linkDesc" style="display:none;">
+										<span class="tal" >${link.desc}</span>
+										</p>
+									</li>
+								</c:forEach>								
+								</ul>
+							</div>	
 							</div>
 						</div>
-
 					</div>
 
 				</div>
@@ -176,6 +196,12 @@
 	<s:layout-component name="inlineScripts">
   		$(document).ready(function() {
   			showInfo();
+  			
+  			$('a#linkNote').click(function() {
+  				$(this).parent().parent().parent().find('p#linkDesc').toggle();		
+  			});
+  			
+  			
   		});	
   		
   	</s:layout-component>

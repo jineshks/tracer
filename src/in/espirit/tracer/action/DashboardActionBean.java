@@ -2,9 +2,11 @@ package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.ActivityDao;
 import in.espirit.tracer.database.dao.AlertDao;
+import in.espirit.tracer.database.dao.LinkDao;
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Activity;
 import in.espirit.tracer.model.Alert;
+import in.espirit.tracer.model.Link;
 import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
@@ -43,6 +45,9 @@ public class DashboardActionBean extends BaseActionBean {
 		return TicketDao.getMyTickets("requirement",getContext().getLoggedUser());
 	}
 	
+	public ArrayList<Link> getMyLinks() throws Exception {
+		return LinkDao.getLinks("my", getContext().getLoggedUser(), "5");
+	}
 	public static String getDashboard() {
 		return DASHBOARD;
 	}
