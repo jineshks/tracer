@@ -7,6 +7,10 @@
 			<title>Tracer</title>
 			<link href="${contextPath}/stylesheets/custom.less" media="all" rel="stylesheet/less" type="text/css" />
 			<link rel="shortcut icon" href="${contextPath}/favicon.ico" />
+			
+			<s:layout-component name="externalScripts">
+			</s:layout-component>  
+			
 			<script type="text/javascript" src="${contextPath}/javascripts/less-1.0.41.js"></script>
 			<script type="text/javascript" src="${contextPath}/javascripts/jquery-1.5.1.min.js"> </script>
 			<script type="text/javascript" src="${contextPath}/javascripts/jquery-ui-1.8.14.custom.min.js"> </script>
@@ -26,8 +30,12 @@
 			<!--[if lt IE 9]>
 			    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 			  <![endif]-->
+			
+			
+			
 			<s:layout-component name="inlineScripts">
-			</s:layout-component>  
+			</s:layout-component>
+			
 		</head>
 		<body>
 			<s:layout-component name="header">

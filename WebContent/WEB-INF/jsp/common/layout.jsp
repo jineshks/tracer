@@ -1,6 +1,9 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-definition>
 	<s:layout-render name="/WEB-INF/jsp/common/layout_main.jsp">
+		<s:layout-component name="externalScripts">
+				${externalScripts}
+		</s:layout-component>
 		<s:layout-component name="inlineScripts">
 			<script type="text/javascript">
 				${inlineScripts}		
