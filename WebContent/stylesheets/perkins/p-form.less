@@ -30,12 +30,13 @@ form {
     border: 1px solid @system;
     display: block;
     margin: 0 0 10px 10px;
-    padding: 4px;
+    padding: 7px;
   }
   input:focus, select:focus, textarea:focus {
     .transition();
     .bs(0 0 5px @blue, 0 2px 5px rgba(32,32,32,0.20) inset);
     border: 1px solid darken(@system, 40%);
+    background-color: white !important;
   }
   input[type="checkbox"] {
     margin: 3px 4px 0 2px;
