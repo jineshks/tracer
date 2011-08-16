@@ -155,8 +155,11 @@
 							<div class="pt">
 								<p>
 									<a href="chat"> Chat </a>
-									<p><a href="notifyEvent"> Notify </a></p>
 								</p>
+								<p>
+									<a href="notifyEvent"> Notify </a>
+								</p>
+								
 							</div>
 						</div>
 						<div class="box">
@@ -173,15 +176,17 @@
 								<ul>
 								<c:forEach var="link" items="${actionBean.myLinks}">
 									<li>
-										<p class="">
-											<span class="tal">											
-											<a href="${link.target}" target="new">${link.name}</a>	
-											</span>
-											<span class="tar right"><a id="linkNote">[..No Ic..]</a></span>											
-										</p>	
-										<p id="linkDesc" style="display:none;">
-										<span class="tal" >${link.desc}</span>
-										</p>
+										<div>
+											<p>
+												<span class="tal">											
+													<a href="${link.target}" target="new">${link.name}</a>	
+												</span>
+												<span class="tar right descContainer"><a id="linkNote" class="hideDesc"> <span class="hide">+ </span> </a></span>											
+											</p>	
+											<p id="linkDesc" class="hide">
+												<span class="tal" >${link.desc}</span>
+											</p>
+										</div>
 									</li>
 								</c:forEach>								
 								</ul>
@@ -198,7 +203,8 @@
   			showInfo();
   			
   			$('a#linkNote').click(function() {
-  				$(this).parent().parent().parent().find('p#linkDesc').toggle();		
+  				$(this).parent().parent().parent().find('p#linkDesc').toggle();	
+  				$(this).toggleClass('showDesc hideDesc');	
   			});
   			
   			
