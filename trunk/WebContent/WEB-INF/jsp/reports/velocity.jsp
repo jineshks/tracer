@@ -32,13 +32,13 @@
 		
 <s:layout-component name="inlineScripts">
 	 <!--Load the AJAX API-->
-    // Load the Visualization API and the lineechart package.
+    // Load the Visualization API and the piechart package.
     google.load('visualization', '1', {'packages':['corechart']});
     // Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(drawChart);
     function drawChart() {
       var jsonData = $.ajax({
-          url: "/tracer/reports/burndown?getData",
+          url: "/tracer/reports/velocity?getData",
           dataType:"json",
           async: false
           }).responseText;
@@ -47,7 +47,7 @@
       var data = new google.visualization.DataTable(jsonData);
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
       chart.draw(data, {width: 800, height: 350});
     }
   	
