@@ -203,7 +203,7 @@
   			showInfo();
   			
   			$('a#linkNote').click(function() {
-  				$(this).parent().parent().parent().find('p#linkDesc').toggle();	
+  				$(this).parent().parent().parent().find('p#linkDesc').slideToggle('fast');	
   				$(this).toggleClass('showDesc hideDesc');	
   			});
   			
