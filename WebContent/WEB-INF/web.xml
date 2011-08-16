@@ -52,6 +52,12 @@
   	<dispatcher>FORWARD</dispatcher>
   	<dispatcher>INCLUDE</dispatcher>
   </filter-mapping>
+    <servlet>
+    <servlet-name>LoadServlet</servlet-name>
+    <servlet-class>in.espirit.tracer.schedule.LoadServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
   <error-page>
   	<error-code>404</error-code>
   	<location>/WEB-INF/jsp/404.jsp</location>
