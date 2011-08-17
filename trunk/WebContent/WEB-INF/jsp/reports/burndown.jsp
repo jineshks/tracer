@@ -21,7 +21,24 @@
 				    <div id="chart_div"></div>
 											
 				</div>
-			</div>					
+			</div>	
+			<div class="column grid-4">
+				<div class="box">
+					<h4>Filter</h4>
+					<s:form beanclass="in.espirit.tracer.action.MilestoneActionBean">
+						<div class="il">
+							<dl>
+			          			<dt>Sprint </dt>
+			          			<dd> 
+			          				<s:text name="Sprint" placeholder="Sprint"/>
+			        			</dd>
+							</dl>
+							<s:submit name="submit" value="Submit"></s:submit>	
+						</div>
+					</s:form>
+				</div>				
+			</div>	
+							
 		</div>
 	</div>
 	
