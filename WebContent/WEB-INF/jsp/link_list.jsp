@@ -22,7 +22,7 @@
 						<li class="p white" id="${link.id}N${link.position}">
 							<p>
 							<span class="p1">
-								<a id="linkNote">[...]</a>					
+								<a id="linkNote">+</a>					
 								<a href="${link.target}" target="new">${link.name}</a>						
 							</span>
 							<c:if test="${actionBean.context.userRole ne '1' && actionBean.context.loggedUser eq link.userName}">
@@ -55,7 +55,7 @@
   	var loadUrl = "/tracer/list/link?persist";
     
    	$('a#linkNote').click(function() {
-  				$(this).parent().parent().parent().find('p#linkDesc').toggle();		
+  				$(this).parent().parent().parent().find('p#linkDesc').slideToggle('fast');  				 						
   	});
   	
   	$( "ul.droptrue" ).sortable({
