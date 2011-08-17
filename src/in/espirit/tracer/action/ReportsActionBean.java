@@ -1,5 +1,9 @@
 package in.espirit.tracer.action;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
+import in.espirit.tracer.database.dao.ReportDao;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -32,19 +36,50 @@ public class ReportsActionBean extends BaseActionBean {
 	}
 	
 	private String getJSON(String type) {
+		String bar="";
+		try {
+			Map<String, Integer> result = ReportDao.getSprintStoryPoint();
+			String rows = "";
+			bar = "{"+
+			  "\"cols\": ["+
+			        "{\"id\":\"\",\"label\":\"Sprint\",\"pattern\":\"\",\"type\":\"string\"},"+
+			        "{\"id\":\"\",\"label\":\"Story points\",\"pattern\":\"\",\"type\":\"number\"}"+
+			        "],"+
+					"\"rows\": [";
+			for(Entry<String, Integer> entry : result.entrySet()) {
+				String key = entry.getKey();
+				Integer val = entry.getValue();
+				System.out.println(key + "---" + val);
+				rows += "{\"c\":[{\"v\":\"" + entry.getKey() + "\",\"f\":null},{\"v\":" + entry.getValue() + ",\"f\":null}]},";	
+			}
+			if (rows.length()>0) {
+				bar+= rows.substring(0, rows.length()-1);
+				bar+=    "]"+
+				"}";				
+			}
+			
+		} catch (Exception e) {
+			logger.fatal("Error in getting the spring story point");
+		}
+	
+		/*
+		
 		String bar = "{"+
 		  "\"cols\": ["+
 		        "{\"id\":\"\",\"label\":\"Sprint\",\"pattern\":\"\",\"type\":\"string\"},"+
 		        "{\"id\":\"\",\"label\":\"Story points\",\"pattern\":\"\",\"type\":\"number\"}"+
 		      "],"+
 		  "\"rows\": ["+
-		        "{\"c\":[{\"v\":\"Sprint A\",\"f\":null},{\"v\":3,\"f\":null}]},"+
+		        "{\"c\":[{\"v\":\"Sprint A\",\"f\":null},{\"v\":33,\"f\":null}]},"+
 		        "{\"c\":[{\"v\":\"Sprint B\",\"f\":null},{\"v\":1,\"f\":null}]},"+
 		        "{\"c\":[{\"v\":\"Sprint C\",\"f\":null},{\"v\":1,\"f\":null}]},"+
 		        "{\"c\":[{\"v\":\"Sprint D\",\"f\":null},{\"v\":1,\"f\":null}]},"+
 		        "{\"c\":[{\"v\":\"Sprint E\",\"f\":null},{\"v\":2,\"f\":null}]}"+
 		      "]"+
 		"}";
+		
+		 */
+		
 		String line = "{" +
 						"\"cols\":[" +
 							"{\"id\":\"\",\"label\":\"x\",\"pattern\":\"\",\"type\":\"string\"}," +
