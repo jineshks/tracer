@@ -103,8 +103,11 @@
 								<p>
 									<a href="planner"> Sprint Planner </a>
 								</p>
-									<p>
+								<p>
 									<a href="list/milestone"> Sprint View </a>
+								</p>
+								<p>
+									<a href="reports/burndown"> Reports </a>
 								</p>
 							</div>
 						</div>
