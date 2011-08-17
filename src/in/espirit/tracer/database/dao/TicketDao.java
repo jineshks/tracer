@@ -412,7 +412,7 @@ public class TicketDao {
 				"', f_owner='" + StringUtils.nullCheck(ticket.getOwner()) + 
 				"', f_parentticket=" + ticket.getParentTicket() + 
 				", f_component='" + StringUtils.nullCheck(ticket.getComponent()) + 
-				"', f_milestone='" + ticket.getMilestone() + 
+				"', f_milestone='" + StringUtils.nullCheck(ticket.getMilestone()) + 
 				"', f_progress=" + ticket.getProgress() + 
 				", f_tags='" + StringUtils.nullCheck(ticket.getTags()) + 
 				"', f_phase='" + StringUtils.nullCheck(ticket.getPhase()) + 
@@ -421,7 +421,7 @@ public class TicketDao {
 			 query +=", f_storypoint=" + ((Requirement) ticket).getStoryPoint();			 
 		 }		 
 			query +=" WHERE f_id='" + ticket.getId() + "'";
-		
+
 		boolean flag = executeUpdate(query);			
 		String activity = loggedUser + " has updated " + ticket.getType() + " #" + ticket.getId();
 		handleActivity(activity, loggedUser);	
