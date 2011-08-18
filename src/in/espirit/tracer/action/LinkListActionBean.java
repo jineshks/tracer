@@ -15,9 +15,10 @@ import net.sourceforge.stripes.action.UrlBinding;
 public class LinkListActionBean extends BaseActionBean {
 	private static final String URL = "/WEB-INF/jsp/link_list.jsp";
 	private String type;
+	private String tag;
 	
 	public ArrayList<Link> getItems() throws Exception {		
-		return LinkDao.getLinks(type, getContext().getLoggedUser(), "all");		
+		return LinkDao.getLinks(type, getContext().getLoggedUser(), "all", tag);		
 	}
 	
 	@DefaultHandler
@@ -52,4 +53,11 @@ public class LinkListActionBean extends BaseActionBean {
 		return type;
 	}
 
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 }

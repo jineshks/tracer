@@ -69,7 +69,7 @@ public class LinkDao {
 	return result;
 	}
 	
-		public static ArrayList<Link> getLinks(String reportType, String loggedUser, String count) throws Exception{
+		public static ArrayList<Link> getLinks(String reportType, String loggedUser, String count, String tag) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -77,7 +77,7 @@ public class LinkDao {
 		ArrayList<Link> result = new ArrayList<Link>();
 		
 		//Needs to be changed
-		String query = "select f_id, f_name, f_target, f_desc, f_username, f_position from t_link WHERE";
+		String query = "select f_id, f_name, f_target, f_desc, f_username, f_position, f_tags from t_link WHERE";
 		
 		if (reportType.equalsIgnoreCase("my")) {
 			query+= " f_userName='" + loggedUser +"'";
@@ -85,11 +85,16 @@ public class LinkDao {
 		else { 
 			query+=" f_teamvisible=1";			
 		}
+		
+		if (tag !=null) {
+			query+=" AND f_tags like '%" + tag + "%' ";			
+		}
+		
 		query +=" ORDER by f_position DESC";
 		if (!count.equalsIgnoreCase("all")) {
 			query +=" LIMIT " + count;
 		}
-		//System.out.println(query);
+
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);

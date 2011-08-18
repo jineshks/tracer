@@ -46,7 +46,7 @@ public class DashboardActionBean extends BaseActionBean {
 	}
 	
 	public ArrayList<Link> getMyLinks() throws Exception {
-		return LinkDao.getLinks("my", getContext().getLoggedUser(), "5");
+		return LinkDao.getLinks("my", getContext().getLoggedUser(), "5", null);
 	}
 	public static String getDashboard() {
 		return DASHBOARD;
