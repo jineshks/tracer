@@ -295,6 +295,46 @@ public class MilestoneDao {
 	return result;
 	}
 	
+	public static String[] getMilestoneDates(String milestone) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		String[] result = new String[2];
+		
+		String query = "SELECT f_startdate, f_enddate FROM t_milestone where f_name='" + milestone + "'";
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				result[0] = rs.getString(1);
+				result[1] = rs.getString(2);			
+			}
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+	return result;
+	}
+	
+	
 	public static String getCurrentMilestone() throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
