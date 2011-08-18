@@ -11,8 +11,8 @@
 				<div class="box tac">
 				
 					<ul id="tab">
-						<li class="${actionBean.type eq 'my' ? 'selected' : ''}"><a href="my">My Links</a></li>
-						<li class="${actionBean.type eq 'team' ? 'selected' : ''}"><a href="team">Public Links</a></li>
+						<li class="${actionBean.type eq 'my' ? 'selected' : ''}"><a href="${contextPath}/list/link/my">My Links</a></li>
+						<li class="${actionBean.type eq 'team' ? 'selected' : ''}"><a href="${contextPath}/list/link/team">Public Links</a></li>
 						<li class="shadow"></li>
 					</ul>
 				
@@ -20,11 +20,10 @@
 					<ul id="forTest" class="droptrue">
 					<c:forEach var="link" items="${actionBean.items}" varStatus="loopCount">
 						<li class="p white" id="${link.id}N${link.position}">
-							<p>
-							<span class="p1">
-								<a id="linkNote">+</a>					
+							<p>							
+								<span class="tar left descContainer"><a id="linkNote" class="hideDesc"><span class="hide"></span></a></span>					
 								<a href="${link.target}" target="new">${link.name}</a>						
-							</span>
+							
 							<c:if test="${actionBean.context.userRole ne '1' && actionBean.context.loggedUser eq link.userName}">
 								<span class="pl bl right">
 									<s:link href="${contextPath}/link/${link.id}">	Edit </s:link>				
@@ -45,6 +44,22 @@
 					</ul>						
 				</div>
 			</div>					
+			<div class="column grid-4">
+				<div class="box">
+					<h4>Tag Search</h4>
+					<s:form beanclass="in.espirit.tracer.action.LinkListActionBean">
+						<div class="il">
+							<dl>
+			          			<dt> Tag</dt>
+			          			<dd> 
+			          				<s:text id="tag" name="tag" placeholder="Tag Name"/>
+			        			</dd>			        			
+							</dl>
+							<s:submit name="search" value="Search"></s:submit>	
+						</div>
+					</s:form>
+				</div>		
+			</div>		
 		</div>
 	</div>
 </s:layout-component>
@@ -55,7 +70,8 @@
   	var loadUrl = "/tracer/list/link?persist";
     
    	$('a#linkNote').click(function() {
-  				$(this).parent().parent().parent().find('p#linkDesc').slideToggle('fast');  				 						
+  				$(this).parent().parent().parent().find('p#linkDesc').slideToggle('fast');  	
+  				$(this).toggleClass('showDesc hideDesc');				 						
   	});
   	
   	$( "ul.droptrue" ).sortable({
