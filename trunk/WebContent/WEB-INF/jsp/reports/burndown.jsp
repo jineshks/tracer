@@ -5,6 +5,7 @@
 </s:layout-component>
 <s:layout-component name="body">  
 	<c:set var="userRole" value="${actionBean.context.userRole}"></c:set>	
+	<jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>  
   	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-12">
@@ -25,15 +26,18 @@
 			<div class="column grid-4">
 				<div class="box">
 					<h4>Filter</h4>
-					<s:form beanclass="in.espirit.tracer.action.MilestoneActionBean">
+					<s:form beanclass="in.espirit.tracer.action.ReportsActionBean" partial="true">
 						<div class="il">
 							<dl>
 			          			<dt>Sprint </dt>
 			          			<dd> 
-			          				<s:text name="Sprint" placeholder="Sprint"/>
+			          				<s:select name="milestone" id="milestone">
+									<s:option value=""></s:option>
+									<s:options-collection collection="${configView.milestone}"/>
+									</s:select>
 			        			</dd>
 							</dl>
-							<s:submit name="submit" value="Submit"></s:submit>	
+							<s:button name="open" id="filterButton" value="submit" class="orange"></s:button>								
 						</div>
 					</s:form>
 				</div>				
@@ -52,24 +56,37 @@
     // Load the Visualization API and the lineechart package.
     google.load('visualization', '1', {'packages':['corechart']});
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var jsonData = $.ajax({
-          url: "/tracer/reports/burndown?getData",
-          dataType:"json",
-          async: false
-          }).responseText;
+    //google.setOnLoadCallback(drawChart);
+    google.setOnLoadCallback(function(){ drawChart('') })
+    
+    function drawChart(milestone) {
+    	var loadURL = "/tracer/reports/burndown?getData";
+      	if (milestone != null) {
+	      	loadURL = "/tracer/reports/burndown/" + milestone + "?getData";
+      	}
+      	var jsonData = $.ajax({
+        	url: loadURL,
+          	dataType:"json",
+          	async: false
+          	}).responseText;
           
-      // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(jsonData);
+      	// Create our data table out of JSON data loaded from server.
+      	var data = new google.visualization.DataTable(jsonData);
 
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      chart.draw(data, {width: 800, height: 350});
+      	// Instantiate and draw our chart, passing in some options.
+      	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      	chart.draw(data, {width: 800, height: 350});      
     }
-  	
-	
-  	
+  	  
+	$(document).ready(function(){
+		$("#filterButton").click(function() {
+			if ($("#milestone").val()=='') {
+				showMessage('Select a value in the drop down and click on submit')
+				return false;
+			}
+			drawChart($("#milestone").val());
+		});
+  	});
   	
 </s:layout-component>  
 </s:layout-render>

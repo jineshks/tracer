@@ -11,7 +11,7 @@ DROP TABLE t_taskdetails;
 DROP TABLE t_userdetails;
 DROP TABLE t_milestone;
 DROP TABLE t_attachments;
-
+DROP TABLE t_descriptionhistory;
 
 CREATE TABLE t_sequence
 (
@@ -183,6 +183,13 @@ CREATE TABLE t_descriptionhistory
   f_timestamp character varying(25),
   f_history text,
   f_ticketid integer
+);
+
+CREATE TABLE t_burndowndata
+(
+  f_timestamp timestamp,
+  f_milestone character varying(25),
+  f_progress integer
 );
 
 INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)

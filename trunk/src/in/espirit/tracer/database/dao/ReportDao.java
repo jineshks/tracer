@@ -60,4 +60,47 @@ public class ReportDao {
 	return result;
 	}
 	
+	public static LinkedHashMap<String, Integer> getBurnDownData(String milestone) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		LinkedHashMap<String, Integer> result = new LinkedHashMap<String, Integer>();
+		
+		String query = "select date(f_timestamp), f_progress from t_burndowndata where f_milestone='" + milestone + "' order by f_timestamp asc";
+	
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				result.put(rs.getString(1), rs.getInt(2));							
+			}
+			
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			logger.fatal(e.getMessage());
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+	return result;
+	}
+	
+	
+	
 }
