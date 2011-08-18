@@ -1,8 +1,6 @@
 package in.espirit.tracer.ext;
 
 import in.espirit.tracer.database.dao.MilestoneDao;
-import in.espirit.tracer.database.dao.TicketDao;
-import in.espirit.tracer.model.Defect;
 import in.espirit.tracer.model.Milestone;
 
 import java.util.Collection;

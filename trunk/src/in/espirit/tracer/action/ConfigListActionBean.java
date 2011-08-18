@@ -2,10 +2,8 @@ package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.ConfigDao;
 import in.espirit.tracer.database.dao.MilestoneDao;
-import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Config;
 import in.espirit.tracer.model.Milestone;
-import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
 import java.util.HashMap;

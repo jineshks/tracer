@@ -1,7 +1,5 @@
 package in.espirit.tracer.action;
 
-import java.util.ArrayList;
-
 import in.espirit.tracer.database.dao.CustomDao;
 import in.espirit.tracer.database.dao.UserDao;
 import in.espirit.tracer.model.User;
