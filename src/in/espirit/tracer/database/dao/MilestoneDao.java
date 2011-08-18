@@ -5,6 +5,7 @@ import in.espirit.tracer.database.connection.ConnectionPool;
 import in.espirit.tracer.model.Milestone;
 import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Ticket;
+import in.espirit.tracer.util.DaoUtils;
 import in.espirit.tracer.util.StringUtils;
 
 import java.sql.Connection;
@@ -464,4 +465,11 @@ public class MilestoneDao {
 
 	return d;
 	}
+	
+	public static void changeCurrentMilestone() throws Exception {
+		String query = "Update t_milestone set f_current=FALSE where f_name='" + getCurrentMilestone() + "'";
+		DaoUtils.executeUpdate(query);		
+	}
+	
+	
 }

@@ -22,6 +22,11 @@ public class MilestoneActionBean extends BaseActionBean {
 	}
 	
 	public Resolution submit() throws Exception {
+		
+		if (milestone.getCurrent().equalsIgnoreCase("TRUE")) {
+			MilestoneDao.changeCurrentMilestone();			
+		}
+		
 		if (milestone.getId()==null) {
 			MilestoneDao.registerEntry(milestone);	
 			getContext().getMessages().add(new SimpleMessage("New Milestone added."));
@@ -32,6 +37,8 @@ public class MilestoneActionBean extends BaseActionBean {
 			getContext().getMessages().add(new SimpleMessage("Milestone successfully edited and saved."));
 			logger.debug("Editing / Saving milestone - " + milestone.getName());
 		}
+		
+		
 		return new RedirectResolution(ConfigListActionBean.class);
 	}
 	

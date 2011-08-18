@@ -37,8 +37,7 @@
 							<dl>
 								<dt>Current Sprint</dt>
 								<dd>
-									<s:radio name="milestone.current" value="TRUE"></s:radio>Yes
-									<s:radio name="milestone.current" value="FALSE"/>No				
+									<s:checkbox name="milestone.current"  value="TRUE"/> Yes													
 								</dd>
 							</dl>
 							<s:submit name="submit" value="Submit" /> 
