@@ -78,7 +78,8 @@ public class TicketDao {
 		}		
 		executeUpdate(query);		 
 		String activity = loggedUser + " has created " + ticket.getType() + " #" + id;
-		handleActivity(activity, loggedUser);			
+		handleActivity(activity, loggedUser);		
+		insertTicketDescriptionChange(id, loggedUser, ticket.getDesc());
 		return id;	
 	}
 	
@@ -883,57 +884,10 @@ public class TicketDao {
 		return flag;			
 	}	
 		
-	public static String getTicketDesc(String id, String type) throws Exception{
-		ConnectionPool pool = ConnectionFactory.getPool();
-		Connection con = pool.getConnection();
-		Statement st = null;
-		ResultSet rs = null;
-		String result= null;
-				
-		String query = "";
-		query = "SELECT f_description FROM " +  tableName(type) + " WHERE f_id=" + id;
-			
-		try {
-			st = con.createStatement();
-			rs = st.executeQuery(query);
-				
-			while (rs.next()) {			
-				result = rs.getString(1);								
-			}
-			if (rs != null) {
-			
-				rs.close();
-			}
-
-			if (st != null) {
-				st.close();
-			}
-
-		} catch (Exception e) {
-			logger.error("Getting ticket description failed with error " + e.getMessage());
-			if (rs != null) {
-				rs.close();
-			}
-
-			if (st != null) {
-				st.close();
-			}
-			throw new Exception(e.getMessage());
-
-		} // catch Close
-
-		finally {
-			if (con != null)
-				con.close(); // close connection		
-		}// end finally
-		return result;
-	}
-	
-	
-	public static boolean insertTicketDescriptionChange(String id, String type, String loggedUser) throws Exception {
-		String query = "Insert into t_descriptionhistory (f_ticketid, f_username, f_timestamp,f_text) VALUES ('" +
+	public static boolean insertTicketDescriptionChange(String id, String loggedUser, String desc) throws Exception {
+		String query = "Insert into t_descriptionhistory (f_ticketid, f_username, f_timestamp,f_desc) VALUES ('" +
 		id +"','" + loggedUser +"','" + DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm") + "','" +
-		getTicketDesc(id, type) +"')";
+		desc +"')";
 		boolean flag = executeUpdate(query);
 		return flag;		
 	}
@@ -947,8 +901,8 @@ public class TicketDao {
 				
 		String query = "";
 		
-		query = "SELECT f_username, f_timestamp, f_text FROM t_descriptionhistory where f_ticketid='" + id + "'";
-		
+		query = "SELECT f_username, f_timestamp, f_desc FROM t_descriptionhistory where f_ticketid='" + id + "'";
+
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);

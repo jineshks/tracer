@@ -17,7 +17,7 @@ public class TicketDescription extends BaseActionBean {
 		boolean flag = false;
 		String output = "";
 	
-		TicketDao.insertTicketDescriptionChange(id, type, getContext().getLoggedUser());
+		TicketDao.insertTicketDescriptionChange(id, getContext().getLoggedUser(), desc);
 		
 		String activity = getContext().getLoggedUser() + " has changed description of " + type + " #" + id;
 		TicketDao.handleActivity(activity, getContext().getLoggedUser());
@@ -56,6 +56,7 @@ public class TicketDescription extends BaseActionBean {
 		output = output.substring(0,output.length()-1);
 		output +="]";
 		logger.debug("JSON output" + output);
+		System.out.println(output);
 		return new StreamingResolution("text/json", output);
 	}
 
