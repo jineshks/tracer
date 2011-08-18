@@ -177,5 +177,13 @@ CREATE TABLE t_link
   CONSTRAINT pk_link PRIMARY KEY (f_id)
 )
 
+CREATE TABLE t_descriptionhistory
+(
+  f_username character varying(35),
+  f_timestamp character varying(25),
+  f_history text,
+  f_ticketid integer
+);
+
 INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)
 

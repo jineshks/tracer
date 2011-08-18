@@ -259,7 +259,12 @@ public class ActivityDao {
 						a.setActivity(a1[0] + " " + a1[1] + " " + a1[2] + " " + a1[3] + " " + link);
 					}
 					else {
-						id = s1.substring(pos, s1.substring(pos, s1.length()).indexOf(" ") + pos);
+						if ((s1.length()-pos)>5) {
+							id = s1.substring(pos, s1.substring(pos, s1.length()).indexOf(" ") + pos);
+						}
+						else {
+							id = s1.substring(pos, s1.length());
+						}					
 						link =  "<a href='./";
 						if (s1.indexOf("defect") > 0) {
 							link +=  "defect";		

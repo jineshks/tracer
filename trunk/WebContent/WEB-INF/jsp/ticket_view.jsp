@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
-
+<s:layout-component name="infoPanel"> 
+</s:layout-component>
 <s:layout-component name="body">  
 <c:if test="${actionBean.ticket.type eq 'defect'}">
 <c:set var="beanclass" value="in.espirit.tracer.action.DefectActionBean"></c:set>
@@ -18,8 +19,14 @@
 		<div class="column grid-10"><s:errors globalErrorsOnly="true"></s:errors>
 		<div class="box">
 		<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4> 
-		<h5>Description</h5>
-		<p>${actionBean.ticket.desc}</p>
+		<h5>Description</h5> 
+		<p id="ticketDesc">${actionBean.ticket.desc}</p>
+		<a id="showTicketDescHistory">History</a>
+		<ul id="descHistory" class="hide">
+			<li>
+			<img class='loading' src='../images/load.gif' alt='loading...'/>
+			</li>
+		</ul>		
 		</div>
 		<c:set var="parentTicket" value="${actionBean.parentTicket}"></c:set>
 		<c:set var="subTickets" value="${actionBean.subTickets}"></c:set> 
@@ -150,8 +157,6 @@
 						
 						<s:hidden name="ticket.id"></s:hidden>
 						<s:hidden name="ticket.type"></s:hidden>
-						<s:hidden name="ticket.title"></s:hidden>
-						<s:hidden name="ticket.desc"></s:hidden>
 						<div class="il">
 							<dl>
 								<dt> Importance </dt>
@@ -273,6 +278,61 @@
 		}
  
 $(document).ready(function(){
+
+  $("p#ticketDesc").click(function() {  //for editing the ticket description.
+  	var existingDesc = $(this).text();
+  	inputbox = "<textarea id='description' cols='80' name='description' rows='10'>"+ existingDesc +"</textarea>"
+  	$(this).html(inputbox);
+  	$("textarea#description").focus();
+  	
+  	$("textarea#description").blur(function() {
+  		var changedDesc = $(this).val();
+        if (existingDesc != changedDesc) {
+        	$.get(  
+	        	"/tracer/ticketdesc?update",  
+	            {id: $("#hTicketId").val(),type: $("#hTicketType").val(),desc:changedDesc},  
+	            function(responseText){ 
+	                if (responseText=='failure') {
+	                	showMessage('Updates to ticket description is not saved properly. Please refresh and try again');
+	                }
+	            },  
+	            "html"  
+	        );         	
+         }
+         $("#ticketDesc").text(changedDesc);
+    });  	  
+  });
+
+  $("a#showTicketDescHistory").click(function() {
+  	$("#descHistory").slideToggle('fast');  
+  	var alreadyLoaded = $("ul#descHistory").find('img').size();   
+  	// 1 means its not loaded. 0 means already loaded beacuase if img is there means already loaded.
+  	if (alreadyLoaded == '1') {
+  		$.getJSON(
+			"/tracer/ticketdesc?history",
+			{id:$("#hTicketId").val()},
+			function (data) {
+				$("ul#descHistory").empty();
+				if (data) {
+					var items = [];
+					$.each(data, function(json) {	
+						var temp = ''
+						temp = '<li>';
+						temp = temp + '<span class="tar right">'+ this.time +'</span>';
+						temp = temp + '<p><span class="bold">' + this.user + ':</span>' + this.val + '</p>';
+						temp = temp + '</li>'
+						items.push(temp);							
+					});		
+					$("ul#descHistory").append(items.join(''));					
+				}
+				else {
+					showMessage('There is no history of ticket description');
+				}
+			}				
+		);
+  	}	  	
+  });
+  
   
   $.ajaxSetup ({
 		cache: false
