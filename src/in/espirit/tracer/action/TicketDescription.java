@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Comment;
-import in.espirit.tracer.util.DateUtils;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;

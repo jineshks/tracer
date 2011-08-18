@@ -1,6 +1,5 @@
 package in.espirit.tracer.view;
 
-import in.espirit.tracer.database.dao.ConfigDao;
 import in.espirit.tracer.database.dao.CustomDao;
 import in.espirit.tracer.database.dao.MilestoneDao;
 import in.espirit.tracer.database.dao.UserDao;
