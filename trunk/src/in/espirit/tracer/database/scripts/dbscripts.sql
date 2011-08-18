@@ -12,6 +12,7 @@ DROP TABLE t_userdetails;
 DROP TABLE t_milestone;
 DROP TABLE t_attachments;
 DROP TABLE t_descriptionhistory;
+DROP TABLE t_burndowndata;
 
 CREATE TABLE t_sequence
 (
@@ -181,7 +182,7 @@ CREATE TABLE t_descriptionhistory
 (
   f_username character varying(35),
   f_timestamp character varying(25),
-  f_history text,
+  f_desc text,
   f_ticketid integer
 );
 
