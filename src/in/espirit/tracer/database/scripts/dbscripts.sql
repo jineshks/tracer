@@ -13,6 +13,7 @@ DROP TABLE t_milestone;
 DROP TABLE t_attachments;
 DROP TABLE t_descriptionhistory;
 DROP TABLE t_burndowndata;
+DROP TABLE t_link;
 
 CREATE TABLE t_sequence
 (
