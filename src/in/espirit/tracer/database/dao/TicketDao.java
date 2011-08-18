@@ -402,11 +402,12 @@ public class TicketDao {
 		return d;
 	}
 
-	public static boolean editTicket(Ticket ticket, String loggedUser) throws Exception {
+	public static boolean editTicket(Ticket ticket, String loggedUser) throws Exception {  // Removed editing title and description. this will be done separately.
+		
+		//f_title='" + ticket.getTitle() +
+		//"', f_description='" + ticket.getDesc() +
 		String query = "UPDATE " + tableName(ticket.getType()) +
-				" SET f_title='" + ticket.getTitle() + 
-				"', f_description='" + ticket.getDesc() +
-				"', f_priority='" + StringUtils.nullCheck(ticket.getPriority()) + 
+				" SET f_priority='" + StringUtils.nullCheck(ticket.getPriority()) + 
 				"', f_status='" + StringUtils.nullCheck(ticket.getStatus()) + 
 				"', f_reporter='" + StringUtils.nullCheck(ticket.getReporter()) + 
 				"', f_owner='" + StringUtils.nullCheck(ticket.getOwner()) + 
@@ -870,6 +871,125 @@ public class TicketDao {
 		}// end finally	
 		
 		return result;
-	}	
+	}
 
+	public static boolean updateTicketDesc(String id, String type, String desc) throws Exception {
+		//f_title='" + ticket.getTitle() +
+		//"', f_description='" + ticket.getDesc() +
+		String query = "UPDATE " + tableName(type) +
+				" SET f_description='" + desc +"' WHERE f_id='" + id + "'";
+		
+		boolean flag = executeUpdate(query);
+		return flag;			
+	}	
+		
+	public static String getTicketDesc(String id, String type) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		String result= null;
+				
+		String query = "";
+		query = "SELECT f_description FROM " +  tableName(type) + " WHERE f_id=" + id;
+			
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				result = rs.getString(1);								
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting ticket description failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally
+		return result;
+	}
+	
+	
+	public static boolean insertTicketDescriptionChange(String id, String type, String loggedUser) throws Exception {
+		String query = "Insert into t_descriptionhistory (f_ticketid, f_username, f_timestamp,f_text) VALUES ('" +
+		id +"','" + loggedUser +"','" + DateUtils.getDatetimeInFormat("yyyy/MM/dd HH:mm") + "','" +
+		getTicketDesc(id, type) +"')";
+		boolean flag = executeUpdate(query);
+		return flag;		
+	}
+	
+	public static ArrayList<Comment> getTicketDescHistory(String id) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Comment> result = new ArrayList<Comment>();
+				
+		String query = "";
+		
+		query = "SELECT f_username, f_timestamp, f_text FROM t_descriptionhistory where f_ticketid='" + id + "'";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {			
+				Comment c = new Comment();
+				c.setUserName(rs.getString(1));
+				c.setTimeStamp(rs.getString(2));
+				c.setComment(rs.getString(3));	
+				result.add(c);
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting ticket description history failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
+	}	
+	
+	
+	
 }
