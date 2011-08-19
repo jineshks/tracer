@@ -97,18 +97,33 @@
 								<h6>Sprint</h6>
 							</div>
 							<div class="pt">
-								<p>
-									<a href="taskboard"> Taskboard </a>
-								</p>
-								<p>
-									<a href="planner"> Sprint Planner </a>
-								</p>
-								<p>
-									<a href="list/milestone"> Sprint View </a>
-								</p>
-								<p>
-									<a href="reports/burndown"> Reports </a>
-								</p>
+								
+								<div>
+									<div class="column grid-8">
+										<p>
+											<a href="taskboard"> Taskboard </a>
+										</p>
+										<p>
+											<a href="planner"> Sprint Planner </a>
+										</p>
+										<p>
+											<a href="list/milestone"> Sprint View </a>
+										</p>
+										<p>
+											<a href="reports/burndown"> Reports </a>
+										</p>
+									</div>
+									<div class="column grid-8">
+							          			<p> Start Date : 2011-07-21  </p>
+							          			<p> End Date : 2011-08-21  </p>
+							          			<p> Tickets : 28  </p>
+							          			<p> Stories points : 256  </p>
+							          			<div class="progressbar-small" title="progress:41%" >
+													<div id="cl-progress" class="progress-green" style="width: 41%;">
+													</div>
+												</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="box">
