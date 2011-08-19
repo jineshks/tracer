@@ -20,7 +20,7 @@
 					<ul id="forTest" class="droptrue">
 					<c:forEach var="link" items="${actionBean.items}" varStatus="loopCount">
 						<li class="p white" id="${link.id}N${link.position}">
-							<p>							
+							<p class="nm">							
 								<span class="tar left descContainer"><a id="linkNote" class="hideDesc"><span class="hide"></span></a></span>					
 								<a href="${link.target}" target="new">${link.name}</a>						
 							
