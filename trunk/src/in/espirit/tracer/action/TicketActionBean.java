@@ -47,21 +47,23 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 		try {
 			mail = MailDao.getMailTemplate(template);
 			String email = "";
-			ArrayList<String> to = new ArrayList<String>();
+			String to = "";
 			if (ticket.getOwner() != null) {
 				email = UserDao.getUserEmail(ticket.getOwner());
 				if (email != null) {
-					to.add(email);
+					to = email;
 				}			
 			}
+			
 			if (ticket.getReporter() != null) {
 				email = UserDao.getUserEmail(ticket.getReporter());
 				if (email != null) {
-					to.add(email);
+					if (!to.equalsIgnoreCase("")) {
+						to+=",";
+					}					
+					to += email;
 				}				
 			}
-			
-			System.out.println(to.size());
 			mail.setTo(to);
 			
 			Map<String, String> values = new HashMap<String, String>();
