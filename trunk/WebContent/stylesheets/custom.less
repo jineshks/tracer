@@ -12,9 +12,7 @@ header {
     top: 0;
     width: 100%;
     z-index: 10;
-    
 }
-
 
 footer {
     background: -moz-linear-gradient(center top, #333333, #111111) repeat scroll 0 0 transparent;
@@ -32,16 +30,13 @@ body{
 	background:#f8f8f8;
 }
 
-
 #bodycontent{
-	
 	min-height:500px;
 	margin:.5em;
 	padding-top:60px;
 }
 
-#emoticons
-{
+#emoticons{
 	display: none;
 	border: 1px solid #666;
 	position: absolute;
@@ -673,4 +668,67 @@ ul#tab li.selected a:link, ul#tab li.selected a:visited {
     background-color: @g2;
     height: 6px;
     margin: 0;
+}
+
+
+.tooltip{ // not used. kept as reference for transparent gradient;
+    background-color: #6A6C70;
+    background-image: -moz-linear-gradient(100% 100% 90deg, rgba(0, 0, 0, 0.33), rgba(255, 255, 255, 0.33));
+    border: 1px solid #47494C;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.64);
+    color: #E1E7EC;
+    cursor: pointer;
+    display: block;
+    font-family: arial;
+    font-size: 12px;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    text-shadow: 0 1px 0 #4F5256;
+}
+
+.inbox-item{
+	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), to(#EEE));
+	background: -moz-linear-gradient(top,  #F2F2F2,  #EEE);
+    background-image: -moz-linear-gradient(100% 100% 90deg, rgba(140, 140, 140, 0.33), rgba(200, 200, 200, 0.33));
+    border-top: 1px solid #F8F8F8;
+    border-bottom: 1px solid #AAA;
+    color: #333;
+}
+
+.inbox-item:hover{
+ 	background: #BDBDBD;
+}
+
+.fade{
+ 	color:#555;
+}
+
+.message-panel{
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.64);
+	input{
+		min-width:150px;
+		border-radius:0px;
+		margin:4px;
+	}
+}
+
+.message-header {
+    background-image: -moz-linear-gradient(100% 100% 90deg, rgba(150, 150, 150, 0.33), rgba(240, 240, 240, 0.33));
+    border: 1px solid #DDD;
+}
+
+.message-body {
+    padding:1em;
+}
+
+.messaging{
+ input, textarea{
+ 	width:95%;
+ }
+ 
+ input[type=submit]{
+ 	width:150px;
+ }
 }

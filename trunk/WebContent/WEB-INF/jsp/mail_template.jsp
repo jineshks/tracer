@@ -1,17 +1,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
 	<s:layout-component name="body">
-
 		<div id="bodycontent">
 			<div class="row">
-
-				
-				<div class="column grid-8">
+				<div class="column grid-16">
 					<div class="box tac">
-						<div class="login">
+						<div class="">
 							<s:form beanclass="in.espirit.tracer.action.MailActionBean">
 								<ul>
-									<h4>Email Notification</h4>
 									<li> <s:text name="from" placeholder="Sender"></s:text> </li>
 									<li> <s:text name="to" placeholder="Receiver"></s:text> </li>
 									<li> <s:text name="subject" placeholder="Subject"></s:text> </li>
@@ -22,7 +18,6 @@
 						</div>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 
