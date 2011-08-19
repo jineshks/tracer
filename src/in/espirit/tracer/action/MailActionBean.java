@@ -1,9 +1,7 @@
 package in.espirit.tracer.action;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-import in.espirit.tracer.database.dao.CustomDao;
 import in.espirit.tracer.model.Mail;
+import in.espirit.tracer.util.MailUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -41,7 +39,7 @@ public class MailActionBean extends BaseActionBean{
 		
 		boolean flag = false;
 	try {
-		String host = CustomDao.getResourceMessage("smtpHost");
+		// String host = CustomDao.getResourceMessage("smtpHost"); - moved to sendMail
 		String from = getContext().getRequest().getParameter("from")
 				.trim();
 		String to = getContext().getRequest().getParameter("to")
@@ -53,12 +51,12 @@ public class MailActionBean extends BaseActionBean{
 
 		Mail mail = new Mail();
 		mail.setFrom(from);
-		mail.setTo(to);
-		mail.setSmtpHost(host);
+		//mail.setTo(to);
+		//mail.setSmtpHost(host);
 		mail.setMessage(message);
 		mail.setSubject(subject);
 		
-		flag = this.sendTextMail(mail);
+		flag = MailUtils.sendTextMail(mail);
 	} catch (Exception e) {
 		System.out.println("Error while mailing");
 		e.printStackTrace();
@@ -77,32 +75,7 @@ public class MailActionBean extends BaseActionBean{
 	
 	
 	
-	private boolean sendTextMail(Mail mail){
-		logger.debug("Begin sending message");
-		try{
-			HtmlEmail email = new HtmlEmail();
-			email.setHostName(mail.getSmtpHost());
-			//email.setAuthentication(username, password);
-			//email.setSmtpPort(port);
-			email.setFrom(mail.getFrom());
-			email.addTo(mail.getTo());
-			email.setSubject(mail.getSubject());
 
-			email.setTextMsg(mail.getMessage());
-			//email.setHtmlMsg(htmlBody);
-
-			//email.setDebug(true);
-
-			email.send();
-
-		} catch (EmailException mex) {
-			logger.error("Failed to send email");
-			return false;
-		}
-		return true;
-		
-		
-	}
 	
 	
 	

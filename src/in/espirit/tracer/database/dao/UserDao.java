@@ -91,6 +91,52 @@ public class UserDao{
 		return u;
 	}
 	
+	public static String getUserEmail(String userName) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		String email = null;
+			
+		String query = "SELECT f_email FROM t_userdetails where f_userName='" + userName + "' OR f_displayname='" + userName + "'";
+		
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+			
+			while (rs.next()) {		
+				email = rs.getString(1);				
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting user email failed with error " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return email;
+	}
+	
 	public static ArrayList<User> getUserList() throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
