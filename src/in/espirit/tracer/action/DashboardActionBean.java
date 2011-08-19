@@ -3,10 +3,12 @@ package in.espirit.tracer.action;
 import in.espirit.tracer.database.dao.ActivityDao;
 import in.espirit.tracer.database.dao.AlertDao;
 import in.espirit.tracer.database.dao.LinkDao;
+import in.espirit.tracer.database.dao.MilestoneDao;
 import in.espirit.tracer.database.dao.TicketDao;
 import in.espirit.tracer.model.Activity;
 import in.espirit.tracer.model.Alert;
 import in.espirit.tracer.model.Link;
+import in.espirit.tracer.model.Milestone;
 import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
@@ -48,6 +50,15 @@ public class DashboardActionBean extends BaseActionBean {
 	public ArrayList<Link> getMyLinks() throws Exception {
 		return LinkDao.getLinks("my", getContext().getLoggedUser(), "5", null);
 	}
+	
+	public Milestone getcurrentMilestone() throws Exception {
+		Milestone current = MilestoneDao.getCurrentMilestoneDetails();
+		current.setProgress(MilestoneDao.calcProgress(current.getName()));
+		current.setTotalTickets(MilestoneDao.getSprintTotalTickets(current.getName()));
+		current.setVelocity(MilestoneDao.getSprintStoryPoint(current.getName()));
+		return current;	
+	}
+	
 	public static String getDashboard() {
 		return DASHBOARD;
 	}
