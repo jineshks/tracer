@@ -5,6 +5,8 @@ public class Milestone {
 	
 	private String startDate, endDate;
 	
+	private int totalTickets, velocity, progress;
+	
 	public String getStartDate() {
 		return startDate;
 	}
@@ -51,5 +53,29 @@ public class Milestone {
 
 	public void setCurrent(String current) {
 		this.current = current;
+	}
+
+	public void setTotalTickets(int totalTickets) {
+		this.totalTickets = totalTickets;
+	}
+
+	public int getTotalTickets() {
+		return totalTickets;
+	}
+
+	public void setVelocity(int velocity) {
+		this.velocity = velocity;
+	}
+
+	public int getVelocity() {
+		return velocity;
+	}
+
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
+	public int getProgress() {
+		return progress;
 	}
 }

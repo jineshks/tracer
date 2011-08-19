@@ -114,12 +114,13 @@
 										</p>
 									</div>
 									<div class="column grid-8">
-							          			<p> Start Date : 2011-07-21  </p>
-							          			<p> End Date : 2011-08-21  </p>
-							          			<p> Tickets : 28  </p>
-							          			<p> Stories points : 256  </p>
-							          			<div class="progressbar-small" title="progress:41%" >
-													<div id="cl-progress" class="progress-green" style="width: 41%;">
+										<c:set var="currMile" value="${actionBean.currentMilestone}"></c:set>
+												<p> Start Date : ${currMile.startDate}  </p>
+							          			<p> End Date : ${currMile.endDate}  </p>
+							          			<p> Tickets : ${currMile.totalTickets}  </p>
+							          			<p> Stories points : ${currMile.totalTickets}  </p>
+							          			<div class="progressbar-small" title="progress:${currMile.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${currMile.progress}%;">
 													</div>
 												</div>
 									</div>

@@ -2,13 +2,9 @@ package in.espirit.tracer.action;
 
 import in.espirit.tracer.database.dao.MilestoneDao;
 import in.espirit.tracer.model.Milestone;
-import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Ticket;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
-
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -21,23 +17,12 @@ public class MilestoneListActionBean extends BaseActionBean {
 	
 	private String milestoneId;
 
-	public LinkedHashMap<Milestone, Integer> getMilestoneList() throws Exception {
-		ArrayList<Milestone> mlList  = MilestoneDao.getAllEntries();
-		LinkedHashMap<Milestone, Integer> result = new LinkedHashMap<Milestone, Integer>();
-		//(((sum of task progress)/(no of tasks)x story point)+((sum of task progress)/(no of tasks)x story point)+...)/(sum of story points)
-		for(Milestone m : mlList) {	
-			ArrayList<Requirement> req = MilestoneDao.getMilestoneStory(m.getName());
-			double top = 0;    // has the top value in the division operation.
-			double bottom = 0;  // has the bottom value in the division operation.
-			for(Requirement r : req) {
-				if (r.getStoryPoint()!=null) {
-					int storypoint = Integer.parseInt(r.getStoryPoint());
-					double prog = MilestoneDao.getTaskProgressTotal(r.getId());
-					top += (prog * storypoint);
-					bottom += storypoint;		
-				}
-			}			
-			result.put(m, (int) (top/bottom));			
+	public ArrayList<Milestone> getMilestoneList() throws Exception {
+		ArrayList<Milestone> result  = MilestoneDao.getAllEntries();
+		for(Milestone m : result) {	
+			m.setProgress(MilestoneDao.calcProgress(m.getName()));
+			m.setTotalTickets(MilestoneDao.getSprintTotalTickets(m.getName()));
+			m.setVelocity(MilestoneDao.getSprintStoryPoint(m.getName()));				
 		}
 		return result;
 	}

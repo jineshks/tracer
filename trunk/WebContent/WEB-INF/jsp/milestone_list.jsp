@@ -8,14 +8,12 @@
 	<div id="bodycontent">
 		<div class="row">
 			<div class="column grid-12">				
-				<c:forEach var="hashmapList" items="${actionBean.milestoneList}" >
-						<c:set var="milestone" value="${hashmapList.key}"/>
+				<c:forEach var="milestone" items="${actionBean.milestoneList}" >
 						<c:set var="divstylename" value="box"></c:set>
 							<c:if test="${milestone.current eq 't'}">
 								<c:set var="divstylename" value="box alert"></c:set>
 							</c:if>
 							<div class="${divstylename}">
-							
 								<div>
 									<div class="column grid-10">
 										<h6><a href="milestone/${milestone.id}">${milestone.name}</a></h6>
@@ -26,17 +24,15 @@
 									<div class="column grid-6">
 							          			<p> Start Date : ${milestone.startDate} </p>
 							          			<p> End Date : ${milestone.endDate} </p>
-							          			<p> Velocity : ${hashmapList.value}  </p>
-							          			<div class="progressbar-small">
-													<div id="cl-progress" class="progress-green" style="width: ${hashmapList.value}%;">
+							          			<p> Total Tickets : ${milestone.totalTickets}  </p>
+							          			<p> Velocity : ${milestone.velocity}  </p>
+							          			<div class="progressbar-small" title="progress:${milestone.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${milestone.progress}%;">
 													</div>
 												</div>
 									</div>
 								</div>
-							
 							</div>
-							
-												
 				</c:forEach>
 			</div>	
 			<div class="column grid-4">

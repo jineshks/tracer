@@ -385,6 +385,57 @@ public class MilestoneDao {
 		return result;
 	}
 	
+	public static Milestone getCurrentMilestoneDetails() throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		Milestone result = new Milestone();
+		
+		String query="";
+	
+		query = "SELECT f_name, f_startdate, f_enddate FROM t_milestone where f_current=TRUE";
+				
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				result.setName(rs.getString(1));
+				result.setStartDate(rs.getString(2));
+				result.setEndDate(rs.getString(3));
+			}
+			if (rs != null) {
+			
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting all milestone failed with " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			//throw new Exception(e.getMessage()+query+"-SELECTED QUERY>-"+selQuery+"-STATUS>-"+status+"-USERNAME>-"+UserName+"-PRIORITY-"+priority);
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+		
+		return result;
+	}
+	
 	public static ArrayList<Requirement> getMilestoneStory(String milestone) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -471,5 +522,102 @@ public class MilestoneDao {
 		DaoUtils.executeUpdate(query);		
 	}
 	
+	public static int calcProgress(String name) throws Exception {
+		//(((sum of task progress)/(no of tasks)x story point)+((sum of task progress)/(no of tasks)x story point)+...)/(sum of story points)
+		ArrayList<Requirement> req = getMilestoneStory(name);
+		double top = 0;    // has the top value in the division operation.
+		double bottom = 0;  // has the bottom value in the division operation.
+		for(Requirement r : req) {
+			if (r.getStoryPoint()!=null) {
+				int storypoint = Integer.parseInt(r.getStoryPoint());
+				double prog = getTaskProgressTotal(r.getId());
+				top += (prog * storypoint);
+				bottom += storypoint;		
+			}
+		}
+		return (int) (top/bottom);
+	}
 	
+	public static int getSprintStoryPoint(String milestone) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		String query = "select sum(f_storypoint) from t_requirementdetails where f_milestone='" + milestone + "'";
+	
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				result = rs.getInt(1);								
+			}
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			logger.fatal(e.getMessage());
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+	return result;
+	}
+	
+	
+	public static int getSprintTotalTickets(String milestone) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		String query = "select count(f_id) from t_defectdetails where f_milestone='" + milestone + "'"+
+		" UNION ALL select count(f_id) from t_taskdetails where f_milestone='" + milestone + "'" + 
+		" UNION ALL select count(f_id) from t_requirementdetails where f_milestone='" + milestone + "'";
+	
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+				
+			while (rs.next()) {
+				result += rs.getInt(1);				
+			}
+			if (rs != null) {			
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+		} catch (Exception e) {
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			logger.fatal(e.getMessage());
+			throw new Exception(e.getMessage());
+		} // catch Close
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+	return result;
+	}
 }
