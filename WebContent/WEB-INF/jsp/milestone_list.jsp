@@ -26,7 +26,11 @@
 									<div class="column grid-6">
 							          			<p> Start Date : ${milestone.startDate} </p>
 							          			<p> End Date : ${milestone.endDate} </p>
-							          			<p> Progress : ${hashmapList.value}  </p>
+							          			<p> Velocity : ${hashmapList.value}  </p>
+							          			<div class="progressbar-small">
+													<div id="cl-progress" class="progress-green" style="width: ${hashmapList.value}%;">
+													</div>
+												</div>
 									</div>
 								</div>
 							
