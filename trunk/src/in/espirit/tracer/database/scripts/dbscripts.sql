@@ -14,6 +14,7 @@ DROP TABLE t_attachments;
 DROP TABLE t_descriptionhistory;
 DROP TABLE t_burndowndata;
 DROP TABLE t_link;
+DROP TABLE t_mailtemplates;
 
 CREATE TABLE t_sequence
 (
@@ -194,5 +195,17 @@ CREATE TABLE t_burndowndata
   f_progress integer
 );
 
+CREATE TABLE t_mailtemplates
+(
+  f_name character varying(25),
+  f_subject character varying(50),
+  f_body text,
+  CONSTRAINT pk_template PRIMARY KEY (f_name)
+);
+
 INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)
+
+INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('ticket-edit','Tracer - Ticket is updated','The <type> ticket <a href=\'<applicationhome>/<type>/<id>\'>#<id></a> related to you has been updated by <updater>. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
+INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('ticket-new','Tracer - Ticket is created','A <type> ticket <a href=\'<applicationhome>/<type>/<id>\'>#<id></a> has been created by <updater>. You are listed as either owner or reporter. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
+
 

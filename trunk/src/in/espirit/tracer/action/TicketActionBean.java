@@ -1,9 +1,20 @@
 package in.espirit.tracer.action;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import in.espirit.tracer.database.dao.CustomDao;
+import in.espirit.tracer.database.dao.MailDao;
 import in.espirit.tracer.database.dao.TicketDao;
+import in.espirit.tracer.database.dao.UserDao;
 import in.espirit.tracer.model.Comment;
+import in.espirit.tracer.model.Mail;
+import in.espirit.tracer.model.Ticket;
 import in.espirit.tracer.util.DateUtils;
+import in.espirit.tracer.util.MailUtils;
+import in.espirit.tracer.util.StringUtils;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.validation.SimpleError;
@@ -29,6 +40,45 @@ public class TicketActionBean extends BaseActionBean implements ValidationErrorH
 		}
 		return flag;
 	}	
+	
+	public boolean handleEmail(Ticket ticket, String template) {
+		boolean flag = false;
+		Mail mail;
+		try {
+			mail = MailDao.getMailTemplate(template);
+			String email = "";
+			ArrayList<String> to = new ArrayList<String>();
+			if (ticket.getOwner() != null) {
+				email = UserDao.getUserEmail(ticket.getOwner());
+				if (email != null) {
+					to.add(email);
+				}			
+			}
+			if (ticket.getReporter() != null) {
+				email = UserDao.getUserEmail(ticket.getReporter());
+				if (email != null) {
+					to.add(email);
+				}				
+			}
+			
+			System.out.println(to.size());
+			mail.setTo(to);
+			
+			Map<String, String> values = new HashMap<String, String>();
+								
+			values.put("<type>", ticket.getType());
+			values.put("<id>", ticket.getId());
+			values.put("<applicationhome>", CustomDao.getResourceMessage("applicationhome"));
+			values.put("<updater>",getContext().getLoggedUser());
+			mail.setMessage(StringUtils.templateToMail(mail.getMessage(), values));				
+			flag = MailUtils.sendTextMail(mail);	
+		
+		} catch (Exception e) {
+			logger.warn("Sending email failed with error - " + e.getMessage());
+			e.printStackTrace();
+		}			
+		return flag;	
+	}
 	
 	public Resolution cancel() {
 		ForwardResolution res = new ForwardResolution(ListActionBean.class);

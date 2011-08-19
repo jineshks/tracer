@@ -56,13 +56,20 @@ public class DefectActionBean extends TicketActionBean {
 			getContext().getMessages().add(new SimpleMessage("New " + ticket.getType() +" Registered."));
 			logger.debug("Registering new ticket of type " + ticket.getType());
 			String ticketid = TicketDao.registerTicket(ticket, getContext().getLoggedUser());
-			handleComments(ticket.getNewComments(), ticketid, ticket.getType());			
+			handleComments(ticket.getNewComments(), ticketid, ticket.getType());	
+			ticket.setId(ticketid);
+			if (ticket.getOwner() != null || ticket.getReporter()!= null) {
+				handleEmail(ticket, "ticket-new");
+			}	
 		}
 		else {
 			getContext().getMessages().add(new SimpleMessage(ticket.getType() + " Successfully edited."));
 			logger.debug("Saving edited version of ticket - " + ticket.getType()+ "-" + ticket.getId());
 			TicketDao.editTicket(ticket, getContext().getLoggedUser());
-			handleComments(ticket.getNewComments(), ticket.getId(), ticket.getType());				
+			handleComments(ticket.getNewComments(), ticket.getId(), ticket.getType());
+			if (ticket.getOwner() != null || ticket.getReporter()!= null) {
+				handleEmail(ticket, "ticket-edit");
+			}	
 		}	
 		return new RedirectResolution(ListActionBean.class).addParameter("list", "all").addParameter("type", "defect");		
 	}
