@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Mail {
 	
 	private String from;
-	private ArrayList<String> to;
+	private String to;  // Add multiple email address separated by comma
 	private String subject;
 	private String message;
 	
@@ -28,13 +28,10 @@ public class Mail {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public void setTo(ArrayList<String> to) {
+	public void setTo(String to) {
 		this.to = to;
 	}
-	public ArrayList<String> getTo() {
+	public String getTo() {
 		return to;
 	}
-	
-	
-
 }
