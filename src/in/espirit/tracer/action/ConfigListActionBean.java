@@ -16,7 +16,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 @UrlBinding("/list/config")
 public class ConfigListActionBean extends BaseActionBean {
 
-	private static final String URL="/WEB-INF/jsp/configlist.jsp";
+	private static final String URL="/WEB-INF/jsp/config/milestone.jsp";
 	
 
 	public ArrayList<Config> getAllConfig() throws Exception {		
