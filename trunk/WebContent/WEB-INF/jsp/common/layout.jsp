@@ -6,7 +6,7 @@
 		</s:layout-component>
 		<s:layout-component name="inlineScripts">
 			<script type="text/javascript">
-				${inlineScripts}		
+				${inlineScripts}
 			</script>
 		</s:layout-component>
 		<s:layout-component name="header">

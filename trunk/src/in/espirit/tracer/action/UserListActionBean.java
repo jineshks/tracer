@@ -15,7 +15,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 public class UserListActionBean extends BaseActionBean {
 	
 	private static final String URL_LISTING = "/WEB-INF/jsp/user_list.jsp";
-	private static final String URL_ADMINAPPROVAL = "/WEB-INF/jsp/user_approval_list.jsp";
+	private static final String URL_ADMINAPPROVAL = "/WEB-INF/jsp/config/user_approval_list.jsp";
 	
 	private String view;
 	
