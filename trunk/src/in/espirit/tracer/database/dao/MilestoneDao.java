@@ -394,16 +394,17 @@ public class MilestoneDao {
 		
 		String query="";
 	
-		query = "SELECT f_name, f_startdate, f_enddate FROM t_milestone where f_current=TRUE";
+		query = "SELECT f_id, f_name, f_startdate, f_enddate FROM t_milestone where f_current=TRUE";
 				
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
 				
 			while (rs.next()) {
-				result.setName(rs.getString(1));
-				result.setStartDate(rs.getString(2));
-				result.setEndDate(rs.getString(3));
+				result.setId(rs.getString(1));
+				result.setName(rs.getString(2));
+				result.setStartDate(rs.getString(3));
+				result.setEndDate(rs.getString(4));
 			}
 			if (rs != null) {
 			
