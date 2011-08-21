@@ -8,16 +8,54 @@
       <div class="row">
 			 <div class="column  grid-4">
 			 		<div class="leftpane box">
-			 			
-			 			<div class="inbox-item ps">
-			 				<p class="p nm"> Milestones </p>
-			 			</div>
-			 			<div class="inbox-item ps">
-			 				<p class="p nm"> Users </p>
-			 			</div>
-			 			<div class="inbox-item ps">
-			 				<p class="p nm"> Labels </p>
-			 			</div>
+						<c:choose>
+							<c:when test="${section eq 'milestone'}">	
+					 			<div class="box-item-selected ps">
+					 				<p class="p nm"> <a href="${contextPath}/list/config"> Milestones </a> </p>
+					 			</div>
+				 			</c:when>
+				 			<c:otherwise>
+				 				<div class="box-item ps">
+					 				<p class="p nm"> <a href="${contextPath}/list/config"> Milestones </a> </p>
+					 			</div>
+				 			</c:otherwise>
+			 			</c:choose>
+			 			<c:choose>
+							<c:when test="${section eq 'useradmin'}">	
+					 			<div class="box-item-selected ps">
+					 				<p class="p nm"> <a href="${contextPath}/list/user/approval"> Users </a> </p>
+					 			</div>
+				 			</c:when>
+				 			<c:otherwise>
+				 				<div class="box-item ps">
+					 				<p class="p nm"> <a href="${contextPath}/list/user/approval"> Users </a> </p>
+					 			</div>
+				 			</c:otherwise>
+			 			</c:choose>
+			 			<c:choose>
+							<c:when test="${section eq 'labels'}">	
+					 			<div class="box-item-selected ps">
+					 				<p class="p nm"> <a href="${contextPath}/config"> Labels </a> </p>
+					 			</div>
+				 			</c:when>
+				 			<c:otherwise>
+				 				<div class="box-item ps">
+					 				<p class="p nm"> <a href="${contextPath}/config"> Labels </a> </p>
+					 			</div>
+				 			</c:otherwise>
+			 			</c:choose>
+			 			<c:choose>
+							<c:when test="${section eq 'resetpwd'}">	
+					 			<div class="box-item-selected ps">
+					 				<p class="p nm"> <a href="${contextPath}/config"> Reset Password </a> </p>
+					 			</div>
+				 			</c:when>
+				 			<c:otherwise>
+				 				<div class="box-item ps">
+					 				<p class="p nm"> <a href="${contextPath}/config"> Reset Password </a> </p>
+					 			</div>
+				 			</c:otherwise>
+			 			</c:choose>
 			 		
 			 		</div>
 			 </div>

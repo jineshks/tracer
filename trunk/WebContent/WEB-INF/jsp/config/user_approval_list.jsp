@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<s:layout-render name="/WEB-INF/jsp/config/config.jsp">
+<s:layout-render name="/WEB-INF/jsp/config/config.jsp" section="useradmin">
 <s:layout-component name="infoPanel"> 
 	<s:messages/>
 </s:layout-component>

@@ -12,19 +12,19 @@
 			 				<span class=""> <input type="button" class="orange ps" value="Delete" /> </span>
 			 			</div>
 			 			
-			 			<div class="inbox-item ps">
+			 			<div class="box-item ps">
 			 				<p><span> <input class="nm" type="checkbox"/> </span> Mail subject here </p>
 			 				<span class="fade">Joe</span> <span class="right fade">2011-Jul-23</span>
 			 			</div>
-			 			<div class="inbox-item ps">
+			 			<div class="box-item ps">
 			 				<p><span> <input class="nm" type="checkbox"/> </span> Mail subject here </p>
 			 				<span class="fade">Joe</span> <span class="right fade">2011-Jul-23</span>
 			 			</div>
-			 			<div class="inbox-item ps">
+			 			<div class="box-item ps">
 			 				<p><span> <input class="nm" type="checkbox"/> </span>  Mail subject here </p>
 			 				<span class="fade">Joe</span> <span class="right fade">2011-Jul-23</span>
 			 			</div>
-			 			<div class="inbox-item ps">
+			 			<div class="box-item ps">
 			 				<p><span> <input class="nm" type="checkbox"/> </span> Mail subject here </p>
 			 				<span class="fade">Joe</span> <span class="right fade">2011-Jul-23</span>
 			 			</div>
