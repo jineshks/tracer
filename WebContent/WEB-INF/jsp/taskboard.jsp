@@ -11,7 +11,11 @@
 									<c:forEach var="ticket" items="${actionBean.backlog}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span> </p> 
+											<p class="${ticket.priority} nm"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span> </p> 
+											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
+													</div>
+											</div>	
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>								
@@ -25,7 +29,11 @@
 									<c:forEach var="ticket" items="${actionBean.development}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a><span class="right">${ticket.owner}</span> </p> 
+											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a><span class="right">${ticket.owner}</span> </p> 
+											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
+													</div>
+											</div>	
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>	
@@ -40,8 +48,13 @@
 									<c:forEach var="ticket" items="${actionBean.readyForTest}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
-											<p> ${ticket.title} </p>								
+											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
+											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
+													</div>
+											</div>	
+											<p> ${ticket.title} </p>
+																		
 									</li>									
 									</c:forEach>
 								</ul>		
@@ -55,7 +68,11 @@
 								<c:forEach var="ticket" items="${actionBean.testing}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
+											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
+											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
+													</div>
+											</div>	
 											<p> ${ticket.title} </p>								
 									</li>									
 								</c:forEach>
@@ -70,28 +87,18 @@
 									<c:forEach var="ticket" items="${actionBean.readyForRelease}">
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
-											<p class="${ticket.priority}"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
+											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
+											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
+													</div>
+											</div>	
 											<p> ${ticket.title} </p>								
 									</li>									
 									</c:forEach>
 								</ul>								
 						</div>
 					</div> 
-					<%--  
-					 <div class="column grid-3">
-						<div class="box">
-							<h4>Released</h4>
-								<ul id="released-list" class="droptrue">
-									<c:forEach var="ticket" items="${actionBean.released}">
-									<li id="${ticket.id}" class="white">
-											<p class="p4"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </p> 
-											<p> ${ticket.title} </p>								
-									</li>									
-									</c:forEach>
-								</ul>								
-						</div>
-					</div>  
-					--%>  	    		
+   		
     		</div>	
     </div>
   </div>
