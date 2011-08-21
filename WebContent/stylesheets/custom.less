@@ -699,7 +699,7 @@ ul#tab li.selected a:link, ul#tab li.selected a:visited {
     text-shadow: 0 1px 0 #4F5256;
 }
 
-.inbox-item{
+.box-item{
 	background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), to(#EEE));
 	background: -moz-linear-gradient(top,  #F2F2F2,  #EEE);
     background-image: -moz-linear-gradient(100% 100% 90deg, rgba(140, 140, 140, 0.33), rgba(200, 200, 200, 0.33));
@@ -708,9 +708,22 @@ ul#tab li.selected a:link, ul#tab li.selected a:visited {
     color: #333;
 }
 
-.inbox-item:hover{
+.box-item:hover{
  	background: #BDBDBD;
 }
+
+.box-item-selected{
+	//background: #acacac;
+    //border-top: 1px solid #F8F8F8;
+    //border-bottom: 1px solid #AAA;
+    color: #333;
+    background-color: #666;
+    background-image: -moz-linear-gradient(100% 100% 90deg, rgba(0, 0, 0, 0.33), rgba(255, 255, 255, 0.33));
+    border: 1px solid #47494C;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.64);
+}
+
 
 .fade{
  	color:#555;
