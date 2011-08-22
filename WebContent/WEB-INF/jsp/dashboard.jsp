@@ -170,6 +170,9 @@
 						<div class="box">
 							<div class="title">
 								<h6>Messaging</h6>
+								<span class="right">
+									<s:link class="list" href="/messaging/inbox" >Inbox</s:link>							
+								</span>
 							</div>
 							<div class="pt">
 								<p>
