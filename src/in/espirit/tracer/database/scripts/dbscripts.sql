@@ -15,6 +15,7 @@ DROP TABLE t_descriptionhistory;
 DROP TABLE t_burndowndata;
 DROP TABLE t_link;
 DROP TABLE t_mailtemplates;
+DROP TABLE t_message;
 
 CREATE TABLE t_sequence
 (
@@ -201,6 +202,20 @@ CREATE TABLE t_mailtemplates
   f_subject character varying(50),
   f_body text,
   CONSTRAINT pk_template PRIMARY KEY (f_name)
+);
+
+CREATE TABLE t_message
+(
+  f_id serial NOT NULL,
+  f_from character varying(35),
+  f_to character varying(250),
+  f_cc character varying(250),
+  f_subject character varying(250),
+  f_sentdate timestamp,
+  f_important integer,
+  f_notify integer,
+  f_message text,
+  CONSTRAINT pk_message PRIMARY KEY (f_id)
 );
 
 INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)
