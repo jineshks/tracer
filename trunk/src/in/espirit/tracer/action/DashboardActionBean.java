@@ -10,6 +10,7 @@ import in.espirit.tracer.model.Alert;
 import in.espirit.tracer.model.Link;
 import in.espirit.tracer.model.Milestone;
 import in.espirit.tracer.model.Ticket;
+import in.espirit.tracer.util.DateUtils;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,9 @@ public class DashboardActionBean extends BaseActionBean {
 	
 	public Milestone getcurrentMilestone() throws Exception {
 		Milestone current = MilestoneDao.getCurrentMilestoneDetails();
+		
+		//Setting the description to days remaining and using it to displaying the days there.
+		current.setDescription(DateUtils.daysRemaining(DateUtils.convertStringToCalendar(current.getEndDate(), "yyyy-MM-dd")));
 		current.setProgress(MilestoneDao.calcProgress(current.getName()));
 		current.setTotalTickets(MilestoneDao.getSprintTotalTickets(current.getName()));
 		current.setVelocity(MilestoneDao.getSprintStoryPoint(current.getName()));

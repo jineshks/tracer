@@ -1,5 +1,6 @@
 package in.espirit.tracer.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,4 +34,21 @@ public class DateUtils {
 		return result;
 	}
 
+	
+	public static String daysRemaining(Calendar endDate) {  
+		  Calendar date = Calendar.getInstance();
+		  long daysBetween = 0;  
+		  while (date.before(endDate)) {  
+		    date.add(Calendar.DAY_OF_MONTH, 1);  
+		    daysBetween++;  
+		  }  
+		  return String.valueOf(daysBetween);  
+		}  	
+	
+	public static Calendar convertStringToCalendar(String date, String format) throws ParseException {
+		DateFormat formatter = new SimpleDateFormat(format);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(formatter.parse(date));
+		return cal;		
+	}
 }
