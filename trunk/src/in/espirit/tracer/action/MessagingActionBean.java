@@ -32,8 +32,13 @@ public class MessagingActionBean extends BaseActionBean {
 		
 		String output = "";
 		String id = this.getContext().getRequest().getParameter("id");
+		String read = this.getContext().getRequest().getParameter("read");
+		
 		try {
-			message = MessageDao.getMessageDetails(Integer.parseInt(id));			
+			message = MessageDao.getMessageDetails(Integer.parseInt(id));
+			if (read.equalsIgnoreCase("1")) { 
+				MessageDao.changeUnread(getContext().getLoggedUser(), id);    // This is for setting the flag of unread from 0 to 1.
+			}
 		} catch (Exception e) {
 			logger.warn("Failed to retireve the message " + id + " error - " + e.getMessage());
 			e.printStackTrace();
@@ -69,6 +74,7 @@ public class MessagingActionBean extends BaseActionBean {
 				output += "\"subj\":\"" + message.getSubject() + "\",";
 				output += "\"date\":\"" + message.getSentdate() + "\",";
 				output += "\"from\":\"" + message.getFrom() + "\",";
+				output += "\"unread\":\"" + message.getUnread() + "\",";
 				output += "\"imp\":\"" + message.getImportant() + "\"";
 				output +="},";
 			}

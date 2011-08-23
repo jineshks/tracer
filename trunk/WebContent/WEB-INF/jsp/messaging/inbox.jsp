@@ -111,20 +111,37 @@
 	<s:layout-component name="inlineScripts">
 		$(document).ready(function() {
 			
-			//call JSON to load the first list of messages.
-			
-			if (parseInt($("#msg-totalcount").text())>0) {
+			//Function to be used for getting the list of messages at start, next and previous clicks
+						
+			$.fn.listMsgs = function(page) {
+				var offsetval = 0;
+				if (page=='next') {
+					offsetval = $("#msg-end").text();
+					$("#msg-start").text(parseInt($("#msg-end").text())+1);					
+				}
+				else if (page=='previous') {
+					offsetval = parseInt($("#msg-start").text())-parseInt($("#msg-pagecount").text())-1;
+					$("#msg-end").text(parseInt($("#msg-start").text())-1);
+					$("#msg-start").text(parseInt($("#msg-start").text())-parseInt($("#msg-pagecount").text()));					
+				}
+				else if (page=='start') {
+					offsetval = 0;
+					$("#msg-start").text(1);
+				}
+				$("#msg-list").empty();				
 				$.getJSON(
 					"messaging?messageList",
-					{offset:0},
+					{offset:offsetval},
 					function (data) {
-						if (data) {
-							$("#msg-list").empty();
-							$("#msg-start").text(1);
-							end = 0;
+						if (data) {							
+							count = 0;
 							$.each(data, function(json) { 
 									var temp = '';
-									temp +=	'<div class="box-item ps" id="shMess">';
+									var className = "box-item ps";
+									if (this.unread == '1') {
+										className = "box-item-unread";
+									}									
+									temp +=	'<div class="' + className + '">';							
 									temp += '<p>';
 									temp +=	'<span> <input class="nm" type="checkbox" value='+ this.id + '> </span> ';	
 									temp +=	'<a id="subject">'+ this.subj + '</a>';	
@@ -132,21 +149,34 @@
 									temp +=	'<span class="fade">'+ this.from + '</span> ';	
 									temp +=	'<span class="right fade">'+ this.date + '</span>';	
 									temp +=	'</div>';	
-									end += 1;
+									count += 1;
 									$("#msg-list").append(temp);		
 							});	
-							$("#msg-end").text(end);														
-						}				
-				});		
+							$("#msg-end").text(count + parseInt($("#msg-start").text())-1);  // This is wrong and needs to be corrected now.
+							
+							$("#previous").show();	
+							$("#next").show();
+													
+							//for to hide next						
+							if (parseInt($("#msg-end").text())>=parseInt($("#msg-totalcount").text())) {
+								$("#next").hide();
+							}		
+							// for to hide previous							
+							if (parseInt($("#msg-start").text())<=1) {
+								$("#previous").hide();
+							}
+						}								
+				});				
+			};
+			
+			//call JSON to load the first list of messages.
+						
+			if (parseInt($("#msg-totalcount").text())>0) {
+				$.fn.listMsgs();
 			}
 			else {
 				$("#msg-foot").hide();	
-			}	
-						
-			if (parseInt($("#msg-totalcount").text())>parseInt($("#msg-pagecount").text())) {		
-				$("#next").show();
-			}
-						
+			}					
 			
 			//$("div#shMess").click(function() {
 				//alert("open the message but what about check box selection");
@@ -155,10 +185,15 @@
 			//});
 			
 			
-			$("a#subject").live("click", function() {				
+			$("a#subject").live("click", function() {	
+				//determine whether the message called is unread or read.
+				var read = "0";
+				if ($(this).parent().parent().attr('class')=='box-item-unread') {
+					read = "1";
+				}						
 				$.getJSON(
 					"messaging?messageDetails",
-					{id:$(this).parent().find("input:checkbox").val()},
+					{id:$(this).parent().find("input:checkbox").val(), read:read},
 					function (data) {
 						if (data) {
 							$("#msg-display").find('#msg-subj').text(data.subj);
@@ -172,7 +207,9 @@
 							$("#msg-display").show();
 							$("#msg-compose").hide();
 						}				
-				});			
+				});	
+				$(this).parent().parent().attr('class','box-item ps');   // setting the message to read always.
+						
 			});			
 			
 			$("input:button").click(function() {
@@ -206,67 +243,13 @@
 			});
 			
 			$("a#next").click(function(){
-				$.getJSON(
-					"messaging?messageList",
-					{offset:$(this).parent().parent().find("#msg-end").text()},
-					function (data) {
-						if (data) {
-							$("#msg-list").empty();
-							$("#msg-start").text(parseInt($("#msg-end").text())+1);
-							end = parseInt($("#msg-end").text());
-							$.each(data, function(json) { 
-									var temp = '';
-									temp +=	'<div class="box-item ps" id="shMess">';
-									temp += '<p>';
-									temp +=	'<span> <input class="nm" type="checkbox" value='+ this.id + '> </span> ';	
-									temp +=	'<a id="subject">'+ this.subj + '</a>';	
-									temp +=	'</p>';
-									temp +=	'<span class="fade">'+ this.from + '</span> ';	
-									temp +=	'<span class="right fade">'+ this.date + '</span>';	
-									temp +=	'</div>';	
-									end += 1;
-									$("#msg-list").append(temp);		
-							});	
-							$("#msg-end").text(end);		
-							
-							if (parseInt($("#msg-end").text())>=parseInt($("#msg-totalcount").text())) {
-								$("#next").hide();
-							}		
-							$("#previous").show();										
-						}				
-				});
-								
+				//end = parseInt($("#msg-end").text());
+				$.fn.listMsgs("next");									
 			});		
 			
 			$("a#previous").click(function(){
-				$.getJSON(
-					"messaging?messageList",
-					{offset:(parseInt($("#msg-start").text())-parseInt($("#msg-pagecount").text())-1)},
-					function (data) {
-						if (data) {
-							$("#msg-list").empty();
-							$("#msg-end").text(parseInt($("#msg-start").text())-1);
-							$("#msg-start").text(parseInt($("#msg-start").text())-parseInt($("#msg-pagecount").text()));
-							$.each(data, function(json) { 
-									var temp = '';
-									temp +=	'<div class="box-item ps" id="shMess">';
-									temp += '<p>';
-									temp +=	'<span> <input class="nm" type="checkbox" value='+ this.id + '> </span> ';	
-									temp +=	'<a id="subject">'+ this.subj + '</a>';	
-									temp +=	'</p>';
-									temp +=	'<span class="fade">'+ this.from + '</span> ';	
-									temp +=	'<span class="right fade">'+ this.date + '</span>';	
-									temp +=	'</div>';	
-									$("#msg-list").append(temp);		
-							});
-							if (parseInt($("#msg-start").text())<=1) {
-								$("#previous").hide();
-							}
-							$("#next").show();													
-						}				
-				});										
-			});		
-			
+				$.fn.listMsgs("previous");													
+			});					
 		});
 		
   </s:layout-component>
