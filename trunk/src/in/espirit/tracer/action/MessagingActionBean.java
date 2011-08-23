@@ -61,7 +61,7 @@ public class MessagingActionBean extends BaseActionBean {
 	}
 	
 	public Resolution messageList() {
-		String output = "";
+		String output = null;
 		String offset = this.getContext().getRequest().getParameter("offset");
 		//String count = this.getContext().getRequest().getParameter("count");
 		try {
@@ -79,12 +79,28 @@ public class MessagingActionBean extends BaseActionBean {
 				output +="},";
 			}
 			output = output.substring(0, output.length()-1);
-			output += "]";
+			if (output.length() > 0) {
+				output += "]";
+			}
 		} catch (Exception e) {
 			logger.warn("Failed to retireve the message list error - " + e.getMessage());
 			e.printStackTrace();
 		}	
+		
 		return new StreamingResolution("text/json", output);
+	}
+	
+	public Resolution deleteMessage() throws Exception {
+		String msgids = this.getContext().getRequest().getParameter("msgid");
+		String [] msgid = msgids.split(",");
+		boolean flag = true;
+		for (int i=0;i<msgid.length;i++) {
+			flag = flag && MessageDao.deleteMessage(getContext().getLoggedUser(), msgid[i]);			
+		}
+		if (flag==true) {
+			return new StreamingResolution("text", "success" );
+		}
+		return new StreamingResolution("text", "failure");
 	}
 	
 	public String getPageCount() {

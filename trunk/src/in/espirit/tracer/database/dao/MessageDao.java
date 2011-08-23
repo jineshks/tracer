@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MessageDao {
@@ -50,7 +49,7 @@ public class MessageDao {
 		"," + message.getNotify() + ",'" + message.getMessage() + "','" + show + "')";
 		
 		String query = "INSERT INTO t_message " + fields + " VALUES " + values;
-		
+	
 		boolean flag = false;
 		flag = DaoUtils.executeUpdate(query);
 		return flag;
@@ -78,8 +77,6 @@ public class MessageDao {
 		if (count != null) {
 			query +=" LIMIT " + count;
 		}
-		
-
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -267,6 +264,22 @@ public class MessageDao {
 		String show = getMessageUnread(id);
 		show = show.replaceAll(loggedUser+":1", loggedUser+":0");		
 		String query = "UPDATE t_message set f_show='" + show + "' WHERE f_id=" + id;
+		flag = DaoUtils.executeUpdate(query);
+		return flag;	
+	}
+	
+	public static boolean deleteMessage(String loggedUser, String id) throws Exception {
+		boolean flag = false;
+		String query;
+		String show = getMessageUnread(id);
+		show = show.replaceAll(loggedUser+":[01][,]?", "");
+		
+		if (show.equalsIgnoreCase("")) {
+			query = "DELETE FROM t_message where f_id=" + id;			
+		}
+		else {
+			query = "UPDATE t_message set f_show='" + show + "' WHERE f_id=" + id;
+		}		
 		flag = DaoUtils.executeUpdate(query);
 		return flag;	
 	}
