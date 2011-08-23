@@ -22,8 +22,8 @@
 
 						</div>
 					</div>
-					<div class="column  grid-7" id="msg-block" style="visibility:hidden;">
-						<div class="box" id="msg-detail">
+					<div class="column  grid-7" id="msg-block" >
+						<div class="box" id="msg-display" style="display:none;">
 							<div class="message-panel ps">
 								<span class=""> 
 									<input type="button" class="blue ps" value="Reply" name="reply"/> </span> 
@@ -33,7 +33,7 @@
 									<input type="button" class="blue ps" value="Forward" name="forward"/> </span>
 							</div>
 							<div class="message-header ps">
-								<h6></h6>
+								<h6 id="msg-subj"></h6>
 								<span class="hide" id="msg-id"></span>
 								<span class="right" id="msg-date"></span>
 								<p class="pt nm">
@@ -46,8 +46,31 @@
 								<p id="msg-body">
 								</p>								
 							</div>
-
 						</div>
+						
+						<div class="box tac" id="msg-compose"> 
+							<div class="messaging">
+								<s:form beanclass="in.espirit.tracer.action.MessagingActionBean">
+									<ul>
+										<li><s:text name="message.to" placeholder="To"></s:text>
+										</li>
+										<li><s:text name="message.cc" placeholder="CC"></s:text>
+										</li>
+										<li><s:text name="message.subject" placeholder="Subject"></s:text>
+										</li>
+										<li><span class="p"> <s:checkbox
+													style="display:inline" name="message.important" value="1"></s:checkbox>Important
+										</span> <span class="p"><s:checkbox style="display:inline"
+													name="message.notify" value="1">Notify</s:checkbox> Copy on
+												email</span>
+										</li>
+										<li><s:textarea name="message.message" 
+												placeholder="Message" rows="20"></s:textarea></li>
+										<li><s:submit name="sendMessage" value="Send" /></li>
+									</ul>
+								</s:form>
+							</div>
+						</div>					
 					</div>
 					<div class="column  grid-4">
 						<div class="rightpane">
@@ -92,7 +115,7 @@
 			
 			if (parseInt($("#msg-totalcount").text())>0) {
 				$.getJSON(
-					"tracer/messaging?MessageList",
+					"messaging?messageList",
 					{offset:0},
 					function (data) {
 						if (data) {
@@ -114,8 +137,7 @@
 							});	
 							$("#msg-end").text(end);														
 						}				
-				});			
-						
+				});		
 			}
 			else {
 				$("#msg-foot").hide();	
@@ -128,44 +150,64 @@
 			
 			//$("div#shMess").click(function() {
 				//alert("open the message but what about check box selection");
-				//alert($("#msg-detail").find('h6').text());
-				//$("#msg-detail").find('h6').text('New Message subject');			
+				//alert($("#msg-display").find('h6').text());
+				//$("#msg-display").find('h6').text('New Message subject');			
 			//});
 			
 			
-			//$("a#subject").click(function() {
-			$("a#subject").live("click", function() {
-				$("#msg-block").css("visibility", "hidden");
+			$("a#subject").live("click", function() {				
 				$.getJSON(
-					"tracer/messaging?MessageDetails",
+					"messaging?messageDetails",
 					{id:$(this).parent().find("input:checkbox").val()},
 					function (data) {
 						if (data) {
-							$("#msg-detail").find('h6').text(data.subj);
-							$("#msg-detail").find('#msg-date').text(data.date);
-							$("#msg-detail").find('#msg-from').text(data.from);
-							$("#msg-detail").find('#msg-to').text(data.to);
-							$("#msg-detail").find('#msg-cc').text(data.cc);
-							$("#msg-detail").find('#msg-body').text(data.message);
-							$("#msg-detail").find('#msg-id').text(data.id);						
-							$("#msg-block").css("visibility", "visible");
+							$("#msg-display").find('#msg-subj').text(data.subj);
+							$("#msg-display").find('#msg-date').text(data.date);
+							$("#msg-display").find('#msg-from').text(data.from);
+							$("#msg-display").find('#msg-to').text(data.to);
+							$("#msg-display").find('#msg-cc').text(data.cc);
+							$("#msg-display").find('#msg-body').text(data.message);
+							$("#msg-display").find('#msg-id').text(data.id);
+							$("#msg-display").css("visibility", "visible");
+							$("#msg-display").show();
+							$("#msg-compose").hide();
 						}				
 				});			
 			});			
 			
 			$("input:button").click(function() {
-				var butName = $(this).attr('name');				
-				if (butName == "reply" || butName == "replyall" || butName == "forward") {
-					location.href = "compose/" + butName + "/" + $("#msg-detail").find('#msg-id').text()
+				var butName = $(this).attr('name');			
+				
+				//set the fields of the messages to what we need and then show it. This shouldn't happen for delete and filter as it should be returned.
+				
+				$("#msg-display").hide();
+				$("#msg-compose").show();
+				
+				$("#msg-compose").find('input[name=message\\.to]').val('');
+				$("#msg-compose").find('input[name=message\\.cc]').val('');
+				$("#msg-compose").find('input[name=message\\.subject]').val('');		
+				$("#msg-compose").find('textarea[name=message\\.message]').val('');
+								
+				if (butName == "reply") {
+					$("#msg-compose").find('input[name=message\\.to]').val($("#msg-from").text());
+					$("#msg-compose").find('input[name=message\\.subject]').val("Re:"+$("#msg-subj").text());
+					$("#msg-compose").find('textarea[name=message\\.message]').val($("#msg-body").text());					
 				}
-				else if (butName == "compose") {
-					location.href="compose";
-				}	
+				else if (butName == "replyall") {
+					$("#msg-compose").find('input[name=message\\.to]').val($("#msg-from").text()+","+$("#msg-to").text());
+					$("#msg-compose").find('input[name=message\\.cc]').val($("#msg-cc").text());
+					$("#msg-compose").find('input[name=message\\.subject]').val("Re:"+$("#msg-subj").text());
+					$("#msg-compose").find('textarea[name=message\\.message]').val($("#msg-body").text());					
+				}
+				else if (butName == "forward") {
+					$("#msg-compose").find('input[name=message\\.subject]').val("Fw:"+$("#msg-subj").text());
+					$("#msg-compose").find('textarea[name=message\\.message]').val($("#msg-body").text());
+				}			
 			});
 			
 			$("a#next").click(function(){
 				$.getJSON(
-					"tracer/messaging?MessageList",
+					"messaging?messageList",
 					{offset:$(this).parent().parent().find("#msg-end").text()},
 					function (data) {
 						if (data) {
@@ -198,7 +240,7 @@
 			
 			$("a#previous").click(function(){
 				$.getJSON(
-					"tracer/messaging?MessageList",
+					"messaging?messageList",
 					{offset:(parseInt($("#msg-start").text())-parseInt($("#msg-pagecount").text())-1)},
 					function (data) {
 						if (data) {
