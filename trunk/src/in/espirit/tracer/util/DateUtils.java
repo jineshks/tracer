@@ -38,10 +38,19 @@ public class DateUtils {
 	public static String daysRemaining(Calendar endDate) {  
 		  Calendar date = Calendar.getInstance();
 		  long daysBetween = 0;  
-		  while (date.before(endDate)) {  
-		    date.add(Calendar.DAY_OF_MONTH, 1);  
-		    daysBetween++;  
-		  }  
+		  if (date.before(endDate)) {
+			  while (date.before(endDate)) {  
+				  date.add(Calendar.DAY_OF_MONTH, 1);  
+				  daysBetween++;  
+			  } 
+		  }
+		  else {
+			  while (date.after(endDate)) {  
+				  date.add(Calendar.DAY_OF_MONTH, -1);  
+				  daysBetween--;  
+			  } 		  
+		  }		  
+		  
 		  return String.valueOf(daysBetween);  
 		}  	
 	
