@@ -139,7 +139,7 @@
 									var temp = '';
 									var className = "box-item ps";
 									if (this.unread == '1') {
-										className = "box-item-unread";
+										className = "box-item-unread ps";
 									}									
 									temp +=	'<div class="' + className + '">';							
 									temp += '<p>';
