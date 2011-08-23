@@ -1,15 +1,16 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
+	<s:layout-component name="infoPanel"> 
+	</s:layout-component>
 	<s:layout-component name="body">
 		<div id="bodycontent">
 			<div id="main-section">
-
-				<div class="row">
+					<div class="row">
 					<div class="column  grid-5">
 						<div class="leftpane box">
 							<div class="message-panel ps">
 								<span class=""> <input type="button" name="compose" class="blue ps" value="Compose" /> </span> 
-								<span class=""> <input type="button" class="orange ps" value="Delete" /> </span>
+								<span class=""> <input type="button" name="delete" class="orange ps" value="Delete" /> </span>
 							</div>
 							<div id="msg-list">
 						
@@ -124,16 +125,15 @@
 					$("#msg-end").text(parseInt($("#msg-start").text())-1);
 					$("#msg-start").text(parseInt($("#msg-start").text())-parseInt($("#msg-pagecount").text()));					
 				}
-				else if (page=='start') {
-					offsetval = 0;
-					$("#msg-start").text(1);
+				else if (page=='refresh') {    // This is to handle deletion of tickets in that page and display new ones now
+					offsetval = (parseInt($("#msg-start").text())-1);
 				}
 				$("#msg-list").empty();				
 				$.getJSON(
 					"messaging?messageList",
 					{offset:offsetval},
 					function (data) {
-						if (data) {							
+						if (data) {			
 							count = 0;
 							$.each(data, function(json) { 
 									var temp = '';
@@ -165,7 +165,16 @@
 							if (parseInt($("#msg-start").text())<=1) {
 								$("#previous").hide();
 							}
-						}								
+						}
+						else {  //case may be no data after deletion or null return from server
+							if (parseInt($("#msg-start").text())> 1) {   //Try once for getting the list of first page again if the page is not first page.
+								$("#msg-start").text('1');
+								$.fn.listMsgs();
+							}
+							else {
+								$("#msg-foot").hide();
+							}												
+						}														
 				});				
 			};
 			
@@ -185,14 +194,16 @@
 			//});
 			
 			
+			//$("a#subject").live("click", function() {	
 			$("#msg-item").live("click", function() {	
-				//determine whether the message called is unread or read.
 				var read = "0";
-				if ($(this).attr('class')=='box-item-unread') {
+				//if ($(this).parent().parent().attr('class')=='box-item-unread') {
+				if ($(this).attr('class')=='box-item-unread ps') {
 					read = "1";
 				}						
 				$.getJSON(
 					"messaging?messageDetails",
+					//{id:$(this).parent().find("input:checkbox").val(), read:read},
 					{id:$(this).find("input:checkbox").val(), read:read},
 					function (data) {
 						if (data) {
@@ -208,13 +219,50 @@
 							$("#msg-compose").hide();
 						}				
 				});	
-				$(this).parent().parent().attr('class','box-item ps');   // setting the message to read always.
+				//$(this).parent().parent().attr('class','box-item ps');   // setting the message to read always.
+				$(this).attr('class','box-item ps'); 
 						
 			});			
 			
-			$("input:button").click(function() {
-				var butName = $(this).attr('name');			
+			$("input:button[name=delete]").live("click", function() {	
+				var msgid = "";
+				var count = 0;
+				var submitFlag = false;
+				$(".nm:checked").each(function() {
+					msgid += $(this).val() + ",";
+					count += 1;				
+				});		
+				msgid = msgid.substring(0, msgid.length-1);
+				if (msgid.length == 0 ) {
+					showMessage("Select atleast one message for deletion");
+					return false;
+				}
 				
+				var loadUrl = "?deleteMessage&msgid=" + msgid;
+				$.ajax({
+	       			url : loadUrl,  
+	           		success : function(responseText){ 
+	            			if(responseText=="success") {
+	            				submitFlag = true;	               				
+	               			}  
+	               			else if (responseText=="failure") {
+	               				showMessage('Some problem with deleting messages. Please refresh this page and try again!');
+	               				submitFlag = false;
+	               			}             			
+	             		},  
+	            	async : false  
+	     		}); 	
+	     
+	     		if (submitFlag) {
+	     			$("#msg-totalcount").text((parseInt($("#msg-totalcount").text())- count));     				
+	     			$.fn.listMsgs("refresh");	
+	     		}
+					
+			});
+			
+			$("input.blue.ps").click(function() { //class blue ps is used for message composing buttons
+			
+				var butName = $(this).attr('name');
 				//set the fields of the messages to what we need and then show it. This shouldn't happen for delete and filter as it should be returned.
 				
 				$("#msg-display").hide();
@@ -243,7 +291,6 @@
 			});
 			
 			$("a#next").click(function(){
-				//end = parseInt($("#msg-end").text());
 				$.fn.listMsgs("next");									
 			});		
 			
