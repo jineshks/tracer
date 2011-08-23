@@ -3,7 +3,7 @@ package in.espirit.tracer.model;
 public class Messaging {
 	
 	private int id, important, notify;
-	private String from, to, cc, subject, sentdate, message;
+	private String from, to, cc, subject, sentdate, message, unread;
 	public int getId() {
 		return id;
 	}
@@ -59,7 +59,11 @@ public class Messaging {
 	public int getNotify() {
 		return notify;
 	}
-
-	
+	public void setUnread(String unread) {
+		this.unread = unread;
+	}
+	public String getUnread() {
+		return unread;
+	}
 	
 }

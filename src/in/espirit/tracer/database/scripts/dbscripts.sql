@@ -215,6 +215,7 @@ CREATE TABLE t_message
   f_important integer,
   f_notify integer,
   f_message text,
+  f_show character varying(500),
   CONSTRAINT pk_message PRIMARY KEY (f_id)
 );
 
