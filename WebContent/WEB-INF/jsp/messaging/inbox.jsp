@@ -187,7 +187,6 @@
 			
 			$("#msg-item").live("click", function() {	
 				//determine whether the message called is unread or read.
-				alert("click register");
 				var read = "0";
 				if ($(this).attr('class')=='box-item-unread') {
 					read = "1";
