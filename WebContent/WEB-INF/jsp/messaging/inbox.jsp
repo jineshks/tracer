@@ -141,7 +141,7 @@
 									if (this.unread == '1') {
 										className = "box-item-unread ps";
 									}									
-									temp +=	'<div class="' + className + '">';							
+									temp +=	'<div id="msg-item" class="' + className + '">';							
 									temp += '<p>';
 									temp +=	'<span> <input class="nm" type="checkbox" value='+ this.id + '> </span> ';	
 									temp +=	'<a id="subject">'+ this.subj + '</a>';	
@@ -185,15 +185,16 @@
 			//});
 			
 			
-			$("a#subject").live("click", function() {	
+			$("#msg-item").live("click", function() {	
 				//determine whether the message called is unread or read.
+				alert("click register");
 				var read = "0";
-				if ($(this).parent().parent().attr('class')=='box-item-unread') {
+				if ($(this).attr('class')=='box-item-unread') {
 					read = "1";
 				}						
 				$.getJSON(
 					"messaging?messageDetails",
-					{id:$(this).parent().find("input:checkbox").val(), read:read},
+					{id:$(this).find("input:checkbox").val(), read:read},
 					function (data) {
 						if (data) {
 							$("#msg-display").find('#msg-subj').text(data.subj);
