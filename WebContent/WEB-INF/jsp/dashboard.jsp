@@ -116,7 +116,7 @@
 									<div class="column grid-8">
 										<c:set var="currMile" value="${actionBean.currentMilestone}"></c:set>
 												<p> <a href="${contextPath}/list/milestone/${currMile.id}"> ${currMile.name} </a>  </p>
-							          			<p> Days remaining :   </p>
+							          			<p> Days remaining : ${currMile.description}  </p>
 							          			<p> Tickets : ${currMile.totalTickets}  </p>
 							          			<p> Story points : ${currMile.totalTickets}  </p>
 							          			<div class="progressbar-small" title="progress:${currMile.progress}%" >
