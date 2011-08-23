@@ -27,7 +27,6 @@ public class MessageDao {
 		"VALUES('" +  message.getFrom() +"','" + message.getTo() +
 		"','" + StringUtils.nullCheck(message.getCc()) + "','" + message.getSubject() + 		
 		"','" + DateUtils.getDatetimeInFormat("yyyy-MM-dd HH:mm") + "'," +  message.getImportant() + "," + message.getNotify() + ",'" + message.getMessage() + "')";
-		System.out.println(query);		
 		boolean flag = false;
 		flag = DaoUtils.executeUpdate(query);
 		return flag;
