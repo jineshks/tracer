@@ -63,9 +63,12 @@ public class MessagingActionBean extends BaseActionBean {
 	public Resolution messageList() {
 		String output = null;
 		String offset = this.getContext().getRequest().getParameter("offset");
+		String from = this.getContext().getRequest().getParameter("from");
+		String fromDate = this.getContext().getRequest().getParameter("fromdate");
+		String toDate = this.getContext().getRequest().getParameter("todate");
 		//String count = this.getContext().getRequest().getParameter("count");
 		try {
-			ArrayList<Messaging> result = MessageDao.getMessages(getContext().getLoggedUser(), offset, CustomDao.getResourceMessage("message.pagecount"));
+			ArrayList<Messaging> result = MessageDao.getMessages(getContext().getLoggedUser(), offset, CustomDao.getResourceMessage("message.pagecount"), from, fromDate, toDate);
 			output = "[";
 			
 			for(Messaging message : result) { 
@@ -103,12 +106,20 @@ public class MessagingActionBean extends BaseActionBean {
 		return new StreamingResolution("text/plain", "failure");
 	}
 	
+	public Resolution filterMsgCount() throws Exception {
+		String from = this.getContext().getRequest().getParameter("from");
+		String fromDate = this.getContext().getRequest().getParameter("fromdate");
+		String toDate = this.getContext().getRequest().getParameter("todate");
+		String output = MessageDao.getMessagesCount(getContext().getLoggedUser(),from,fromDate,toDate);
+		return new StreamingResolution("text/plain", output);
+	}
+	
 	public String getPageCount() {
 		return CustomDao.getResourceMessage("message.pagecount");
 	}
 	
 	public String getTotalCount() throws Exception {
-		return MessageDao.getMessagesCount(getContext().getLoggedUser());
+		return MessageDao.getMessagesCount(getContext().getLoggedUser(),null,null,null);
 	}
 	
 	public void setMessage(Messaging message) {

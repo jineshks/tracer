@@ -56,7 +56,7 @@ public class MessageDao {
 	}
 
 
-	public static ArrayList<Messaging> getMessages(String loggedUser, String offset, String count) throws Exception {
+	public static ArrayList<Messaging> getMessages(String loggedUser, String offset, String count, String from, String fromDate, String toDate) throws Exception {
 
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -67,8 +67,11 @@ public class MessageDao {
 		String query="";
 
 		query = "SELECT f_id, f_from, f_sentdate, f_subject, f_show FROM t_message";
-		query += " WHERE f_show like '%" + loggedUser + "%'";
+		//query += " WHERE f_show like '%" + loggedUser + "%'";
+		query += formFilterQuery(loggedUser, from, fromDate, toDate);
 		query += " ORDER by f_id DESC";
+	
+	
 		
 		if (offset != null) {
 			query +=" OFFSET " + offset;
@@ -116,7 +119,7 @@ public class MessageDao {
 		return result;
 	}	
 
-	public static String getMessagesCount(String loggedUser) throws Exception {
+	public static String getMessagesCount(String loggedUser, String from, String fromDate, String toDate) throws Exception {
 
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -126,7 +129,8 @@ public class MessageDao {
 		String query="";
 
 		query = "SELECT count(f_id) FROM t_message";
-		query += " WHERE f_show like '%" + loggedUser + "%'";
+		//query += " WHERE f_show like '%" + loggedUser + "%'";
+		query += formFilterQuery(loggedUser, from, fromDate, toDate);
 		
 		try {
 			st = con.createStatement();
@@ -282,6 +286,42 @@ public class MessageDao {
 		}		
 		flag = DaoUtils.executeUpdate(query);
 		return flag;	
+	}
+	
+	private static String formFilterQuery(String loggedUser, String from, String fromDate, String toDate) {
+		String selQuery = "";
+			
+		String[] filter = new String[4];
+			
+		filter[0] = "f_show like '%" + loggedUser + "%'";
+		
+		if (from != null) {
+			filter[1] = "f_from='" + from + "'";
+		}
+		
+		if (fromDate !=null) {
+			filter[2]=" date(f_sentdate)>='" +  fromDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
+		}
+		
+		if (toDate !=null) {
+			filter[3]=" date(f_sentdate)<='" +  toDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.			
+		}
+
+		for(String s:filter){
+			if (!(s==null)) {
+				if (selQuery.equals("")) {
+					selQuery = s;
+				}
+				else {
+					selQuery = selQuery + " AND " + s;
+ 				}
+			}	
+		}	
+		
+		if (!selQuery.equalsIgnoreCase("")) {
+			selQuery = " WHERE " + selQuery;
+		}
+		return selQuery;		
 	}
 	
 }
