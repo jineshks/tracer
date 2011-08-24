@@ -3,7 +3,8 @@
 	<s:layout-component name="infoPanel"> 
 	</s:layout-component>
 	<s:layout-component name="body">
-		<div id="bodycontent">
+	<link href="${contextPath}/stylesheets/jqueryui-smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet" type="text/css" />
+			<div id="bodycontent">
 			<div id="main-section">
 					<div class="row">
 					<div class="column  grid-5">
@@ -16,8 +17,8 @@
 						
 							</div>
 							<div class="pt" id="msg-foot">
-								<span id="msg-pagecount" class="hide">${actionBean.pageCount}</span> <span id="msg-totalcount" class="hide">${actionBean.totalCount}</span>
-								<span> Showing <span id="msg-start">1</span> - <span id="msg-end"></span></span> <span class="right"> <a
+								<span id="msg-pagecount" class="hide">${actionBean.pageCount}</span> 
+								<span> Showing <span id="msg-start">1</span> - <span id="msg-end"></span> of <span id="msg-totalcount">${actionBean.totalCount}</span> Message(s) </span> <span class="right"> <a
 									id="previous" class="hide">Previous</a> | <a id="next" class="hide">Next</a> </span>
 							</div>
 
@@ -77,30 +78,30 @@
 						<div class="rightpane">
 							<div class="history box">
 								<h4>Filter</h4>
-								<s:form beanclass="in.espirit.tracer.action.MessagingActionBean">
+								
 									<div class="il">
 										<dl>
 											<dt>Tag</dt>
 											<dd>
-												<s:text name="userName" placeholder="Tag" />
+												<input type="text" name="userName" placeholder="Tag" />
 											</dd>
 											<dt>User Name</dt>
 											<dd>
-												<s:text name="userName" placeholder="User Name" />
+												<input type="text" name="from" placeholder="User Name" />
 											</dd>
 											<dt>From Date</dt>
 											<dd>
-												<s:text id="fromDate" name="fromDate"
+												<input type="text" id="fromDate" name="fromDate"
 													placeholder="From Date" />
 											</dd>
 											<dt>To Date</dt>
 											<dd>
-												<s:text id="toDate" name="toDate" placeholder="To Date" />
+												<input type="text" id="toDate" name="toDate" placeholder="To Date" />
 											</dd>
 										</dl>
-										<s:submit name="filter" value="Filter"></s:submit>
+										<input type="button" name="filter" value="Filter" class="orange ps"/>
 									</div>
-								</s:form>
+							
 							</div>
 
 						</div>
@@ -111,6 +112,9 @@
 	</s:layout-component>
 	<s:layout-component name="inlineScripts">
 		$(document).ready(function() {
+			
+			$("#fromDate").datepicker({ dateFormat: 'yy-mm-dd' });
+			$("#toDate").datepicker({ dateFormat: 'yy-mm-dd' });
 			
 			//Function to be used for getting the list of messages at start, next and previous clicks
 						
@@ -128,9 +132,29 @@
 				else if (page=='refresh') {    // This is to handle deletion of tickets in that page and display new ones now
 					offsetval = (parseInt($("#msg-start").text())-1);
 				}
-				$("#msg-list").empty();				
+			
+				$("#msg-list").empty();
+				
+				var loadUrl = "messaging?messageList";
+				
+				from = $('input[name=from]').val();
+				fromdate = $('input[name=fromDate]').val(); 
+				todate = $('input[name=toDate]').val();		
+				
+				if (from != "") {
+					loadUrl+= "&from=" + from;
+				}
+				
+				if (fromdate != "") {
+					loadUrl+= "&fromdate=" + fromdate;
+				}
+				
+				if (todate != "") {
+					loadUrl+= "&todate=" + todate;
+				}
+				
 				$.getJSON(
-					"messaging?messageList",
+					loadUrl,
 					{offset:offsetval},
 					function (data) {
 						if (data) {			
@@ -296,6 +320,56 @@
 					$("#msg-compose").find('input[name=message\\.subject]').val("Fw:"+$("#msg-subj").text());
 					$("#msg-compose").find('textarea[name=message\\.message]').val($("#msg-body").text());
 				}			
+			});
+			
+			
+		$("input:button[name=filter]").click(function() {	
+				var count = 0;
+				var from = $('input[name=from]').val();
+				var fromdate = $('input[name=fromDate]').val(); 
+				var todate = $('input[name=toDate]').val();
+				
+				var loadUrl = "?filterMsgCount";
+				
+				if (from != "") {
+					loadUrl+= "&from=" + from;
+				}
+				
+				if (fromdate != "") {
+					loadUrl+= "&fromdate=" + fromdate;
+				}
+				
+				if (todate != "") {
+					loadUrl+= "&todate=" + todate;
+				}
+	
+				if (loadUrl == "?filterMsgCount" ) {
+					showMessage("Select atleast one filter criteria");
+					return false;
+				}
+	
+				$.ajax({
+	       			url : loadUrl,  
+	           		success : function(responseText){
+	           				count = responseText;             			
+	             		},  
+	            	async : false  
+	     		}); 	
+	     		
+	     		$("#msg-totalcount").text(count);
+	     		
+	     		if (count > 0) {
+	     			$("#msg-start").text(1);
+	     			$.fn.listMsgs();
+	     			$("#msg-foot").show();	
+	     		}
+	     		else {
+	     		 	showMessage("No results match your criteria.");
+	     		 	$("#msg-list").empty();
+	     		 	$("#msg-foot").hide();	     		 	
+	     		}     	
+	     			
+	     					
 			});
 			
 			$("a#next").click(function(){
