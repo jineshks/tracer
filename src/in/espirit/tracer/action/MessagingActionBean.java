@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import in.espirit.tracer.database.dao.CustomDao;
 import in.espirit.tracer.database.dao.MessageDao;
 import in.espirit.tracer.model.Messaging;
+import in.espirit.tracer.util.StringUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -51,7 +52,7 @@ public class MessagingActionBean extends BaseActionBean {
 		output += "\"from\":\"" + message.getFrom() + "\",";
 		output += "\"to\":\"" + message.getTo() + "\",";
 		output += "\"cc\":\"" + message.getCc() + "\",";
-		output += "\"imp\":\"" + message.getImportant() + "\",";
+		output += "\"tags\":\"" + StringUtils.nullCheck(message.getTags()) + "\",";
 		output += "\"message\":\"" + message.getMessage() + "\"";
 		output += "}";
 		
@@ -62,13 +63,14 @@ public class MessagingActionBean extends BaseActionBean {
 	
 	public Resolution messageList() {
 		String output = null;
+		String tag = this.getContext().getRequest().getParameter("tag");
 		String offset = this.getContext().getRequest().getParameter("offset");
 		String from = this.getContext().getRequest().getParameter("from");
 		String fromDate = this.getContext().getRequest().getParameter("fromdate");
 		String toDate = this.getContext().getRequest().getParameter("todate");
 		//String count = this.getContext().getRequest().getParameter("count");
 		try {
-			ArrayList<Messaging> result = MessageDao.getMessages(getContext().getLoggedUser(), offset, CustomDao.getResourceMessage("message.pagecount"), from, fromDate, toDate);
+			ArrayList<Messaging> result = MessageDao.getMessages(getContext().getLoggedUser(), offset, CustomDao.getResourceMessage("message.pagecount"), tag, from, fromDate, toDate);
 			output = "[";
 			
 			for(Messaging message : result) { 
@@ -106,11 +108,25 @@ public class MessagingActionBean extends BaseActionBean {
 		return new StreamingResolution("text/plain", "failure");
 	}
 	
+	public Resolution addTags() throws Exception {
+		String tags = this.getContext().getRequest().getParameter("tags");
+		String msgid = this.getContext().getRequest().getParameter("msgid");
+	
+		boolean flag = true;
+		flag = MessageDao.updateTags(msgid, tags);			
+	
+		if (flag==true) {
+			return new StreamingResolution("text/plain", "success" );
+		}
+		return new StreamingResolution("text/plain", "failure");
+	}
+	
 	public Resolution filterMsgCount() throws Exception {
+		String tag = this.getContext().getRequest().getParameter("tag");
 		String from = this.getContext().getRequest().getParameter("from");
 		String fromDate = this.getContext().getRequest().getParameter("fromdate");
 		String toDate = this.getContext().getRequest().getParameter("todate");
-		String output = MessageDao.getMessagesCount(getContext().getLoggedUser(),from,fromDate,toDate);
+		String output = MessageDao.getMessagesCount(getContext().getLoggedUser(),tag,from,fromDate,toDate);
 		return new StreamingResolution("text/plain", output);
 	}
 	
@@ -119,7 +135,7 @@ public class MessagingActionBean extends BaseActionBean {
 	}
 	
 	public String getTotalCount() throws Exception {
-		return MessageDao.getMessagesCount(getContext().getLoggedUser(),null,null,null);
+		return MessageDao.getMessagesCount(getContext().getLoggedUser(),null,null,null,null);
 	}
 	
 	public void setMessage(Messaging message) {
