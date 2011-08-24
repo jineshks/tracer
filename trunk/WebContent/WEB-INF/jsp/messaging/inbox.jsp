@@ -223,8 +223,13 @@
 							$("#msg-compose").hide();
 						}				
 				});	
-				//$(this).parent().parent().attr('class','box-item ps');   // setting the message to read always.
-				$(this).attr('class','box-item ps'); 
+			
+				if($(this).parent().find('.box-item-selected').text() != "") {  // To handle the removal of previous selected div tag
+					$(this).parent().find('.box-item-selected').attr('class','box-item ps'); 
+				}
+				
+				$(this).attr('class','box-item-selected ps'); 
+				
 						
 			});			
 			
@@ -245,9 +250,9 @@
 				var loadUrl = "?deleteMessage&msgid=" + msgid;
 				$.ajax({
 	       			url : loadUrl,  
-	           		success : function(responseText){ 
-	            			if(responseText=="success") {
-	            				submitFlag = true;	               				
+	           		success : function(responseText){
+	           				if(responseText=="success") {
+	            				submitFlag = true;
 	               			}  
 	               			else if (responseText=="failure") {
 	               				showMessage('Some problem with deleting messages. Please refresh this page and try again!');
@@ -256,12 +261,11 @@
 	             		},  
 	            	async : false  
 	     		}); 	
-	     
-	     		if (submitFlag) {
+	     		
+	     		if (submitFlag == true) {
 	     			$("#msg-totalcount").text((parseInt($("#msg-totalcount").text())- count));     				
 	     			$.fn.listMsgs("refresh");	
-	     		}
-					
+	     		}					
 			});
 			
 			$("input.blue.ps").click(function() { //class blue ps is used for message composing buttons

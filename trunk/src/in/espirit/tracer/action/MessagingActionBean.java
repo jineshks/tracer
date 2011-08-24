@@ -98,9 +98,9 @@ public class MessagingActionBean extends BaseActionBean {
 			flag = flag && MessageDao.deleteMessage(getContext().getLoggedUser(), msgid[i]);			
 		}
 		if (flag==true) {
-			return new StreamingResolution("text", "success" );
+			return new StreamingResolution("text/plain", "success" );
 		}
-		return new StreamingResolution("text", "failure");
+		return new StreamingResolution("text/plain", "failure");
 	}
 	
 	public String getPageCount() {
