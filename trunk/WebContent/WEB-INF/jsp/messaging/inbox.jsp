@@ -434,8 +434,13 @@
 				$.fn.listMsgs("previous");													
 			});		
 			
-			
-			
+			$("form").bind("submit", function(event) {
+				var submitFlag = true;
+				if (($("input[name='message\\.to']").val()=='') || ($("input[name='message\\.subject']").val()=='') || ($("textarea[name='message\\.message']").val()=='') ) {
+					showMessage('All the fields must be filled.');
+					return false;
+				}					
+			});
 			
 						
 		});

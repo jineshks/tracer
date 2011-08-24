@@ -1,10 +1,16 @@
 package in.espirit.tracer.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import in.espirit.tracer.database.dao.CustomDao;
+import in.espirit.tracer.database.dao.MailDao;
 import in.espirit.tracer.database.dao.MessageDao;
+import in.espirit.tracer.database.dao.UserDao;
+import in.espirit.tracer.model.Mail;
 import in.espirit.tracer.model.Messaging;
+import in.espirit.tracer.util.MailUtils;
 import in.espirit.tracer.util.StringUtils;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -25,7 +31,49 @@ public class MessagingActionBean extends BaseActionBean {
 
 	public Resolution sendMessage() throws Exception {
 		message.setFrom(getContext().getLoggedUser());
-		MessageDao.registerEntry(message);		
+		MessageDao.registerEntry(message);
+		
+		if (message.getNotify() == 1 ) {
+			Mail mail;
+			try {
+				mail = MailDao.getMailTemplate("message-new");
+				
+				String[] to = message.getTo().split(",");
+						
+				String emailIds = "";
+				int i = 0;
+				for(i=0;i<to.length;i++) {
+					emailIds += UserDao.getUserEmail(to[i]) + ",";					
+				}
+
+				if (message.getCc()!=null) {
+					String[] cc = message.getCc().split(",");
+					for(i=0;i<cc.length;i++) {
+						emailIds += UserDao.getUserEmail(cc[i]) + ",";					
+					}
+				}
+				
+				emailIds = emailIds.substring(0, emailIds.length()-1);
+
+				mail.setTo(emailIds);
+				
+				Map<String, String> values = new HashMap<String, String>();
+				
+				values.put("<from>", message.getFrom());
+				values.put("<message>", message.getMessage());
+				values.put("<applicationhome>", CustomDao.getResourceMessage("applicationhome"));
+				
+				mail.setMessage(StringUtils.templateToMail(mail.getMessage(), values));				
+				MailUtils.sendTextMail(mail);	
+			
+			} catch (Exception e) {
+				logger.warn("Sending email failed with error - " + e.getMessage());
+				e.printStackTrace();
+			}				
+			
+		}
+		
+		
 		return new RedirectResolution("/messaging");		
 	}
 	
