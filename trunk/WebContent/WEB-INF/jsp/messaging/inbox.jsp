@@ -144,7 +144,7 @@
 									temp +=	'<div id="msg-item" class="' + className + '">';							
 									temp += '<p>';
 									temp +=	'<span> <input class="nm" type="checkbox" value='+ this.id + '> </span> ';	
-									temp +=	this.subj;	
+									temp +=	'<a id="subject">'+ this.subj + '</a>';	
 									temp +=	'</p>';
 									temp +=	'<span class="fade">'+ this.from + '</span> ';	
 									temp +=	'<span class="right fade">'+ this.date + '</span>';	
@@ -193,9 +193,10 @@
 				//$("#msg-display").find('h6').text('New Message subject');			
 			//});
 			
-			$(".nm").live("click", function() {   // This is for handling the click of the checkbox inside div id - msg-item..if such thing happens dont do anything.i.e don't show the message
-				element.preventDefault();								
-			});
+			// Commenting as the changes are not working. instead it causes an error
+			//$(".nm").live("click", function() {   // This is for handling the click of the checkbox inside div id - msg-item..if such thing happens dont do anything.i.e don't show the message
+			//	element.preventDefault();								
+			//});
 		
 			//$("a#subject").live("click", function() {	
 			$("#msg-item").live("click", function() {	
