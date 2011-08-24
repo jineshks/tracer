@@ -769,15 +769,15 @@ public class TicketDao {
 		ResultSet rs = null;
 		ArrayList<Ticket> result = new ArrayList<Ticket>();
 		
-		String query = "SELECT f_id, f_title, f_priority, f_type, f_owner " +
+		String query = "SELECT f_id, f_title, f_priority, f_type, f_owner, f_progress " +
 				"FROM t_defectdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "' " +
 				"UNION ALL " +
-				"select f_id, f_title, f_priority, f_type, f_owner " +
+				"select f_id, f_title, f_priority, f_type, f_owner, f_progress " +
 				"from t_taskdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "' " + 
 				"UNION ALL " +
-				"select f_id, f_title, f_priority, f_type, f_owner  " +
+				"select f_id, f_title, f_priority, f_type, f_owner, f_progress " +
 				"from t_requirementdetails where f_milestone='" + milestone +"' AND f_phase='" + phase + "'";
-	
+		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -789,6 +789,7 @@ public class TicketDao {
 				d.setPriority(rs.getString(3));
 				d.setType(rs.getString(4));
 				d.setOwner(rs.getString(5));
+				d.setProgress(rs.getString(6) == null ?"0":rs.getString(6));
 				result.add(d);
 			}
 			if (rs != null) {			

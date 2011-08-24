@@ -12,7 +12,7 @@
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
 											<p class="${ticket.priority} nm"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span> </p> 
-											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+											<div class="progressbar-small" title="progress:${ticket.progress}%" >
 													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
 													</div>
 											</div>	
@@ -30,7 +30,7 @@
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
 											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a><span class="right">${ticket.owner}</span> </p> 
-											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+											<div class="progressbar-small" title="progress:${ticket.progress}%" >
 													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
 													</div>
 											</div>	
@@ -49,7 +49,7 @@
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
 											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
-											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+											<div class="progressbar-small" title="progress:${ticket.progress}%" >
 													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
 													</div>
 											</div>	
@@ -69,7 +69,7 @@
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
 											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
-											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+											<div class="progressbar-small" title="progress:${ticket.progress}%" >
 													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
 													</div>
 											</div>	
@@ -88,7 +88,7 @@
 									<li id="${ticket.id}" class="white">
 											<span class="hide">${ticket.type}</span>
 											<p class="${ticket.priority} nm"><a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> <span class="right">${ticket.owner}</span></p> 
-											<div class="progressbar-small" title="progress:${currMile.progress}%" >
+											<div class="progressbar-small" title="progress:${ticket.progress}%" >
 													<div id="cl-progress" class="progress-green" style="width: ${ticket.progress}%;">
 													</div>
 											</div>	
