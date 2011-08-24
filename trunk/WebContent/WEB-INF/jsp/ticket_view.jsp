@@ -199,9 +199,9 @@
 			          			<s:text name="ticket.component" placeholder="Component"/></dd>
 			          			<dt> Reporter </dt>
 			          			<dd>
-			          			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
+			          			<s:text id="reporter" name="ticket.reporter" placeholder="Reported by"/></dd>
 			          			<dt> Owner </dt>
-			          			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
+			          			<dd> <s:text id="owner" name="ticket.owner" placeholder="Assigned by"/> </dd>
 			          			<dt> Parent ticket </dt>
 			          			<dd><s:text name="ticket.parentTicket" placeholder="#Parent Ticket, only one"/> </dd>
 			          			<dt> Progress </dt>
@@ -278,6 +278,17 @@
 		}
  
 $(document).ready(function(){
+
+	$(function() {
+		$( "#reporter" ).autocomplete({
+			source: "/tracer/autocomplete?getUsers",
+			minLength: 2
+		});
+		$( "#owner" ).autocomplete({
+			source: "/tracer/autocomplete?getUsers",
+			minLength: 2
+		});
+	});
 
   $("p#ticketDesc").click(function() {  //for editing the ticket description.
   	var existingDesc = $(this).text();
