@@ -19,7 +19,7 @@
           <div class="box">
           <s:hidden name="ticket.id"/>
           <s:hidden name="ticket.type"/>
-          	<h4>Step 1: Description </h4>
+          	<h4>Description </h4>
           	<div class="il">
           		<dl>
           			<dt>Title</dt>
@@ -35,7 +35,7 @@
       </div>
       <div class="column grid-5">
           <div class="box">
-          	<h4>Step 2: Properties</h4>
+          	<h4>Properties</h4>
           	<div class="il">
           		<dl>
           			<dt> Importance </dt>
@@ -78,9 +78,9 @@
           			<s:text name="ticket.component" placeholder="Component"/></dd>
           			<dt> Reporter </dt>
           			<dd>
-          			<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
+          			<s:text id="reporter" name="ticket.reporter" placeholder="Reported by"/></dd>
           			<dt> Owner </dt>
-          			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
+          			<dd> <s:text id="owner" name="ticket.owner" placeholder="Assigned by"/> </dd>
           			<dt> Parent ticket </dt>
 					<dd><s:text name="ticket.parentTicket" placeholder="#Parent Ticket, only one"/> </dd>
 					<dt> Progress </dt>
@@ -99,7 +99,7 @@
       </div>
       <div class="column grid-4">
           <div class="box">
-          	<h4>Step 3: People</h4>
+          	<h4>People</h4>
           	<div>
           		<div class="item white" draggable="true">
 					<p class="p">Billy</p>
@@ -113,12 +113,27 @@
           	</div>	
           </div>           
       </div>  
-  <!--  deiva - for testing purposes -->      
    	<s:submit name="submit" value="Submit"/>
-	<s:submit name="cancel" value="Cancel"/>	
     </div>
   </div>
 </s:form>
 </s:layout-component>
+<s:layout-component name="inlineScripts">
+$(document).ready(function(){
+
+	$(function() {
+		$( "#reporter" ).autocomplete({
+			source: "/tracer/autocomplete?getUsers",
+			minLength: 2
+		});
+		$( "#owner" ).autocomplete({
+			source: "/tracer/autocomplete?getUsers",
+			minLength: 2
+		});
+	});
+});
+
+</s:layout-component>
+
 </s:layout-render>
 
