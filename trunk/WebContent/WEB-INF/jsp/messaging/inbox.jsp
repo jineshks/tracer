@@ -43,6 +43,12 @@
 									<span class="right fade">From: <span id="msg-from"></span></span>
 									<span class="fade">Cc: <span id="msg-cc"></span></span> 
 								</p>
+								<p>
+								Tags : <span id="msg-tags" class="fade"></span> 
+								</p>
+								<p>								
+								<input type="text" name="input-tag" placeholder="Tag"> <input type="button" name="addtag" value="Add Tag" class="orange ps">
+								</p>
 							</div>
 							<div class="message-body">
 								<p id="msg-body">
@@ -83,7 +89,7 @@
 										<dl>
 											<dt>Tag</dt>
 											<dd>
-												<input type="text" name="userName" placeholder="Tag" />
+												<input type="text" name="tag" placeholder="Tag" />
 											</dd>
 											<dt>User Name</dt>
 											<dd>
@@ -137,9 +143,14 @@
 				
 				var loadUrl = "messaging?messageList";
 				
+				tag = $('input[name=tag]').val();
 				from = $('input[name=from]').val();
 				fromdate = $('input[name=fromDate]').val(); 
 				todate = $('input[name=toDate]').val();		
+				
+				if (tag != "") {
+					loadUrl+= "&tag=" + tag;
+				}
 				
 				if (from != "") {
 					loadUrl+= "&from=" + from;
@@ -240,6 +251,7 @@
 							$("#msg-display").find('#msg-from').text(data.from);
 							$("#msg-display").find('#msg-to').text(data.to);
 							$("#msg-display").find('#msg-cc').text(data.cc);
+							$("#msg-display").find('#msg-tags').text(data.tags);
 							$("#msg-display").find('#msg-body').text(data.message);
 							$("#msg-display").find('#msg-id').text(data.id);
 							$("#msg-display").css("visibility", "visible");
@@ -325,11 +337,16 @@
 			
 		$("input:button[name=filter]").click(function() {	
 				var count = 0;
+				var tag = $('input[name=tag]').val();
 				var from = $('input[name=from]').val();
 				var fromdate = $('input[name=fromDate]').val(); 
 				var todate = $('input[name=toDate]').val();
 				
 				var loadUrl = "?filterMsgCount";
+				
+				if (tag != "") {
+					loadUrl+= "&tag=" + tag;
+				}
 				
 				if (from != "") {
 					loadUrl+= "&from=" + from;
@@ -367,10 +384,47 @@
 	     		 	showMessage("No results match your criteria.");
 	     		 	$("#msg-list").empty();
 	     		 	$("#msg-foot").hide();	     		 	
-	     		}     	
-	     			
-	     					
+	     		}          					
 			});
+			
+			
+			$("input:button[name=addtag]").click(function() {	
+				
+				var exTags = $("#msg-tags").text();
+				
+				var tags = $('input[name=input-tag]').val();
+				
+				if (exTags != "") {
+					tags = exTags + "," + tags;
+				}
+				
+				var loadUrl = "?addTags";
+				
+				if (tags != "") {
+					loadUrl+= "&tags=" + tags;
+				}
+				
+				if (loadUrl == "?addTags" ) {
+					showMessage("Enter atleast one tag to add");
+					return false;
+				}
+	
+				loadUrl +="&msgid=" + $("#msg-id").text();
+								
+				$.ajax({
+	       			url : loadUrl,  
+	           		success : function(responseText){
+	           				if (responseText == "success") {
+	           					$("#msg-tags").text(tags);
+	           					$('input[name=input-tag]').val('');
+	           				}
+	           				else {
+	           					showMessage("Some problem in adding tags.");	           				
+	           				}            			
+	             		},            	 
+	     		});     					
+			});
+			
 			
 			$("a#next").click(function(){
 				$.fn.listMsgs("next");									
@@ -378,7 +432,12 @@
 			
 			$("a#previous").click(function(){
 				$.fn.listMsgs("previous");													
-			});					
+			});		
+			
+			
+			
+			
+						
 		});
 		
   </s:layout-component>

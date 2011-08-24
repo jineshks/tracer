@@ -56,7 +56,7 @@ public class MessageDao {
 	}
 
 
-	public static ArrayList<Messaging> getMessages(String loggedUser, String offset, String count, String from, String fromDate, String toDate) throws Exception {
+	public static ArrayList<Messaging> getMessages(String loggedUser, String offset, String count, String tag, String from, String fromDate, String toDate) throws Exception {
 
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -68,7 +68,7 @@ public class MessageDao {
 
 		query = "SELECT f_id, f_from, f_sentdate, f_subject, f_show FROM t_message";
 		//query += " WHERE f_show like '%" + loggedUser + "%'";
-		query += formFilterQuery(loggedUser, from, fromDate, toDate);
+		query += formFilterQuery(loggedUser, tag, from, fromDate, toDate);
 		query += " ORDER by f_id DESC";
 	
 	
@@ -119,7 +119,7 @@ public class MessageDao {
 		return result;
 	}	
 
-	public static String getMessagesCount(String loggedUser, String from, String fromDate, String toDate) throws Exception {
+	public static String getMessagesCount(String loggedUser, String tag, String from, String fromDate, String toDate) throws Exception {
 
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
@@ -130,7 +130,7 @@ public class MessageDao {
 
 		query = "SELECT count(f_id) FROM t_message";
 		//query += " WHERE f_show like '%" + loggedUser + "%'";
-		query += formFilterQuery(loggedUser, from, fromDate, toDate);
+		query += formFilterQuery(loggedUser, tag, from, fromDate, toDate);
 		
 		try {
 			st = con.createStatement();
@@ -173,7 +173,7 @@ public class MessageDao {
 
 		String query="";
 
-		query = "SELECT f_id, f_from, f_to, f_cc, f_sentdate, f_subject, f_important, f_notify, f_message FROM t_message WHERE f_id=" + id;
+		query = "SELECT f_id, f_from, f_to, f_cc, f_sentdate, f_subject, f_tags, f_message FROM t_message WHERE f_id=" + id;
 
 		try {
 			st = con.createStatement();
@@ -186,9 +186,8 @@ public class MessageDao {
 				result.setCc(rs.getString(4));
 				result.setSentdate(rs.getString(5));
 				result.setSubject(rs.getString(6));
-				result.setImportant(rs.getInt(7));
-				result.setNotify(rs.getInt(8));
-				result.setMessage(rs.getString(9));				
+				result.setTags(rs.getString(7));
+				result.setMessage(rs.getString(8));				
 			}
 			if (rs != null) {
 
@@ -272,6 +271,13 @@ public class MessageDao {
 		return flag;	
 	}
 	
+	public static boolean updateTags(String id, String tags) throws Exception {
+		boolean flag = false;	
+		String query = "UPDATE t_message set f_tags='" + tags + "' WHERE f_id=" + id;
+		flag = DaoUtils.executeUpdate(query);
+		return flag;	
+	}
+	
 	public static boolean deleteMessage(String loggedUser, String id) throws Exception {
 		boolean flag = false;
 		String query;
@@ -288,23 +294,27 @@ public class MessageDao {
 		return flag;	
 	}
 	
-	private static String formFilterQuery(String loggedUser, String from, String fromDate, String toDate) {
+	private static String formFilterQuery(String loggedUser, String tag, String from, String fromDate, String toDate) {
 		String selQuery = "";
 			
-		String[] filter = new String[4];
+		String[] filter = new String[5];
 			
 		filter[0] = "f_show like '%" + loggedUser + "%'";
 		
+		if (tag != null) {
+			filter[1] = "f_tags like '%" + tag + "%'";
+		}
+		
 		if (from != null) {
-			filter[1] = "f_from='" + from + "'";
+			filter[2] = "f_from='" + from + "'";
 		}
 		
 		if (fromDate !=null) {
-			filter[2]=" date(f_sentdate)>='" +  fromDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
+			filter[3]=" date(f_sentdate)>='" +  fromDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.
 		}
 		
 		if (toDate !=null) {
-			filter[3]=" date(f_sentdate)<='" +  toDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.			
+			filter[4]=" date(f_sentdate)<='" +  toDate +"'";  // Date should be yyyy-mm-dd format for which the UI returns.			
 		}
 
 		for(String s:filter){
