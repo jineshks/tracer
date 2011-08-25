@@ -252,7 +252,7 @@ public class MilestoneDao {
 		//handleActivity(activity, loggedUser);	
 	}
 	
-	public static ArrayList<Milestone> getAllEntries() throws Exception{
+	public static ArrayList<Milestone> getAllEntries(String fromDate, String toDate) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -261,8 +261,26 @@ public class MilestoneDao {
 		
 		String query="";
 	
-		query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone ORDER by f_id DESC";
+		query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone";
+		
+		if (fromDate != null || toDate != null) {
+			query +=" WHERE ";
+		}
+		
+		if (fromDate != null) {
+			query += "f_startdate>='" + fromDate + "'";
+		}
+		
+		if (fromDate != null && toDate != null) {
+			query +=" AND ";
+		}
 				
+		if (toDate != null) {
+			query += "f_enddate<='" + toDate + "'";
+		}
+		
+		query += " ORDER by f_id DESC";
+		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -277,11 +295,9 @@ public class MilestoneDao {
 				ms.setCurrent(rs.getString(6));			
 				result.add(ms);
 			}
-			if (rs != null) {
-			
+			if (rs != null) {			
 				rs.close();
 			}
-
 			if (st != null) {
 				st.close();
 			}
@@ -305,7 +321,7 @@ public class MilestoneDao {
 				con.close(); // close connection		
 		}// end finally	
 		
-		return result;
+		return result;			 
 	}
 	
 	public static ArrayList<String> getMilestoneNames() throws Exception{

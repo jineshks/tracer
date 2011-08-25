@@ -46,7 +46,7 @@ public class ConfigMilestoneActionBean extends BaseActionBean {
 	}
 
 	public ArrayList<Milestone> getMilestoneList() throws Exception {
-		return MilestoneDao.getAllEntries();						
+		return MilestoneDao.getAllEntries(null, null);						
 	}
 
 	/*
