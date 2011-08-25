@@ -12,7 +12,7 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 @UrlBinding("/config/{id}")
-public class ConfigActionBean extends BaseActionBean {
+public class NotUsedConfigActionBean extends BaseActionBean {
 	
 	private static final String URL="/WEB-INF/jsp/config.jsp";
 	private Config config;
@@ -41,7 +41,7 @@ public class ConfigActionBean extends BaseActionBean {
 	
 	public Resolution cancel() {
 		getContext().setCurrentSection("configlist");
-		return new ForwardResolution(ConfigListActionBean.class);
+		return new ForwardResolution(ConfigMilestoneActionBean.class);
 	}
 	
 	public Resolution submit() throws Exception {
@@ -55,7 +55,7 @@ public class ConfigActionBean extends BaseActionBean {
 			getContext().getMessages().add(new SimpleMessage("Config Successfully Edited."));			
 		}		
 		getContext().setCurrentSection("configlist");
-		return new RedirectResolution(ConfigListActionBean.class);
+		return new RedirectResolution(ConfigMilestoneActionBean.class);
 	}
 	
 	public Resolution delete() throws Exception {
@@ -63,7 +63,7 @@ public class ConfigActionBean extends BaseActionBean {
 		ConfigDao.deleteConfig(config);
 		getContext().getMessages().add(new SimpleMessage("Config Deleted."));	
 		getContext().setCurrentSection("configlist");
-		return new RedirectResolution(ConfigListActionBean.class);
+		return new RedirectResolution(ConfigMilestoneActionBean.class);
 	}
 	
 	public void setId(String id) {
