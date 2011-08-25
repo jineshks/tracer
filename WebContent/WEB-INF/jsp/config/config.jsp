@@ -11,12 +11,12 @@
 						<c:choose>
 							<c:when test="${section eq 'milestone'}">	
 					 			<div class="box-item-selected ps">
-					 				<p class="p nm"> <a href="${contextPath}/list/config"> Milestones </a> </p>
+					 				<p class="p nm"> <a href="${contextPath}/config/milestone"> Milestones </a> </p>
 					 			</div>
 				 			</c:when>
 				 			<c:otherwise>
 				 				<div class="box-item ps">
-					 				<p class="p nm"> <a href="${contextPath}/list/config"> Milestones </a> </p>
+					 				<p class="p nm"> <a href="${contextPath}/config/milestone"> Milestones </a> </p>
 					 			</div>
 				 			</c:otherwise>
 			 			</c:choose>
