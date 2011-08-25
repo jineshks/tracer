@@ -10,7 +10,7 @@ import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/milestone/{milestone}")
-public class MilestoneActionBean extends BaseActionBean {
+public class DeleteMilestoneActionBean extends BaseActionBean {
 	private static final String view = "/WEB-INF/jsp/milestone.jsp";
 	//private static final String list = "/WEB-INF/jsp/milestone_list.jsp";
 	
@@ -39,7 +39,7 @@ public class MilestoneActionBean extends BaseActionBean {
 		}
 		
 		
-		return new RedirectResolution(ConfigListActionBean.class);
+		return new RedirectResolution(ConfigMilestoneActionBean.class);
 	}
 	
 
