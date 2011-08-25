@@ -18,9 +18,11 @@ public class MilestoneListActionBean extends BaseActionBean {
 	private String milestoneId;
 	
 	private String importance, priority, status, phase, component, reporter, owner, tags;
+	
+	private String fromDate, toDate;
 
 	public ArrayList<Milestone> getMilestoneList() throws Exception {
-		ArrayList<Milestone> result  = MilestoneDao.getAllEntries();
+		ArrayList<Milestone> result  = MilestoneDao.getAllEntries(fromDate, toDate);
 		for(Milestone m : result) {	
 			m.setProgress(MilestoneDao.calcProgress(m.getName()));
 			m.setTotalTickets(MilestoneDao.getSprintTotalTickets(m.getName()));
@@ -118,6 +120,22 @@ public class MilestoneListActionBean extends BaseActionBean {
 
 	public void setTags(String tags) {
 		this.tags = tags;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
+	}
+
+	public String getToDate() {
+		return toDate;
 	}	
 	
 	/*

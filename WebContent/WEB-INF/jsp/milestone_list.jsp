@@ -38,7 +38,7 @@
 			<div class="column grid-4">
 				<div class="box">
 					<h4>Filter</h4>
-					<s:form beanclass="in.espirit.tracer.action.MilestoneActionBean">
+					<s:form beanclass="in.espirit.tracer.action.MilestoneListActionBean">
 						<div class="il">
 							<dl>
 			          			<dt> From Date </dt>
@@ -50,7 +50,7 @@
 			          				<s:text id="toDate" name="toDate" placeholder="To Date"/>
 			        			</dd>
 							</dl>
-							<s:submit name="filter" value="Filter"></s:submit>	
+							<s:submit name="open" value="Filter"></s:submit>	
 						</div>
 					</s:form>
 				</div>				
