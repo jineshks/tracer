@@ -28,26 +28,27 @@
 			<div class="column grid-5">
 				<div class="box">
 						<h4>Filter</h4>
-						<s:form action="" >	
+						<s:form beanclass="in.espirit.tracer.action.MilestoneListActionBean" >
+							<s:hidden name="milestoneId"></s:hidden>	
 							<div class="il">
 								<dl>
 									<dt> Importance </dt>
 				          			<dd>
-				          				<s:select name="ticket.importance">
+				          				<s:select name="importance">
 											<s:option value=""></s:option>
 											<s:options-collection collection="${configView.importance}"/>
 										</s:select> 
 									</dd>
 				          			<dt> Priority </dt>
 				          			<dd> 
-				          				<s:select name="ticket.priority">
+				          				<s:select name="priority">
 											<s:option value=""></s:option>
 											<s:options-collection collection="${configView.priority}"/>										
 										</s:select>
 									</dd>
 									<dt> Status </dt>
 									<dd> 
-				          				<s:select name="ticket.status">
+				          				<s:select name="status">
 											<s:option value=""></s:option>
 											<s:options-collection collection="${configView.status}"/>
 										</s:select>
@@ -55,25 +56,23 @@
 				          			
 									<dt> Phase </dt>
 				          			<dd> 
-				          				<s:select name="ticket.phase">
+				          				<s:select name="phase">
 										<s:option value=""></s:option>
 										<s:options-collection collection="${configView.phase}"/>
 										</s:select>
 									</dd>
 									<dt> Component </dt>
 				          			<dd>
-				          				<s:text name="ticket.component" placeholder="Component"/></dd>
+				          				<s:text name="component" placeholder="Component"/></dd>
 				          			<dt> Reporter </dt>
 				          			<dd>
-				          				<s:text name="ticket.reporter" placeholder="Reported by"/></dd>
+				          				<s:text name="reporter" placeholder="Reported by"/></dd>
 				          			<dt> Owner </dt>
-				          			<dd> <s:text name="ticket.owner" placeholder="Assigned by"/> </dd>
+				          			<dd> <s:text name="owner" placeholder="Assigned by"/> </dd>
 				          			<dt> Tags </dt>
-	          						<dd><s:text name="ticket.tags" placeholder="Tags, comma separated"/> </dd>
+	          						<dd><s:text name="tags" placeholder="Tags, comma separated"/> </dd>
 								</dl>
-								<c:if test="${userRole eq '2' || userRole eq '3'}">
-									<s:submit name="submit" value="Submit"/>
-								</c:if>
+								<s:submit name="open" value="Filter"/>								
 						</div>
 					</s:form>
 				
@@ -86,6 +85,18 @@
 <s:layout-component name="inlineScripts">
   $(document).ready(function() {	
   	showInfo();
+  
+  	$(function() {
+		$( "input[name=reporter]" ).autocomplete({
+			source: "/tracer/autocomplete?getUsers",
+			minLength: 2
+		});
+		$( "input[name=owner]" ).autocomplete({
+			source: "/tracer/autocomplete?getUsers",
+			minLength: 2
+		});
+	});
+  
   
   });
 </s:layout-component>  
