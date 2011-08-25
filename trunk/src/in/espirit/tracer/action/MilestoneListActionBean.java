@@ -16,6 +16,8 @@ public class MilestoneListActionBean extends BaseActionBean {
 	private static final String MILESTONE_TICKET_URL = "/WEB-INF/jsp/milestone_ticket_list.jsp";
 	
 	private String milestoneId;
+	
+	private String importance, priority, status, phase, component, reporter, owner, tags;
 
 	public ArrayList<Milestone> getMilestoneList() throws Exception {
 		ArrayList<Milestone> result  = MilestoneDao.getAllEntries();
@@ -28,7 +30,7 @@ public class MilestoneListActionBean extends BaseActionBean {
 	}
 	
 	public ArrayList<Ticket> getTicketList() throws Exception {
-		return MilestoneDao.getList(getMilestone().getName());
+		return MilestoneDao.getList(getMilestone().getName(), importance, priority, status, phase, component, reporter, owner, tags);
 	}
 	
 	public Milestone getMilestone() throws Exception {
@@ -54,6 +56,69 @@ public class MilestoneListActionBean extends BaseActionBean {
 	}
 
 	
+	public String getImportance() {
+		return importance;
+	}
+
+	public void setImportance(String importance) {
+		this.importance = importance;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPhase() {
+		return phase;
+	}
+
+	public void setPhase(String phase) {
+		this.phase = phase;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
+	}
+
+	public String getReporter() {
+		return reporter;
+	}
+
+	public void setReporter(String reporter) {
+		this.reporter = reporter;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}	
 	
 	/*
 	

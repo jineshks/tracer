@@ -20,22 +20,72 @@ import org.apache.log4j.Logger;
 public class MilestoneDao {
 	private static Logger logger = Logger.getLogger(MilestoneDao.class.getName());
 	
-	public static ArrayList<Ticket> getList(String key) throws Exception{
+	public static ArrayList<Ticket> getList(String key, String importance, String priority, String status, String phase, String component, String reporter, String owner, String tags) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
 		ResultSet rs = null;
 		ArrayList<Ticket> result = new ArrayList<Ticket>();
 		
-		String query = "SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
-				"FROM t_defectdetails where f_milestone='" + key +"' " +
-				"UNION ALL " +
-				"SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
-				"from t_taskdetails where f_milestone='" + key + "' " +
-				"UNION ALL " +
-				"SELECT f_id, f_title, f_priority, f_owner, f_importance, f_type " +
-				"from t_requirementdetails where f_milestone='" + key + "' ORDER by f_priority ASC";
-	
+		
+		String selQuery="";
+		String[] filter= new String[9];
+		
+		filter[0] = "f_milestone='" + key + "'";
+		
+		if (!(importance==null)) {
+			filter[1] = "f_importance='" + importance + "'";
+		}
+
+		if (!(priority==null)) {
+			filter[2] = "f_priority='" + priority + "'";			
+		}
+		
+		if (!(status==null)) {
+			filter[3] = "f_status='" + status + "'";			
+		}
+		
+		if (!(phase==null)) {
+			filter[4] = "f_phase='" + phase + "'";			
+		}
+		
+		if (!(component==null)) {
+			filter[5] = "f_component='" + component + "'";
+		}
+		
+		if (!(reporter==null)) {
+			filter[6] = "f_reporter='" + reporter + "'";
+		}
+		
+		if (!(owner==null)) {
+			filter[7] = "f_owner='" + owner + "'";
+		}
+		
+		if (!(tags==null)) {
+			filter[8] = "f_tags like '%" + tags + "%'";
+		}
+		
+		for(String s:filter){
+			if (!(s==null)) {
+				if (selQuery.equals("")) {
+					selQuery = s;
+				}
+				else {
+					selQuery = selQuery + " AND " + s;
+ 				}
+			}	
+		}	
+		
+		String fields = "f_id, f_title, f_priority, f_owner, f_importance, f_type";
+		
+		
+		
+		String query = "SELECT " + fields + " FROM t_defectdetails WHERE " + selQuery +
+				" UNION ALL " +
+				"SELECT " + fields + " FROM t_taskdetails WHERE " + selQuery +
+				" UNION ALL " +
+				"SELECT " + fields + " FROM t_requirementdetails WHERE " + selQuery + " ORDER by f_priority ASC";				
+				
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
