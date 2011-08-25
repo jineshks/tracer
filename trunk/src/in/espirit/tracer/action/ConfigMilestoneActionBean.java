@@ -10,14 +10,49 @@ import java.util.HashMap;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 
-@UrlBinding("/list/config")
-public class ConfigListActionBean extends BaseActionBean {
+@UrlBinding("/config/milestone/{milestone}")
+public class ConfigMilestoneActionBean extends BaseActionBean {
 
 	private static final String URL="/WEB-INF/jsp/config/milestone.jsp";
-	
+
+	private Milestone milestone;
+
+	@DefaultHandler
+	public Resolution open(){
+		getContext().setCurrentSection("configlist");
+		return new ForwardResolution(URL);
+	}
+
+	public Resolution submit() throws Exception {
+		if (milestone.getCurrent() != null) {  // If not equal to null means the current milestone checkbox is selected
+			MilestoneDao.changeCurrentMilestone();			
+		}
+		if (milestone.getId()==null) {
+			MilestoneDao.registerEntry(milestone);	
+			getContext().getMessages().add(new SimpleMessage("New Milestone added."));
+			logger.debug("Registering new milestone - " + milestone.getName());
+		}
+		else {
+			MilestoneDao.editTicket(milestone);
+			getContext().getMessages().add(new SimpleMessage("Milestone successfully edited and saved."));
+			logger.debug("Editing / Saving milestone - " + milestone.getName());
+		}
+		return new RedirectResolution(ConfigMilestoneActionBean.class);
+	}
+
+	public ArrayList<Milestone> getMilestoneList() throws Exception {
+		return MilestoneDao.getAllEntries();						
+	}
+
+	/*
+	 * 
+	 * 
+	 * 
 
 	public ArrayList<Config> getAllConfig() throws Exception {		
 		return ConfigDao.getAllConfig();
@@ -31,17 +66,12 @@ public class ConfigListActionBean extends BaseActionBean {
 		//result.put("Status", ConfigDao.getConfigList("Status"));	
 		return result;				
 	}
-		
-	public ArrayList<Milestone> getMilestone() throws Exception {
-		return MilestoneDao.getAllEntries();						
-	}
-	
-	/*
+
 	public HashMap<String, ArrayList<Config>> getListItems() throws Exception {		
 		HashMap<String, ArrayList<Config>> result = new HashMap<String, ArrayList<Config>>();
 		ArrayList<Config> one = ConfigDao.getAllConfig();
 		ArrayList<Config> temp = new ArrayList<Config>();
-		
+
 		for(int i=0;i<one.size();i++) {			
 			if (i>0) {
 				if (one.get(i).getKey().equals(one.get(i-1).getKey())) {
@@ -65,13 +95,17 @@ public class ConfigListActionBean extends BaseActionBean {
 		}		
 		return result;				
 	}
-	
-	*/
-		
-	@DefaultHandler
-	public Resolution open(){
-		getContext().setCurrentSection("configlist");
-		return new ForwardResolution(URL);
+
+	 */
+
+
+
+	public void setMilestone(Milestone milestone) {
+		this.milestone = milestone;
 	}
-	
+
+	public Milestone getMilestone() {		
+		return milestone;
+	}
+
 }

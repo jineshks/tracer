@@ -127,7 +127,7 @@
 							<h6>Admin</h6>
 							<ul>
 								<li>
-									<s:link href="${contextPath}/list/config" >Milestone </s:link>
+									<s:link href="${contextPath}/config/milestone" >Milestone </s:link>
 								</li>
 								<li>
 									<s:link href="${contextPath}/list/user/approval" >User Approval</s:link>

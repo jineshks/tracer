@@ -4,9 +4,10 @@
 	<s:messages/>
 </s:layout-component>
 	<s:layout-component name="body">
-			<div class="box">
+	<link href="${contextPath}/stylesheets/jqueryui-smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet" type="text/css" />
+				<div class="box">
 				<h4>New Milestone</h4>
-				<s:form beanclass="in.espirit.tracer.action.MilestoneActionBean">
+				<s:form beanclass="in.espirit.tracer.action.ConfigMilestoneActionBean">
 					<div class="column  grid-9">
 						<s:hidden name="milestone.id"></s:hidden>
 						<dl>
@@ -42,9 +43,9 @@
 			<div class="box">
 				 <h4>Milestone</h4>
 
-				<d:table name="${actionBean.milestone}" id="milestone">
+				<d:table name="${actionBean.milestoneList}" id="milestone">
 					<d:column title="Name">
-						<s:link href="../milestone/${milestone.id}"> 
+						<s:link href="${contextPath}/config/milestone/${milestone.id}"> 
 							${milestone.name}
 						</s:link>
 
@@ -64,6 +65,9 @@
 <s:layout-component name="inlineScripts">
   $(document).ready(function() {	
   	showInfo();
+  	
+  	$("#startDate").datepicker({ dateFormat: 'yy-mm-dd' });
+  	$("#endDate").datepicker({ dateFormat: 'yy-mm-dd' });
   
   });
 </s:layout-component>
