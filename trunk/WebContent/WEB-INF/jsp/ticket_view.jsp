@@ -282,11 +282,11 @@ $(document).ready(function(){
 	$(function() {
 		$( "#reporter" ).autocomplete({
 			source: "/tracer/autocomplete?getUsers",
-			minLength: 2
+			minLength: 1
 		});
 		$( "#owner" ).autocomplete({
 			source: "/tracer/autocomplete?getUsers",
-			minLength: 2
+			minLength: 1
 		});
 	});
 
