@@ -11,7 +11,7 @@
 					<div class="column grid-4">
 						<div class="box">
 							<div class="title">
-								<h6>Tasks</h6>	
+								<h6><s:label for="ticket.tasks" class="bold" /></h6>	
 								<span class="right">
 									<s:link class="list" href="list/task/all" >All </s:link>
 									<c:if test="${userRole eq '2' || userRole eq '3'}">
@@ -32,7 +32,7 @@
 						<div class="box">
 							
 							<div class="title">
-								<h6>Defects</h6>	
+								<h6><s:label for="ticket.defects" class="bold"/></h6>	
 								<span class="right">
 									<s:link class="list" href="list/defect/all" >All </s:link>
 									<c:if test="${userRole eq '2' || userRole eq '3'}">
@@ -52,7 +52,7 @@
 						</div>
 						<div class="box">
 							<div class="title">
-								<h6>User Stories</h6>	
+								<h6><s:label for="ticket.requirements" class="bold"/></h6>	
 								<span class="right">
 									<s:link class="list" href="list/requirement/all" >All </s:link>
 									<c:if test="${userRole eq '2' || userRole eq '3'}">
@@ -94,7 +94,7 @@
 						</div>
 						<div class="box">
 							<div class="title">
-								<h6>Sprint</h6>
+								<h6><s:label for="ticket.milestone"/></h6>
 							</div>
 							<div class="pt">
 								
@@ -104,10 +104,10 @@
 											<a href="taskboard"> Taskboard </a>
 										</p>
 										<p>
-											<a href="planner"> Sprint Planner </a>
+											<a href="planner" class="text"> <s:label for="ticket.milestone" /> Planner </a>
 										</p>
 										<p>
-											<a href="list/milestone"> Sprint View </a>
+											<a href="list/milestone"> <s:label for="ticket.milestone" /> View </a>
 										</p>
 										<p>
 											<a href="reports/burndown"> Reports </a>

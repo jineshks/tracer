@@ -1,12 +1,9 @@
 package in.espirit.tracer.action;
 
-import in.espirit.tracer.database.dao.ConfigDao;
 import in.espirit.tracer.database.dao.MilestoneDao;
-import in.espirit.tracer.model.Config;
 import in.espirit.tracer.model.Milestone;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;

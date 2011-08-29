@@ -19,7 +19,7 @@
 		<div class="column grid-10"><s:errors globalErrorsOnly="true"></s:errors>
 		<div class="box">
 		<h4>#${actionBean.ticket.id} - ${actionBean.ticket.title}</h4> 
-		<h5>Description</h5> 
+		<h5><s:label for="ticket.description"/></h5> 
 		<p id="ticketDesc">${actionBean.ticket.desc}</p>
 		<a id="showTicketDescHistory">History</a>
 		<ul id="descHistory" class="hide">
@@ -33,12 +33,12 @@
 		<c:if test="${parentTicket ne null  or subTickets ne null}">
 			<div class="box">
 			<div><c:if test="${parentTicket ne null}">
-				<h4>Parent Ticket</h4>
+				<h4><s:label for="ticket.parentticket"/></h4>
 				<p class="pb"><span class="bold"> <a
 					href="${contextPath}/${parentTicket.type}/${parentTicket.id}">#${parentTicket.id}</a>
 				</span> ${parentTicket.title }</p>
 			</c:if> <c:if test="${subTickets ne null}">
-				<h4>Sub Ticket(s)</h4>
+				<h4><s:label for="ticket.subticket"/></h4>
 				<c:forEach var="subtick" items="${subTickets}">
 					<p><span class="bold"><a
 						href="${contextPath}/${subtick.type}/${subtick.id}">#${subtick.id}</a>
@@ -50,7 +50,7 @@
 		
 		<div class="box">
 					<div id="attachments" class="comments">  
-						<h4>Attachments</h4>	
+						<h4><s:label for="ticket.attachment"/></h4>	
 						<ul>
 						<c:forEach var="attachment" items="${actionBean.ticket.attachments}">
 							<li>
@@ -102,7 +102,7 @@
 
 		<div class="box">
 					<div id="comments" class="comments">
-						<h4>Comments</h4>
+						<h4><s:label for="ticket.comment"/></h4>
 						
 						<ul>
 							<c:forEach var="comment" items="${actionBean.ticket.comments}" varStatus="loopCount">
@@ -122,7 +122,7 @@
 							<s:hidden id="hTicketType" name="ticket.type" value="${actionBean.ticket.type}"></s:hidden>
 						<div class="il">
 							<dl>
-								<dt>New comment</dt>
+								<dt><s:label for="ticket.newcomment"/></dt>
 								<dd>
 									<s:textarea id="newComment" name="ticket.newComments" rows="4" cols="70" placeholder="Comment"/>
 								</dd>
@@ -141,12 +141,12 @@
 				<div class="box">
 					<h4>New</h4>
 					<p class="pt">
-							<a class="new ml"href="${contextPath}/task/new/${actionBean.ticket.id}">Task</a>
+							<a class="new ml" href="${contextPath}/task/new/${actionBean.ticket.id}"><s:label for="ticket.task"/></a>
 								<c:if test="${actionBean.ticket.type ne 'requirement'}">
-									<a class="new ml" href="${contextPath}/defect/new/${actionBean.ticket.id}">Defect</a>
+									<a class="new ml" href="${contextPath}/defect/new/${actionBean.ticket.id}"><s:label for="ticket.defect"/></a>
 								</c:if>
 								<c:if test="${actionBean.ticket.type ne 'defect'}">
-								 	<a class="new ml" href="${contextPath}/requirement/new/${actionBean.ticket.id}">Story</a>
+								 	<a class="new ml" href="${contextPath}/requirement/new/${actionBean.ticket.id}"><s:label for="ticket.requirement"/></a>
 								 </c:if>
 					</p>
 					</div>	
@@ -159,58 +159,58 @@
 						<s:hidden name="ticket.type"></s:hidden>
 						<div class="il">
 							<dl>
-								<dt> Importance </dt>
+								<dt> <s:label for="ticket.importance"/> </dt>
 			          			<dd>
 			          				<s:select name="ticket.importance">
 										<s:option value=""></s:option>
 										<s:options-collection collection="${configView.importance}"/>
 									</s:select> 
 								</dd>
-			          			<dt> Priority </dt>
+			          			<dt> <s:label for="ticket.priority"/> </dt>
 			          			<dd> 
 			          				<s:select name="ticket.priority">
 										<s:option value=""></s:option>
 										<s:options-collection collection="${configView.priority}"/>										
 									</s:select>
 								</dd>
-								<dt> Status </dt>
+								<dt> <s:label for="ticket.status"/> </dt>
 								<dd> 
 			          				<s:select name="ticket.status">
 										<s:option value=""></s:option>
 										<s:options-collection collection="${configView.status}"/>
 									</s:select>
 								</dd>
-			          			<dt> Milestone </dt>
+			          			<dt> <s:label for="ticket.milestone"/> </dt>
 			          			<dd> 
 			          				<s:select name="ticket.milestone">
 									<s:option value=""></s:option>
 									<s:options-collection collection="${configView.milestone}"/>
 									</s:select>
 								</dd>
-								<dt> Phase </dt>
+								<dt> <s:label for="ticket.phase"/> </dt>
 			          			<dd> 
 			          				<s:select name="ticket.phase">
 									<s:option value=""></s:option>
 									<s:options-collection collection="${configView.phase}"/>
 									</s:select>
 								</dd>
-								<dt> Component </dt>
+								<dt> <s:label for="ticket.component"/> </dt>
 			          			<dd>
 			          			<s:text name="ticket.component" placeholder="Component"/></dd>
-			          			<dt> Reporter </dt>
+			          			<dt> <s:label for="ticket.reporter"/> </dt>
 			          			<dd>
 			          			<s:text id="reporter" name="ticket.reporter" placeholder="Reported by"/></dd>
-			          			<dt> Owner </dt>
+			          			<dt> <s:label for="ticket.owner"/> </dt>
 			          			<dd> <s:text id="owner" name="ticket.owner" placeholder="Assigned by"/> </dd>
-			          			<dt> Parent ticket </dt>
+			          			<dt> <s:label for="ticket.parentticket"/> </dt>
 			          			<dd><s:text name="ticket.parentTicket" placeholder="#Parent Ticket, only one"/> </dd>
-			          			<dt> Progress </dt>
+			          			<dt> <s:label for="ticket.progress"/> </dt>
 			          			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd> 
 			          			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
-			          			<dt> Story Point </dt>
+			          			<dt> <s:label for="ticket.storypoint"/> </dt>
 			          			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
 			          			</c:if>    
-			          			<dt> Tags </dt>
+			          			<dt> <s:label for="ticket.tags"/> </dt>
           						<dd><s:text name="ticket.tags" placeholder="Tags, comma separated"/> </dd>
 							</dl>
 							<c:if test="${userRole eq '2' || userRole eq '3'}">

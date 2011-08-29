@@ -6,7 +6,7 @@
 	<s:layout-component name="body">
 	<link href="${contextPath}/stylesheets/jqueryui-smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet" type="text/css" />
 				<div class="box">
-				<h4>New Milestone</h4>
+				<h4>New <s:label for="ticket.milestone"/></h4>
 				<s:form beanclass="in.espirit.tracer.action.ConfigMilestoneActionBean">
 					<div class="column  grid-9">
 						<s:hidden name="milestone.id"></s:hidden>
@@ -41,7 +41,7 @@
 				
 			</div>
 			<div class="box">
-				 <h4>Milestone</h4>
+				 <h4><s:label for="ticket.milestone"/></h4>
 
 				<d:table name="${actionBean.milestoneList}" id="milestone">
 					<d:column title="Name">
