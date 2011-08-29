@@ -11,12 +11,12 @@
 						<c:choose>
 							<c:when test="${section eq 'milestone'}">	
 					 			<div class="box-item-selected ps">
-					 				<p class="p nm"> <a href="${contextPath}/config/milestone"> Milestones </a> </p>
+					 				<p class="p nm"> <a href="${contextPath}/config/milestone"> <s:label for="ticket.milestone"/> </a> </p>
 					 			</div>
 				 			</c:when>
 				 			<c:otherwise>
 				 				<div class="box-item ps">
-					 				<p class="p nm"> <a href="${contextPath}/config/milestone"> Milestones </a> </p>
+					 				<p class="p nm"> <a href="${contextPath}/config/milestone"> <s:label for="ticket.milestone"/> </a> </p>
 					 			</div>
 				 			</c:otherwise>
 			 			</c:choose>
@@ -35,12 +35,12 @@
 			 			<c:choose>
 							<c:when test="${section eq 'labels'}">	
 					 			<div class="box-item-selected ps">
-					 				<p class="p nm"> <a href="${contextPath}/config"> Labels </a> </p>
+					 				<p class="p nm"> <a href="${contextPath}/config/label"> Labels </a> </p>
 					 			</div>
 				 			</c:when>
 				 			<c:otherwise>
 				 				<div class="box-item ps">
-					 				<p class="p nm"> <a href="${contextPath}/config"> Labels </a> </p>
+					 				<p class="p nm"> <a href="${contextPath}/config/label"> Labels </a> </p>
 					 			</div>
 				 			</c:otherwise>
 			 			</c:choose>

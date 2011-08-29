@@ -55,54 +55,54 @@
 					</div>
 					<div class="column grid-2">
 						<div class="tal">
-							<h6>Tasks</h6>
+							<h6><s:label for="ticket.tasks" class="bold"/></h6>
 							<ul>
 								<c:if test="${userRole eq '2' || userRole eq '3'}">
 									<li>
-										<s:link href="${contextPath}/task/new" >New Task </s:link>
+										<s:link href="${contextPath}/task/new" >New <s:label for="ticket.task"/></s:link>
 									</li>
 								</c:if>
 								<li>
-									<s:link  href="${contextPath}/list/task/my" >My Tasks </s:link>
+									<s:link  href="${contextPath}/list/task/my" >My <s:label for="ticket.tasks"/></s:link>
 								</li>
 								<li>
-									<s:link  href="${contextPath}/list/task/all" >All Tasks </s:link>
+									<s:link  href="${contextPath}/list/task/all" >All <s:label for="ticket.tasks"/></s:link>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<div class="column grid-2">
 						<div class="tal">
-							<h6>Defects</h6>
+							<h6><s:label for="ticket.defects" class="bold"/></h6>
 							<ul>
 								<c:if test="${userRole eq '2' || userRole eq '3'}">
 									<li>
-										<s:link href="${contextPath}/defect/new" >New Defect </s:link>
+										<s:link href="${contextPath}/defect/new" >New <s:label for="ticket.defect"/></s:link>
 									</li>
 								</c:if>
 								<li>
-									<s:link  href="${contextPath}/list/defect/my" >My Defects </s:link>
+									<s:link  href="${contextPath}/list/defect/my" >My <s:label for="ticket.defects"/> </s:link>
 								</li>
 								<li>
-									<s:link  href="${contextPath}/list/defect/all" >All Defects </s:link>
+									<s:link  href="${contextPath}/list/defect/all" >All <s:label for="ticket.defects"/></s:link>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<div class="column grid-2">
 						<div class="tal">
-							<h6>User stories</h6>
+							<h6><s:label for="ticket.requirements" class="bold"/></h6>
 							<ul>
 								<c:if test="${userRole eq '2' || userRole eq '3'}">
 									<li>
-										<s:link href="${contextPath}/requirement/new" >New Story </s:link>
+										<s:link href="${contextPath}/requirement/new" >New <s:label for="ticket.requirement"/> </s:link>
 									</li>
 								</c:if>
 								<li>
-									<s:link  href="${contextPath}/list/requirement/my" >My Stories </s:link>
+									<s:link  href="${contextPath}/list/requirement/my" >My <s:label for="ticket.requirements"/></s:link>
 								</li>
 								<li>
-									<s:link  href="${contextPath}/list/requirement/all" >All Stories </s:link>
+									<s:link  href="${contextPath}/list/requirement/all" >All <s:label for="ticket.requirements"/></s:link>
 								</li>
 							</ul>
 						</div>

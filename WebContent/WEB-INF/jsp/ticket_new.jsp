@@ -22,11 +22,11 @@
           	<h4>Description </h4>
           	<div class="il">
           		<dl>
-          			<dt>Title</dt>
+          			<dt><s:label for="ticket.title"/></dt>
           			<dd> <s:text name="ticket.title" placeholder="Short description of the ticket" style="width: 370px"/></dd>
-          			<dt>Description</dt>
+          			<dt><s:label for="ticket.description"/></dt>
           			<dd> <s:textarea name="ticket.desc" rows="10" cols="50" placeholder="Description of the ticket"/></dd>
-          			<dt>Comment</dt>
+          			<dt><s:label for="ticket.comment"/></dt>
           			<dd> <s:textarea name="ticket.newComments" rows="5" cols="50" placeholder="Comment"/></dd>
           		</dl>
           		
@@ -38,58 +38,58 @@
           	<h4>Properties</h4>
           	<div class="il">
           		<dl>
-          			<dt> Importance </dt>
+          			<dt> <s:label for="ticket.importance"/> </dt>
           			<dd>
           				<s:select name="ticket.importance">
 							<s:option value=""></s:option>
 							<s:options-collection collection="${configView.importance}"/>
 						</s:select> 
 					</dd>
-          			<dt> Priority </dt>
+          			<dt> <s:label for="ticket.priority"/> </dt>
           			<dd> 
           				<s:select name="ticket.priority">
 							<s:option value=""></s:option>
 							<s:options-collection collection="${configView.priority}"/>
 						</s:select>
 					</dd>
-					<dt> Status </dt>
+					<dt> <s:label for="ticket.status"/> </dt>
 					<dd> 
           				<s:select name="ticket.status">
 							<s:option value=""></s:option>
 							<s:options-collection collection="${configView.status}"/>
 						</s:select>
 					</dd>
-          			<dt> Milestone </dt>
+          			<dt> <s:label for="ticket.milestone"/> </dt>
           			<dd> 
           				<s:select name="ticket.milestone">
 						<s:option value=""></s:option>
 						<s:options-collection collection="${configView.milestone}"/>
 						</s:select>
 					</dd>
-					<dt> Phase </dt>
+					<dt> <s:label for="ticket.phase"/> </dt>
 			        <dd> 
 			         	<s:select name="ticket.phase">
 						<s:option value=""></s:option>
 						<s:options-collection collection="${configView.phase}"/>
 						</s:select>
 					</dd>
-					<dt> Component </dt>
+					<dt> <s:label for="ticket.component"/> </dt>
           			<dd>
           			<s:text name="ticket.component" placeholder="Component"/></dd>
-          			<dt> Reporter </dt>
+          			<dt> <s:label for="ticket.reporter"/> </dt>
           			<dd>
           			<s:text id="reporter" name="ticket.reporter" placeholder="Reported by"/></dd>
-          			<dt> Owner </dt>
+          			<dt> <s:label for="ticket.owner"/> </dt>
           			<dd> <s:text id="owner" name="ticket.owner" placeholder="Assigned by"/> </dd>
-          			<dt> Parent ticket </dt>
+          			<dt> <s:label for="ticket.parentticket"/> </dt>
 					<dd><s:text name="ticket.parentTicket" placeholder="#Parent Ticket, only one"/> </dd>
-					<dt> Progress </dt>
+					<dt> <s:label for="ticket.progress"/> </dt>
           			<dd><s:text name="ticket.progress" placeholder="0 - 100"/> </dd>
           			<c:if test="${actionBean.ticket.type eq 'requirement'}">       			
-          			<dt> Story Point </dt>
+          			<dt> <s:label for="ticket.storypoint"/> </dt>
           			<dd><s:text name="ticket.storyPoint" placeholder="Story Point"/> </dd> 
           			</c:if>    
-          			<dt> Tags </dt>
+          			<dt> <s:label for="ticket.tags"/> </dt>
           			<dd><s:text name="ticket.tags" placeholder="Tags, comma separated"/> </dd>
           		</dl>
           		

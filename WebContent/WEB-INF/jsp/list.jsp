@@ -10,9 +10,9 @@
 			<div class="column grid-12">
 				<div class="box tac">
 					<ul id="tab">
-						<li class="${actionBean.type eq 'task' ? 'selected' : ''}"><a href="/tracer/list/task/all">Tasks</a></li>
-						<li class="${actionBean.type eq 'defect' ? 'selected' : ''}"><a href="/tracer/list/defect/all">Defects</a></li>
-						<li class="${actionBean.type eq 'requirement' ? 'selected' : ''}"><a href="/tracer/list/requirement/all">Stories</a></li>					
+						<li class="${actionBean.type eq 'task' ? 'selected' : ''}"><a href="/tracer/list/task/all"><s:label for="ticket.tasks" class="bold"/></a></li>
+						<li class="${actionBean.type eq 'defect' ? 'selected' : ''}"><a href="/tracer/list/defect/all"><s:label for="ticket.defects" class="bold"/></a></li>
+						<li class="${actionBean.type eq 'requirement' ? 'selected' : ''}"><a href="/tracer/list/requirement/all"><s:label for="ticket.requirements" class="bold"/></a></li>					
 						<li class="shadow"></li>
 					</ul>
 					
@@ -36,9 +36,9 @@
 					<div class="box">
 						<h4>New</h4>
 						<p class="pt">
-							<a class="new ml" href="${contextPath}/task/new/">Task</a> 
-							<a class="new ml" href="${contextPath}/defect/new/">Defect</a>
-						 	<a class="new ml"href="${contextPath}/requirement/new/">Story</a>						
+							<a class="new ml" href="${contextPath}/task/new/"><s:label for="ticket.task" class="bold"/></a> 
+							<a class="new ml" href="${contextPath}/defect/new/"><s:label for="ticket.defect" class="bold"/></a>
+						 	<a class="new ml"href="${contextPath}/requirement/new/"><s:label for="ticket.requirement" class="bold"/></a>						
 						</p>
 					</div>	
 				</c:if>
