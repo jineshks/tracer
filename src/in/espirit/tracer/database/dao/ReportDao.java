@@ -2,6 +2,7 @@ package in.espirit.tracer.database.dao;
 
 import in.espirit.tracer.database.connection.ConnectionFactory;
 import in.espirit.tracer.database.connection.ConnectionPool;
+import in.espirit.tracer.util.DaoUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -101,6 +102,16 @@ public class ReportDao {
 	return result;
 	}
 	
-	
+	public static boolean insertBurnDownData(String date, String milestone, int value) throws Exception{
+		boolean flag = false;
+		String query = "";	
+		query = "Insert into t_burndowndata (f_timestamp, f_milestone, f_progress) VALUES ('" + date + "','" + milestone + "'," + value + ")";		
+		flag = DaoUtils.executeUpdate(query);
+		return flag;
+		
+		
+		
+	}
+		
 	
 }
