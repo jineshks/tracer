@@ -86,8 +86,8 @@ public class TicketDao {
 	public static ArrayList<Ticket> getTicketForMilestone(String milestone) throws Exception{
 		ArrayList<Ticket> at = new ArrayList<Ticket>();
 		at.addAll(getAllTickets("requirement", null, null, null, milestone, null, null, null, "f_priority"));
-		at.addAll(getAllTickets("defect", null, null, null, null, milestone, null, null, "f_priority"));
-		at.addAll(getAllTickets("task", null, null, null, null, milestone, null, null, "f_priority"));
+		at.addAll(getAllTickets("defect", null, null, null, milestone, null, null, null, "f_priority"));
+		at.addAll(getAllTickets("task", null, null, null, milestone,null, null, null, "f_priority"));
 		return at;
 	}
 		

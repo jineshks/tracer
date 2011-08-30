@@ -1,6 +1,6 @@
 package in.espirit.tracer.schedule;
 
-import in.espirit.tracer.action.BaseActionBean;
+import in.espirit.tracer.util.DateUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -17,23 +17,22 @@ import javax.servlet.ServletResponse;
 import org.apache.log4j.Logger;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
 
 public class LoadServlet extends GenericServlet {
-
+	final Logger logger = Logger.getLogger(LoadServlet.class.getName());
 
 	@Override
 	public void init() throws ServletException {		
-	
-		final Logger logger = Logger.getLogger(BaseActionBean.class.getName());
-
 		SchedulerFactory sf=new StdSchedulerFactory();
 		Scheduler sched = null;
 		try {
 			logger.debug("Loading the load up servlet for starting the quartz plugin");
+			//sched = sf.getScheduler("TracerScheduler");
 			sched = sf.getScheduler();
 
 			JobDetail job = newJob(ReportBurnDown.class)
@@ -43,18 +42,28 @@ public class LoadServlet extends GenericServlet {
 
 			trigger = newTrigger()
 			.withIdentity("trigger1", "group1")
-			.withSchedule(cronSchedule("0/20 * * * * ?"))   // As of now restricted to run every 10 minutes..later will be changed to a specific time.
-			//.withSchedule(cronSchedule("0 0 0 * * ?"))
+			//.withSchedule(cronSchedule("0/20 * * * * ?"))   // As of now restricted to run every 20 seconds..later will be changed to a specific time.
+			.withSchedule(cronSchedule("0 50 23 * * ?"))  // Running the job every day at 23:50 time.  
 			.build();
-			
+				 
 			sched.scheduleJob(job, trigger);
+			logger.info("Scheduler started for the job - report burndown at " + DateUtils.getDatetimeInFormat("yyyy-MM-dd HH:mm:ss"));
 			sched.start();
+			
+			
+			//sched.shutdown();  //Is it necessary to shutdown the quartz one ?			
+			
 		} catch (SchedulerException e1) {
-			logger.fatal(e1.getMessage());
+			logger.fatal("In scheduler exception " + e1.getMessage());
 			e1.printStackTrace();
 		}
 		catch (ParseException e) {
-			logger.fatal(e.getMessage());
+			logger.fatal("In parse Exception" + e.getMessage());
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			logger.fatal("general exceptions" + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -64,5 +73,28 @@ public class LoadServlet extends GenericServlet {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub		
+		SchedulerFactory sf=new StdSchedulerFactory();
+		Scheduler sched = null;		
+		try {
+			sched = sf.getScheduler();			
+			logger.info("shutting down the scheduler job");					
+			sched.shutdown();			
+			
+			
+		} catch (SchedulerException e) {
+			logger.fatal("at shutdown scheduler exception"  + e.getMessage());
+			e.printStackTrace();		}
+		catch (Exception e) {
+			logger.fatal("at shutdown other exception"  + e.getMessage());
+			e.printStackTrace();		}
+		
+		super.destroy();
+	}
+	
+	
 
 }
