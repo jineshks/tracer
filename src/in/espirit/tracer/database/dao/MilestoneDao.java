@@ -169,7 +169,6 @@ public class MilestoneDao {
 		Milestone ms = new Milestone();
 	
 		String query = "SELECT f_id, f_name, f_description, f_startdate, f_enddate, f_current FROM t_milestone where f_id=" + id + "";
-
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -180,12 +179,12 @@ public class MilestoneDao {
 				ms.setDescription(rs.getString(3));
 				ms.setStartDate(rs.getString(4));
 				ms.setEndDate(rs.getString(5));
-				if (rs.getString(6).equalsIgnoreCase("f")) {
-					ms.setCurrent("FALSE");
+				if (rs.getString(6)!=null) {	
+					if (rs.getString(6).equalsIgnoreCase("t")) {
+						ms.setCurrent("TRUE");
+					}
 				}
-				if (rs.getString(6).equalsIgnoreCase("t")) {
-					ms.setCurrent("TRUE");
-				}			
+				
 			}
 			if (rs != null) {
 
