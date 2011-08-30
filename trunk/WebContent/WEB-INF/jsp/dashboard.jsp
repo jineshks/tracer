@@ -94,23 +94,23 @@
 						</div>
 						<div class="box">
 							<div class="title">
-								<h6><s:label for="ticket.milestone"/></h6>
+								<h6><s:label for="ticket.milestone" class="bold" /></h6>
 							</div>
 							<div class="pt">
 								
 								<div>
 									<div class="column grid-8">
 										<p>
-											<a href="taskboard"> Taskboard </a>
+											<a href="taskboard"> <s:label for="dashboard.taskboard" /> </a>
 										</p>
 										<p>
-											<a href="planner" class="text"> <s:label for="ticket.milestone" /> Planner </a>
+											<a href="planner" class="text"> <s:label for="dashboard.milestoneplanner" /> </a>
 										</p>
 										<p>
-											<a href="list/milestone"> <s:label for="ticket.milestone" /> View </a>
+											<a href="list/milestone"> <s:label for="dashboard.milestoneview" /> </a>
 										</p>
 										<p>
-											<a href="reports/burndown"> Reports </a>
+											<a href="reports/burndown"> <s:label for="dashboard.reports" /> </a>
 										</p>
 									</div>
 									<div class="column grid-8">
