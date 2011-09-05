@@ -16,8 +16,7 @@ import org.apache.log4j.Logger;
 
 @UrlBinding("/planner/{event}/{leftMilestone}/{rightMilestone}")
 public class PlannerActionBean extends BaseActionBean {
-	private static Logger logger = Logger.getLogger(PlannerActionBean.class
-			.getName());
+	private static Logger logger = Logger.getLogger(PlannerActionBean.class);
 	private static final String URL = "/WEB-INF/jsp/planner.jsp";
 
 	private String leftMilestone;
@@ -63,20 +62,22 @@ public class PlannerActionBean extends BaseActionBean {
 			if(operation.equalsIgnoreCase("updateImportance")){
 				String importance = this.getContext().getRequest().getParameter("importance");
 				logger.debug("Ticket id:" + ticket_id + " Importance :" + importance);
-				flag = ticket.updateProperty(ticket_id, ticket_type, "importance", importance, getContext()
-						.getLoggedUser());
+				flag = ticket.updateProperty(ticket_id, ticket_type, "importance", importance, null, getContext().getLoggedUser());
 			}else if(operation.equalsIgnoreCase("updatePriority")){
 				String priority = this.getContext().getRequest().getParameter("priority");
 				logger.debug("Ticket id:" + ticket_id + " Priority :" + priority);
-				flag = ticket.updateProperty(ticket_id, ticket_type, "priority", priority, getContext()
-						.getLoggedUser());
+				flag = ticket.updateProperty(ticket_id, ticket_type, "priority", priority, null, getContext().getLoggedUser());
 			}else if (operation.equalsIgnoreCase("updateMilestone")) {
 				String milestone = this.getContext().getRequest().getParameter("milestone");
+				String position = this.getContext().getRequest().getParameter("position");
 				logger.debug("Ticket id:" + ticket_id + " Milestone :" + milestone);
-				flag = ticket.updateProperty(ticket_id, ticket_type, "milestone", milestone, getContext()
-						.getLoggedUser());
+				flag = ticket.updateProperty(ticket_id, ticket_type, "milestone", milestone, position, getContext().getLoggedUser());
 			}
-		
+			else if (operation.equalsIgnoreCase("updatePosition"))  {
+				String position = this.getContext().getRequest().getParameter("position");
+				logger.debug("Ticket id:" + ticket_id + " position :" + position);		
+				flag = ticket.updateProperty(ticket_id, ticket_type, "position", null, position, getContext().getLoggedUser());
+			}	
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -87,7 +88,7 @@ public class PlannerActionBean extends BaseActionBean {
 		} else {
 			output = "error";
 		}
-		return new StreamingResolution("text/html", output);
+		return new StreamingResolution("text/plain", output);
 	}
 
 	public String getLeftMilestone() {

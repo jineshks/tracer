@@ -22,6 +22,7 @@ public class Ticket {
 	private String tags;
 	private String phase;
 	private ArrayList<Attachment> attachments;
+	private double position;
 
 	public Ticket() {
 		super();
@@ -169,6 +170,14 @@ public class Ticket {
 
 	public ArrayList<Attachment> getAttachments() {
 		return attachments;
+	}
+
+	public void setPosition(double position) {
+		this.position = position;
+	}
+
+	public double getPosition() {
+		return position;
 	}
 
 
