@@ -20,7 +20,27 @@ public class ConfigViewHelper {
 	}
 	
 	*/
-	 
+	
+	public String getPriorityDefault() {
+		return CustomDao.getResourceMessage("priority.default");
+	}
+	
+	public String getPhaseDefault() {
+		return CustomDao.getResourceMessage("phase.default");
+	}
+	
+	public String getStatusDefault() {
+		return CustomDao.getResourceMessage("status.default");
+	}
+	
+	public String getImportanceDefault() {
+		return CustomDao.getResourceMessage("importance.default");
+	}
+	
+	public String getMilestoneDefault() {
+		return CustomDao.getResourceMessage("milestone.default");
+	}
+	
 	public ArrayList<String> getPriority() throws Exception{
 		return CustomDao.getValues("priority");
 		//return ConfigDao.getConfig("Priority");

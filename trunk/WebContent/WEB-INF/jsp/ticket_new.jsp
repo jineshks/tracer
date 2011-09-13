@@ -40,35 +40,37 @@
           		<dl>
           			<dt> <s:label for="ticket.importance"/> </dt>
           			<dd>
-          				<s:select name="ticket.importance">
+          				<s:select name="ticket.importance" value="${configView.importanceDefault}">
 							<s:option value=""></s:option>
 							<s:options-collection collection="${configView.importance}"/>
 						</s:select> 
+						
+												
 					</dd>
           			<dt> <s:label for="ticket.priority"/> </dt>
           			<dd> 
-          				<s:select name="ticket.priority">
+          				<s:select name="ticket.priority" value="${configView.priorityDefault}">
 							<s:option value=""></s:option>
 							<s:options-collection collection="${configView.priority}"/>
 						</s:select>
 					</dd>
 					<dt> <s:label for="ticket.status"/> </dt>
 					<dd> 
-          				<s:select name="ticket.status">
+          				<s:select name="ticket.status" value="${configView.statusDefault}">
 							<s:option value=""></s:option>
 							<s:options-collection collection="${configView.status}"/>
 						</s:select>
 					</dd>
           			<dt> <s:label for="ticket.milestone"/> </dt>
           			<dd> 
-          				<s:select name="ticket.milestone">
-						<s:option value=""></s:option>
-						<s:options-collection collection="${configView.milestone}"/>
-						</s:select>
+          				<s:select name="ticket.milestone" value="${configView.milestoneDefault}">
+							<s:option value=""></s:option>
+							<s:options-collection collection="${configView.milestone}"/>
+						</s:select>					
 					</dd>
 					<dt> <s:label for="ticket.phase"/> </dt>
 			        <dd> 
-			         	<s:select name="ticket.phase">
+			         	<s:select name="ticket.phase" value="${configView.phaseDefault}">
 						<s:option value=""></s:option>
 						<s:options-collection collection="${configView.phase}"/>
 						</s:select>
