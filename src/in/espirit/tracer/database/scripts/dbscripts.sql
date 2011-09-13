@@ -70,7 +70,7 @@ CREATE TABLE t_defectdetails
   f_progress integer,
   f_tags character varying(250),
   f_phase character varying(30),
-  f_position double precision,
+  f_position integer,
   CONSTRAINT pk_defect PRIMARY KEY (f_id)
 );
 
@@ -93,7 +93,7 @@ CREATE TABLE t_requirementdetails
   f_storypoint integer,
   f_tags character varying(250),
   f_phase character varying(30),
-  f_position double precision,
+  f_position integer,
   CONSTRAINT pk_requirement PRIMARY KEY (f_id)
 );
 
@@ -115,7 +115,7 @@ CREATE TABLE t_taskdetails
   f_progress integer,
   f_tags character varying(250),
   f_phase character varying(30),
-  f_position double precision,
+  f_position integer,
   CONSTRAINT pk_task PRIMARY KEY (f_id)
 );
 

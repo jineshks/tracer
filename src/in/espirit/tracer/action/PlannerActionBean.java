@@ -62,22 +62,25 @@ public class PlannerActionBean extends BaseActionBean {
 			if(operation.equalsIgnoreCase("updateImportance")){
 				String importance = this.getContext().getRequest().getParameter("importance");
 				logger.debug("Ticket id:" + ticket_id + " Importance :" + importance);
-				flag = ticket.updateProperty(ticket_id, ticket_type, "importance", importance, null, getContext().getLoggedUser());
+				flag = ticket.updateProperty(ticket_id, ticket_type, "importance", importance, getContext().getLoggedUser());
 			}else if(operation.equalsIgnoreCase("updatePriority")){
 				String priority = this.getContext().getRequest().getParameter("priority");
 				logger.debug("Ticket id:" + ticket_id + " Priority :" + priority);
-				flag = ticket.updateProperty(ticket_id, ticket_type, "priority", priority, null, getContext().getLoggedUser());
+				flag = ticket.updateProperty(ticket_id, ticket_type, "priority", priority, getContext().getLoggedUser());
 			}else if (operation.equalsIgnoreCase("updateMilestone")) {
-				String milestone = this.getContext().getRequest().getParameter("milestone");
-				String position = this.getContext().getRequest().getParameter("position");
+				String milestone = this.getContext().getRequest().getParameter("milestone");				
 				logger.debug("Ticket id:" + ticket_id + " Milestone :" + milestone);
-				flag = ticket.updateProperty(ticket_id, ticket_type, "milestone", milestone, position, getContext().getLoggedUser());
+				flag = ticket.updateProperty(ticket_id, ticket_type, "milestone", milestone, getContext().getLoggedUser());
+				if (!flag) {
+					return new StreamingResolution("text/plain", "error");
+				}
+			}				
+			
+			if (operation.equalsIgnoreCase("updatePosition") || operation.equalsIgnoreCase("updateMilestone")) {
+				String order = this.getContext().getRequest().getParameter("order");				
+				String[] orderArr = order.split(",");				
+				flag = ticket.updatePosition(orderArr);				
 			}
-			else if (operation.equalsIgnoreCase("updatePosition"))  {
-				String position = this.getContext().getRequest().getParameter("position");
-				logger.debug("Ticket id:" + ticket_id + " position :" + position);		
-				flag = ticket.updateProperty(ticket_id, ticket_type, "position", null, position, getContext().getLoggedUser());
-			}	
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
