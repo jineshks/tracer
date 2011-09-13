@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 
+import org.apache.log4j.Logger;
+
 
 
 
@@ -17,13 +19,14 @@ public class CustomDao {
 	
 	private static PropertyResourceBundle bundle =(PropertyResourceBundle) PropertyResourceBundle.getBundle("custom"); 
 		
-	
+	private static Logger logger = Logger.getLogger(CustomDao.class.getName());
 				
 	public static String getResourceMessage(String code) {
 		try {
 			return bundle.getString(code);
-		} catch (MissingResourceException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (MissingResourceException e) {			
+			logger.fatal("Error in Resource Bundle" + e.getMessage());
+			return "";
 		}
 	}
 		
