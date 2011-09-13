@@ -89,9 +89,14 @@ winInfoWindow.focus();
 <s:label for="ticket.owner"></s:label></td>
 <td>
 <s:select name="ticket.owner">
-<s:option value=""></s:option>
+<s:option value="" selected="true"></s:option>
 <s:options-collection collection="${configView.userNames}"/>
 </s:select>
+
+<select>
+  <option name="adsf" value="Adsf">
+  <option selected name="adf" value="asdfe">
+</select>
 
 </td>
 </tr>
