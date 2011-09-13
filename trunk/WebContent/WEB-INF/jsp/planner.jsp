@@ -48,7 +48,7 @@
 							<h4>${actionBean.leftMilestone}</h4>							
 							<ul id="${actionBean.leftMilestone}" class="droptrue">														
 									<c:forEach var="ticket" items="${actionBean.backlogTickets}">
-									<li id="${ticket.position}N${ticket.id}" class="p white">
+									<li id="${ticket.type}-${ticket.id}" class="p white">
 										<span class="hide">${ticket.type}</span>
 										<span class="pl"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </span>
 										<span class="pl bl">${ticket.title}</span>
@@ -66,7 +66,7 @@
 							<h4>${actionBean.rightMilestone} </h4>
 							<ul id="${actionBean.rightMilestone}" class="droptrue">
 									<c:forEach var="ticket" items="${actionBean.currentSprintTickets}">
-									<li id="${ticket.position}N${ticket.id}" class="p white">
+									<li id="${ticket.type}-${ticket.id}" class="p white">
 										<span class="hide">${ticket.type}</span>
 										<span class="pl"> <a href="${contextPath}/${ticket.type}/${ticket.id}"> #${ticket.id} </a> </span>
 										<span class="pl bl">${ticket.title}</span>
@@ -136,47 +136,29 @@
 					move_to = "right";
 					after_temp = after_right;
 				}		
-								
-				move_index = after_temp.indexOf(move_element);				
-				if (move_index == 0) {
-					before_position = 0;
-					after_position = parseFloat(after_temp[move_index + 1].split("N")[0]);				
-				}
-				else if (move_index == (after_temp.length - 1)) {					
-					before_position = parseFloat(after_temp[move_index - 1].split("N")[0]);
-					after_position = before_position + 2;     //adding two since after subtracting and divding it will become 1					
-				}
-				else {
-					before_position = parseFloat(after_temp[move_index - 1].split("N")[0]);								
-					after_position = parseFloat(after_temp[move_index + 1].split("N")[0]);					
-				}
-				
-				//the logic is getting the list by ascending order and if a item is inserted between 1 and 2. put that inserted item as 1.5. Like this we can do 50 insertions. 
-				//we have to handle cases more than 50 insertions by a logic which updates all the order of the result set from 1,2,3 etc..
-				
-				update_position = (before_position + after_position) / 2;
-								
-				ui.item.attr('id',update_position + "N" + move_element.split("N")[1]);
-				//ui.item.find(">:nth-child(3)").html(update_position + "N" + move_element.split("N")[1]);
 				
 				if (move_from == move_to) {
 					operation = 'updatePosition' ;
 				}
 				else {
 					operation = 'updateMilestone' ;
-				}				 
-								
+				}			
+				
+				var order = after_temp.toString();	 
+											
 				$.get(  
-		            loadUrl,  
-		            {	ticket_id: $(ui.item).attr("id").split("N")[1], 
+		            loadUrl,
+		            {	ticket_id: $(ui.item).attr("id").split("-")[1], 
 		            	milestone: $(ui.item).parent().attr("id"),
 		            	ticket_type:$(ui.item).find(">:first-child").html(),
-		            	position:update_position,
-		            	operation:operation
+		            	order : order,
+		               	operation:operation
 		            },  
 		            function(responseText){ 
 		                // Do nothing for success, inform for failure
-						$("#result").html("");                  
+						if (responseText == "error" ) {
+							showMessage('Error in persisting changes to the drag drop operation.')
+						}               
 		            },  
 		            "html"
 	        	);

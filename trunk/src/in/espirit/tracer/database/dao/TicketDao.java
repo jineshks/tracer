@@ -9,6 +9,7 @@ import in.espirit.tracer.model.Defect;
 import in.espirit.tracer.model.Requirement;
 import in.espirit.tracer.model.Task;
 import in.espirit.tracer.model.Ticket;
+import in.espirit.tracer.util.DaoUtils;
 import in.espirit.tracer.util.DateUtils;
 import in.espirit.tracer.util.StringUtils;
 
@@ -517,12 +518,11 @@ public class TicketDao {
 		return flag;
 	}
 
-	public boolean updateProperty(String ticket_id, String ticket_type, String property, String value, String position, String loggedUser) throws Exception {
+	public boolean updateProperty(String ticket_id, String ticket_type, String property, String value, String loggedUser) throws Exception {
 		String query = "UPDATE " + tableName(ticket_type);
 		String activity = "";
 		if(property.equalsIgnoreCase("milestone")){
 			query += " SET f_milestone='" + value + "'";
-			query += ", f_position=" + position;
 			activity = loggedUser + " has moved " + ticket_type+ " ticket #" + ticket_id +" to "+value;
 		}else if (property.equalsIgnoreCase("importance")) {
 			query += " SET f_importance='" + value + "'";
@@ -530,10 +530,7 @@ public class TicketDao {
 		}else if (property.equalsIgnoreCase("priority")) {
 			query += " SET f_priority='" + value + "'"; 
 			activity = loggedUser + " has updated property of " + ticket_type+ " ticket #" + ticket_id +" to "+value;
-		}
-		else if (property.equalsIgnoreCase("position")) {
-			query += " SET f_position=" + position;
-		}
+		}		
 		query += " WHERE f_id='" + ticket_id + "'";
 	
 		boolean flag = executeUpdate(query);
@@ -541,6 +538,23 @@ public class TicketDao {
 			handleActivity(activity, loggedUser);
 		}
 		return flag;
+	}
+	
+	public boolean updatePosition(String[] list) {
+		String query = "";
+		String[] temp = new String[2];  // This is to hold the defect-41, task-54 coming from request
+		for(int i=1; i <= list.length ; i++) {					
+			temp = list[i-1].split("-");
+			query += "Update " + tableName(temp[0]) + " set f_position=" + i + 
+			" WHERE f_id=" + temp[1] +";";	
+		}
+		
+		try {
+			return DaoUtils.executeUpdate(query);
+		} catch (Exception e) {
+			logger.fatal("Persisting changes for link failed with error - "+ e.getMessage());
+			return false;
+		}
 	}
 
 	public static ArrayList<Comment> getComments(String id) throws Exception{
