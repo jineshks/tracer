@@ -172,16 +172,17 @@
 		  var pos = $(this).offset();  
 		  $("#impmenu").css( { "left": (pos.left) + "px", "top":(pos.top - 40) + "px" } );
 		  $("#impmenu").show();
-		  ticket = $(this).parent().attr("id")
+		  ticket = $(this).parent().attr("id").split("-")[1];
+		  id = $(this).parent().attr("id");
 		  ticket_type = $(this).parent().find(">:first-child").html();
 		});
 		
 		$(".quickAction>.imp").click(function(ev) {
 			$("#impmenu").hide();
-			var impClass = $("#"+ticket).children('.imp').html();
+			var impClass = $("#"+id).children('.imp').html();
 			newClass = $(this).html();
-			$("#"+ticket).children('.imp').removeClass(impClass).addClass(newClass);
-			$("#"+ticket).children('.imp').html(newClass);
+			$("#"+id).children('.imp').removeClass(impClass).addClass(newClass);
+			$("#"+id).children('.imp').html(newClass);
 			$.get(  
 		            loadUrl,  
 		            {
@@ -202,16 +203,17 @@
 		  var pos = $(this).offset();  
 		  $("#priomenu").css( { "left": (pos.left) + "px", "top":(pos.top - 40) + "px" } );
 		  $("#priomenu").show();
-		  ticket = $(this).parent().attr("id")
+		  ticket = $(this).parent().attr("id").split("-")[1];
+		  id = $(this).parent().attr("id");
 		  ticket_type = $(this).parent().find(">:first-child").html();
 		});
 		
 		$(".quickAction>.prio").click(function(ev) {
 			$("#priomenu").hide();
-			var prioClass = $("#"+ticket).children('.prio').html();
+			var prioClass = $("#"+id).children('.prio').html();
 			newClass = $(this).html();
-			$("#"+ticket).children('.prio').removeClass(prioClass).addClass(newClass);
-			$("#"+ticket).children('.prio').html(newClass);
+			$("#"+id).children('.prio').removeClass(prioClass).addClass(newClass);
+			$("#"+id).children('.prio').html(newClass);
 			$.get(  
 		            loadUrl,  
 		            {
