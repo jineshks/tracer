@@ -15,6 +15,15 @@ public class DateUtils {
 		return date;
 	}
 	
+	public static String getDate(String format, int day) {
+		// in day 0 represents today date, -1 represents yesterday and -2 represents day before yesterday.
+		Calendar curDate = Calendar.getInstance();
+		SimpleDateFormat df = new SimpleDateFormat(format);
+		curDate.add(Calendar.DATE, day);
+		String date = df.format(curDate.getTime());
+		return date;	
+	}
+	
 	public static ArrayList<String> getInBetweenDates(String startDate, String endDate) throws ParseException {
 		
 		Calendar date = Calendar.getInstance();

@@ -61,7 +61,7 @@ public class ActivityDao {
 		selQuery = formFilterQuery(userName, fromDate, toDate);
 		//query += " ORDER BY f_ID DESC";
 		query += selQuery + " ORDER BY f_ID DESC OFFSET " + offset + " LIMIT " + size;
-			
+	
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
@@ -101,6 +101,57 @@ public class ActivityDao {
 		}// end finally	
 
 		return changeLinks(result);
+	}
+	
+	public static ArrayList<Activity> getRSSActivities(String date) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Activity> result = new ArrayList<Activity>();
+
+		String query="";
+
+		query = "SELECT f_timeStamp, f_activity, f_username FROM t_activity WHERE  date(f_timestamp)='" + date + "'";
+		query += " ORDER BY f_ID DESC";
+				
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Activity a = new Activity();
+				a.setTimeStamp(rs.getString(1));
+				a.setActivity(rs.getString(2));
+				a.setUserName(rs.getString(3));
+				result.add(a);
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting all RSS activities failed with " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}			
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return result;
 	}
 	
 	private static String formFilterQuery(String userName, String fromDate, String toDate) {
@@ -245,43 +296,56 @@ public class ActivityDao {
 	private static ArrayList<Activity> changeLinks(ArrayList<Activity> result) {
 		if (!result.isEmpty()) {
 			for(Activity a : result) {
-				String s1 = a.getActivity();
-				// This part can be improved or optimized for better practices.
-				Integer pos = s1.lastIndexOf("#");  // This is to determine whether the activity has a number associated with it.
-				if (pos > 0) {
-					// Pattern will be <username> has <action> <tickettype> #<no.>. Action can be created, edited or commented.
-					String[] a1 = s1.split(" "); 				
-					String id = "";
-					String link = "";			
-					if(a1.length==5){
-						id = s1.substring(pos);				
-						link = "<a href='./" + a1[3] + "/" + id.substring(1)  + "'>" + id + "</a>";	
-						a.setActivity(a1[0] + " " + a1[1] + " " + a1[2] + " " + a1[3] + " " + link);
-					}
-					else {
-						if ((s1.length()-pos)>5) {
-							id = s1.substring(pos, s1.substring(pos, s1.length()).indexOf(" ") + pos);
-						}
-						else {
-							id = s1.substring(pos, s1.length());
-						}					
-						link =  "<a href='./";
-						if (s1.indexOf("defect") > 0) {
-							link +=  "defect";		
-						}
-						else if (s1.indexOf("task") > 0) {
-							link +=  "task";	
-						}
-						else if (s1.indexOf("requirement") > 0) {
-							link +=  "requirement";	
-						}
-						link +=  "/" + id.substring(1)  + "'>" + id + "</a>";	
-						a.setActivity(s1.replaceFirst(id, link));					
-					}			
-				}		
+					a.setActivity(changeActivityDesc(a.getActivity(), "result"));
 			}	
 		}
 		return result;	
 	}
+
+	public static String changeActivityDesc(String s1, String returntype) {
+		String result = "";
+		String url = "";
+		// This part can be improved or optimized for better practices.
+		Integer pos = s1.lastIndexOf("#");  // This is to determine whether the activity has a number associated with it.
+		if (pos > 0) {
+			// Pattern will be <username> has <action> <tickettype> #<no.>. Action can be created, edited or commented.
+			String[] a1 = s1.split(" "); 				
+			String id = "";				
+			String link = "";
+			if(a1.length==5){
+				id = s1.substring(pos);				
+				link = "<a href='./" + a1[3] + "/" + id.substring(1)  + "'>" + id + "</a>";	
+				result  = a1[0] + " " + a1[1] + " " + a1[2] + " " + a1[3] + " " + link;
+				url = "/" + a1[3] + "/" + id.substring(1);
+			}
+			else {
+				if ((s1.length()-pos)>5) {
+					id = s1.substring(pos, s1.substring(pos, s1.length()).indexOf(" ") + pos);
+				}
+				else {
+					id = s1.substring(pos, s1.length());
+				}					
+				link =  "<a href='./";
+				if (s1.indexOf("defect") > 0) {
+					link +=  "defect";		
+					url = "/defect";
+				}
+				else if (s1.indexOf("task") > 0) {
+					link +=  "task";
+					url = "/task";
+				}
+				else if (s1.indexOf("requirement") > 0) {
+					link +=  "requirement";
+					url = "/requirement";
+				}
+				link +=  "/" + id.substring(1)  + "'>" + id + "</a>";	
+				result = s1.replaceFirst(id, link);
+				url += "/" + id.substring(1);
+				
+			}	
+		}		
+		return (returntype.equalsIgnoreCase("link")? url : result);
+	}
+
 
 }
