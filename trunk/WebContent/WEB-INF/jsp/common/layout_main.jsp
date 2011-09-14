@@ -49,7 +49,115 @@
 			</s:layout-component>
 		
 			<s:layout-component name="footer">
-				<footer> </footer>
+					<footer id="footer">
+				<c:set var="userRole" value="${actionBean.context.userRole}"></c:set>			
+				<div class="row">
+					<div class="column grid-3">
+						<p class="tar">
+							TRACER is under MIT License
+						</p>
+						<p class="tar">
+							<small>Copyright &copy; 2011 </small>
+						</p>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6><s:label for="ticket.tasks" class="bold"/></h6>
+							<ul>
+								<c:if test="${userRole eq '2' || userRole eq '3'}">
+									<li>
+										<s:link href="${contextPath}/task/new" >New <s:label for="ticket.task"/></s:link>
+									</li>
+								</c:if>
+								<li>
+									<s:link  href="${contextPath}/list/task/my" >My <s:label for="ticket.tasks"/></s:link>
+								</li>
+								<li>
+									<s:link  href="${contextPath}/list/task/all" >All <s:label for="ticket.tasks"/></s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6><s:label for="ticket.defects" class="bold"/></h6>
+							<ul>
+								<c:if test="${userRole eq '2' || userRole eq '3'}">
+									<li>
+										<s:link href="${contextPath}/defect/new" >New <s:label for="ticket.defect"/></s:link>
+									</li>
+								</c:if>
+								<li>
+									<s:link  href="${contextPath}/list/defect/my" >My <s:label for="ticket.defects"/> </s:link>
+								</li>
+								<li>
+									<s:link  href="${contextPath}/list/defect/all" >All <s:label for="ticket.defects"/></s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6><s:label for="ticket.requirements" class="bold"/></h6>
+							<ul>
+								<c:if test="${userRole eq '2' || userRole eq '3'}">
+									<li>
+										<s:link href="${contextPath}/requirement/new" >New <s:label for="ticket.requirement"/> </s:link>
+									</li>
+								</c:if>
+								<li>
+									<s:link  href="${contextPath}/list/requirement/my" >My <s:label for="ticket.requirements"/></s:link>
+								</li>
+								<li>
+									<s:link  href="${contextPath}/list/requirement/all" >All <s:label for="ticket.requirements"/></s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="column grid-2">
+						<div class="tal">
+							<h6>User</h6>
+							<ul>
+								<li>
+									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}" >My Profile</s:link>
+								</li>
+								<li>
+									<s:link href="${contextPath}/login/logout">
+									[Log Out] </s:link>
+								</li>								
+							</ul>
+						</div>
+					</div>
+					<c:if test="${actionBean.context.userRole eq '3'}">		
+					<div class="column grid-2">
+						<div class="tal">
+							<h6>Admin</h6>
+							<ul>
+								<li>
+									<s:link href="${contextPath}/config/milestone" >Milestone </s:link>
+								</li>
+								<li>
+									<s:link href="${contextPath}/list/user/approval" >User Approval</s:link>
+								</li>
+							</ul>
+						</div>
+					</div>
+					</c:if>
+					<div class="column grid-2">
+						<p class="tal">
+						</p>
+					</div>
+					<div class="column grid-2">
+						<p class="tal">
+						</p>
+					</div>
+					<div class="column grid-3 right">
+							<p class="html5logoContainer">
+								<s:link  href="http://www.w3.org/html/" class="html5logo"> <span class="hide">HTML5</span>	</s:link>
+							</p>
+					</div>
+				</div>
+			</footer>
 			</s:layout-component>
 		
 		</body>
