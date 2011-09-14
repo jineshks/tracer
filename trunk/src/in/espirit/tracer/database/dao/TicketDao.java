@@ -251,6 +251,125 @@ public class TicketDao {
 		return result;
 	}
 
+	
+	public static ArrayList<Ticket> getRSSTickets(String userName, String priority, String status, String milestone, String reporter, String importance, String parentTicket, String sortBy) throws Exception{
+		ConnectionPool pool = ConnectionFactory.getPool();
+		Connection con = pool.getConnection();
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Ticket> result = new ArrayList<Ticket>();
+
+		String query="";
+		String selQuery="";
+		String[] filter= new String[7];
+
+		if (!(priority==null)) {
+			filter[0] = "f_priority='" + priority + "'";			
+		}
+
+		if (!(status==null)) {
+			filter[1] = "f_status='" + status + "'";			
+		}
+
+		if (!(userName==null)) {
+			filter[2] = "f_owner='" + userName + "'";
+		}
+
+		if (!(milestone==null)) {
+			filter[3] = "f_milestone='" + milestone + "'";
+		}
+
+		if (!(reporter==null)) {
+			filter[4] = "f_reporter='" + reporter + "'";
+		}
+
+		if (!(importance==null)) {
+			filter[5] = "f_importance='" + importance + "'";
+		}
+
+		if (!(parentTicket==null)) {
+			filter[6] = "f_parentticket='" + parentTicket + "'";
+		}
+
+		for(String s:filter){
+			if (!(s==null)) {
+				if (selQuery.equals("")) {
+					selQuery = s;
+				}
+				else {
+					selQuery = selQuery + " AND " + s;
+				}
+			}	
+		}		
+
+		query = "SELECT f_id, f_title, f_reporter, f_milestone, f_type, f_description, f_priority FROM t_defectdetails";
+		if (!selQuery.equals("")) {
+			query += " where " + selQuery;
+		}		
+
+		query += " UNION ALL";
+		query += " SELECT f_id, f_title, f_reporter, f_milestone, f_type, f_description, f_priority FROM t_taskdetails";
+		if (!selQuery.equals("")) {
+			query += " where " + selQuery;
+		}	
+		
+		query += " UNION ALL";
+		query += " SELECT f_id, f_title, f_reporter, f_milestone, f_type, f_description, f_priority FROM t_requirementdetails";
+		if (!selQuery.equals("")) {
+			query += " where " + selQuery;
+		}	
+		if (!(sortBy==null)) {
+			query +=" ORDER By " + sortBy + " ASC";
+		}
+
+		logger.debug("getRSSTickets query :"+query);
+
+		try {
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Ticket d = new Ticket();
+				d.setId(rs.getString(1));
+				d.setTitle(rs.getString(2));
+				d.setReporter(rs.getString(3));
+				d.setMilestone(rs.getString(4));
+				d.setType(rs.getString(5));
+				d.setDesc(rs.getString(6));
+				result.add(d);
+			}
+			if (rs != null) {
+
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+
+		} catch (Exception e) {
+			logger.error("Getting all tickets failed with " + e.getMessage());
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (st != null) {
+				st.close();
+			}
+			//throw new Exception(e.getMessage()+query+"-SELECTED QUERY>-"+selQuery+"-STATUS>-"+status+"-USERNAME>-"+UserName+"-PRIORITY-"+priority);
+			throw new Exception(e.getMessage());
+
+		} // catch Close
+
+		finally {
+			if (con != null)
+				con.close(); // close connection		
+		}// end finally	
+
+		return result;
+	}
+	
+	
 	public static ArrayList<Ticket> getMyTickets(String type, String userName) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();

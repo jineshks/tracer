@@ -122,6 +122,9 @@
 									<s:link href="${contextPath}/user/${actionBean.context.loggedUser}" >My Profile</s:link>
 								</li>
 								<li>
+									<s:link href="${contextPath}/rss">RSS Feeds</s:link>
+								</li>
+								<li>
 									<s:link href="${contextPath}/login/logout">
 									[Log Out] </s:link>
 								</li>								
