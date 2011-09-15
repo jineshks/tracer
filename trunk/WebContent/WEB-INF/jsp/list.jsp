@@ -49,9 +49,9 @@
 					</div>	
 				</c:if>
 				<div class="box">
-					<h4>Filter</h4>
+					<h4>Filter <a class="rssFeed" id="rssFilter">&nbsp;</a> </h4>	
 					<jsp:useBean class="in.espirit.tracer.view.ConfigViewHelper" id="configView"></jsp:useBean>
-					<s:form beanclass="in.espirit.tracer.action.ListActionBean">
+					<s:form beanclass="in.espirit.tracer.action.ListActionBean" id="form1">
 						<s:hidden name="list"></s:hidden>
 						<s:hidden name="type"></s:hidden>
 						<div class="il">
@@ -101,12 +101,13 @@
 									<s:option value="f_importance">Importance</s:option>
 									<s:option value="f_reporter">Reporter</s:option>
 									<s:option value="f_owner">Owner</s:option>
-									<s:option value="f_component">component</s:option>
 									<s:option value="f_milestone">Milestone</s:option>
 									</s:select>
 								</dd>
 							</dl>
-							<s:submit name="filter" value="Filter"></s:submit>	
+								<s:submit name="filter" value="Filter"></s:submit>
+								
+							
 						</div>
 					</s:form>
 				</div>
@@ -119,6 +120,16 @@
 <s:layout-component name="inlineScripts">
   $(document).ready(function() {	
   	showInfo();
+  	
+  	
+  	$("#rssFilter").click(function() {  	
+  		 var get = $("#form1 :input[value]").serialize();  		 
+  		 var index = get.indexOf("_sourcePage", 0);
+  		 var url = get.substring(0, index-1);
+ 		 window.open("/tracer/rss/ticket?" + url);
+  	});
+  	
+  	
   
   });
 </s:layout-component>  

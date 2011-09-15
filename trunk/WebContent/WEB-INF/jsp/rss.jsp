@@ -21,7 +21,10 @@
 							</li>
 							<li>
 								<a class="rssFeed" href="${contextPath}/rss/activitystream?date=daybeforeyesterday"> Activity Stream (Day Before Yesterday) </a> 
-							</li>		
+							</li>
+							<li>
+								RSS Feed for tickets with filtering. - Select the filter options in the ticket listing page and click on icon <a class="rssFeed"> &nbsp; </a> to get the feed.
+							</li>
 						</ul>		 		
 				</div>
 			</div>

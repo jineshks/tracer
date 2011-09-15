@@ -26,23 +26,20 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-@UrlBinding("/rss/{type}")
+@UrlBinding("/rss/{section}")
 public class RSSFeedActionBean extends BaseActionBean {
 	
-	String type;
-	
+	String section;
 	private static final String URL = "/WEB-INF/jsp/rss.jsp";
 	
-
-
 	@DefaultHandler
 	public Resolution open() throws Exception {
 		
-		 if (type == null) {			 
+		 if (section == null) {			 
 			 return new ForwardResolution(URL);
 		 }
 		
-		 String feedType = "rss_2.0";
+		 String feedType = "rss_2.0";    // The feed specification can be even atom also. refer to ROME documentation for list of valid entries.
 		 SyndFeed feed = new SyndFeedImpl();
          feed.setFeedType(feedType);
          String appHome = CustomDao.getResourceMessage("applicationhome");
@@ -61,7 +58,7 @@ public class RSSFeedActionBean extends BaseActionBean {
          SyndEntryImpl entry;
          SyndContent description;
          
-		 if (type.equalsIgnoreCase("ticket")) {
+		 if (section.equalsIgnoreCase("ticket")) {
 			 feed.setTitle("Tracer Application - Ticket List");
 			 feed.setDescription("Listing of tickets in the tracer application via feeds");
 			 
@@ -69,6 +66,13 @@ public class RSSFeedActionBean extends BaseActionBean {
 			 String owner = this.getContext().getRequest().getParameter("owner");
 			 String milestone = this.getContext().getRequest().getParameter("milestone");
 			 String priority = this.getContext().getRequest().getParameter("priority");
+			 String importance = this.getContext().getRequest().getParameter("importance");
+			 
+			 String status = this.getContext().getRequest().getParameter("status");
+			 String reporter = this.getContext().getRequest().getParameter("reporter");
+			 String parentTicket = this.getContext().getRequest().getParameter("parentTicket");			 
+			 String sortBy = this.getContext().getRequest().getParameter("sortBy");	 
+			 String type = this.getContext().getRequest().getParameter("type");
 			 
 			 String currentmilestone = this.getContext().getRequest().getParameter("currentmilestone");
 			 if (currentmilestone != null) {
@@ -79,8 +83,11 @@ public class RSSFeedActionBean extends BaseActionBean {
 				 //}				            
 			 }
 			 
+			 if (type == null) { 
+				 type = "all";  //Include all defects, task and requirements if nothing is specified.
+			 }
 			 ArrayList<Ticket> tickets = new ArrayList<Ticket>();
-	         tickets.addAll(TicketDao.getRSSTickets(owner, priority, null,milestone,null,null, null, "f_priority"));
+	         tickets.addAll(TicketDao.getRSSTickets(type,owner, priority, status,milestone,reporter,importance, parentTicket, sortBy));
 
 	         for(Ticket t : tickets) {
 	        	 entry = new SyndEntryImpl();
@@ -96,7 +103,7 @@ public class RSSFeedActionBean extends BaseActionBean {
 	         }	                       
 	     		 
 		 }
-		 else if (type.equalsIgnoreCase("activitystream")) {
+		 else if (section.equalsIgnoreCase("activitystream")) {
 			 feed.setTitle("Tracer Application - Activity Stream");
 		
 			String date = this.getContext().getRequest().getParameter("date");
@@ -138,14 +145,16 @@ public class RSSFeedActionBean extends BaseActionBean {
         StreamingResolution rs = new StreamingResolution("application/rss+xml" , output.outputString(feed));	
 		return rs;
 	}
-	
-	public String getType() {
-		return type;
+
+
+
+	public String getSection() {
+		return section;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
 
-	
+
+	public void setSection(String section) {
+		this.section = section;
+	}	
 }
