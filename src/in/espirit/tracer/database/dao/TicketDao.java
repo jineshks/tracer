@@ -252,7 +252,7 @@ public class TicketDao {
 	}
 
 	
-	public static ArrayList<Ticket> getRSSTickets(String userName, String priority, String status, String milestone, String reporter, String importance, String parentTicket, String sortBy) throws Exception{
+	public static ArrayList<Ticket> getRSSTickets(String type, String userName, String priority, String status, String milestone, String reporter, String importance, String parentTicket, String sortBy) throws Exception{
 		ConnectionPool pool = ConnectionFactory.getPool();
 		Connection con = pool.getConnection();
 		Statement st = null;
@@ -302,22 +302,35 @@ public class TicketDao {
 			}	
 		}		
 
-		query = "SELECT f_id, f_title, f_reporter, f_milestone, f_type, f_description, f_priority FROM t_defectdetails";
-		if (!selQuery.equals("")) {
-			query += " where " + selQuery;
-		}		
-
-		query += " UNION ALL";
-		query += " SELECT f_id, f_title, f_reporter, f_milestone, f_type, f_description, f_priority FROM t_taskdetails";
-		if (!selQuery.equals("")) {
-			query += " where " + selQuery;
-		}	
+		String fields = "f_id, f_title, f_type, f_description, f_priority, f_status, f_importance, f_reporter, f_owner, f_milestone";
 		
-		query += " UNION ALL";
-		query += " SELECT f_id, f_title, f_reporter, f_milestone, f_type, f_description, f_priority FROM t_requirementdetails";
-		if (!selQuery.equals("")) {
-			query += " where " + selQuery;
-		}	
+		if (type.equalsIgnoreCase("all")) {
+			query = "SELECT " + fields + " FROM t_defectdetails";
+			if (!selQuery.equals("")) {
+				query += " where " + selQuery;
+			}		
+
+			query += " UNION ALL";
+									
+			query += " SELECT " + fields + " FROM t_taskdetails";
+			if (!selQuery.equals("")) {
+				query += " where " + selQuery;
+			}	
+			
+			query += " UNION ALL";
+			
+			query += " SELECT " + fields + " FROM t_requirementdetails";
+			if (!selQuery.equals("")) {
+				query += " where " + selQuery;
+			}				
+		}
+		else {
+			query = "SELECT " + fields + " FROM " + tableName(type);
+			if (!selQuery.equals("")) {
+				query += " where " + selQuery;
+			}
+		}
+					
 		if (!(sortBy==null)) {
 			query +=" ORDER By " + sortBy + " ASC";
 		}
@@ -332,10 +345,8 @@ public class TicketDao {
 				Ticket d = new Ticket();
 				d.setId(rs.getString(1));
 				d.setTitle(rs.getString(2));
-				d.setReporter(rs.getString(3));
-				d.setMilestone(rs.getString(4));
-				d.setType(rs.getString(5));
-				d.setDesc(rs.getString(6));
+				d.setType(rs.getString(3));
+				d.setDesc(rs.getString(4));
 				result.add(d);
 			}
 			if (rs != null) {
