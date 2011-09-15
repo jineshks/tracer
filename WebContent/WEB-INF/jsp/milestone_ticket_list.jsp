@@ -1,3 +1,5 @@
+<%@page import="in.espirit.tracer.model.Ticket"%>
+<%@page import="in.espirit.tracer.model.Requirement"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <s:layout-render name="/WEB-INF/jsp/common/layout.jsp">
 <s:layout-component name="infoPanel"> 
@@ -19,6 +21,16 @@
 										<span class="pl bl"> ${ticket.title} </span>
 										<span class="pl bl imp ${ticket.importance}">${ticket.importance}</span>
 										<span class="pl bl prio ${ticket.priority}"> ${ticket.priority}</span>
+										<span class="pl bl"> <% 
+										Ticket t = (Ticket) pageContext.findAttribute("ticket");
+										if (t instanceof Requirement) {
+											Requirement rs = (Requirement) pageContext.findAttribute("ticket");
+											out.println("Story Point = ");
+											if (rs.getStoryPoint() != null) {
+												out.print(rs.getStoryPoint());
+											}
+										}								
+										%></span>  
 										<span class="pl bl right"><a href="#"> ${ticket.owner} </a></span>  
 							</li>								
 							</c:forEach>

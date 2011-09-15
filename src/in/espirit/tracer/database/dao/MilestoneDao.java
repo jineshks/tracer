@@ -76,28 +76,37 @@ public class MilestoneDao {
 			}	
 		}	
 		
-		String fields = "f_id, f_title, f_priority, f_owner, f_importance, f_type";
-		
+		String fields = "f_id, f_title, f_priority, f_owner, f_importance, f_type, null";
+		String fields_req = "f_id, f_title, f_priority, f_owner, f_importance, f_type, text(f_storypoint)";
 		
 		
 		String query = "SELECT " + fields + " FROM t_defectdetails WHERE " + selQuery +
 				" UNION ALL " +
 				"SELECT " + fields + " FROM t_taskdetails WHERE " + selQuery +
 				" UNION ALL " +
-				"SELECT " + fields + " FROM t_requirementdetails WHERE " + selQuery + " ORDER by f_priority ASC";				
-				
+				"SELECT " + fields_req + " FROM t_requirementdetails WHERE " + selQuery + " ORDER by f_priority ASC";				
+		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery(query);
 				
 			while (rs.next()) {
-				Ticket d = new Ticket();
+				Ticket d;
+				if (rs.getString(6).equalsIgnoreCase("requirement")) {
+					d = new Requirement();
+				}
+				else {
+					d = new Ticket();
+				}	
 				d.setId(rs.getString(1));
 				d.setTitle(rs.getString(2));
 				d.setPriority(rs.getString(3));
 				d.setOwner(rs.getString(4));
 				d.setImportance(rs.getString(5));
 				d.setType(rs.getString(6));
+				if (rs.getString(6).equalsIgnoreCase("requirement")) {
+					((Requirement) d).setStoryPoint(rs.getString(7));			
+				}
 				result.add(d);
 			}
 			if (rs != null) {			
