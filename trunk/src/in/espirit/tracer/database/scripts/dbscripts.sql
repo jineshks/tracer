@@ -183,7 +183,7 @@ CREATE TABLE t_link
   f_username character varying(35),
   f_position serial,
   CONSTRAINT pk_link PRIMARY KEY (f_id)
-)
+);
 
 CREATE TABLE t_descriptionhistory
 (
@@ -225,14 +225,12 @@ CREATE TABLE t_message
 );
 
 INSERT into t_userdetails(f_userName, f_password, f_displayName, f_approvalStatus, f_role) VALUES('admin','admin','Administrator',1,3)
-
 INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('ticket-edit','Tracer - Ticket is updated','The <type> ticket <a href=\'<applicationhome>/<type>/<id>\'>#<id></a> related to you has been updated by <updater>. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
 INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('ticket-new','Tracer - Ticket is created','A <type> ticket <a href=\'<applicationhome>/<type>/<id>\'>#<id></a> has been created by <updater>. You are listed as either owner or reporter. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
 INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('user-new','Tracer - New User Approval','<displayname> has created the user sign up form. User id is <a href=\'<applicationhome>/user/<userid>\'><userid></a>. Kindly approve or reject the same. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
 INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('user-approve','Tracer - User Application is Approved','Your user application is approved and you can login into <a href=\'<applicationhome>\'>tracer</a> now. Please login and edit the user profile settings. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
 INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('user-reject','Tracer - User Application is Rejected','Your user application is rejected. If you are interested please fill the application form with appropriate details in the <a href=\'<applicationhome>\'>tracer</a> application. You are welcome to sign up with the same user id - <userid>. <br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
 INSERT into t_mailtemplates (f_name, f_subject, f_body) VALUES ('message-new','Tracer - New Message','You have received a new message in <a href=\'<applicationhome>\'>tracer</a> application from the user - <from>.Message content is shown below.<br><br><p><message></p><br><br>Project Team<br>------------------------------------<br> Automated mail from tracer application.');
-
-INSERT INTO t_milestone (f_name, f_description) VALUES ('Incoming','For the newly created tickets. It is default for the newly created tickets')
-INSERT INTO t_milestone (f_name, f_description) VALUES ('Backlog','For the backlog tickets')
+INSERT INTO t_milestone (f_name, f_description) VALUES ('Incoming','For the newly created tickets. It is default for the newly created tickets');
+INSERT INTO t_milestone (f_name, f_description) VALUES ('Backlog','For the backlog tickets');
 
