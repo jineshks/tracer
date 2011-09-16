@@ -16,6 +16,7 @@ DROP TABLE t_burndowndata;
 DROP TABLE t_link;
 DROP TABLE t_mailtemplates;
 DROP TABLE t_message;
+DROP TABLE t_activity;
 
 CREATE TABLE t_sequence
 (
