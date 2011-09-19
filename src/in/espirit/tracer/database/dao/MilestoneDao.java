@@ -464,7 +464,7 @@ public class MilestoneDao {
 		Connection con = pool.getConnection();
 		Statement st = null;
 		ResultSet rs = null;
-		Milestone result = new Milestone();
+		Milestone result = null;
 		
 		String query="";
 	
@@ -475,6 +475,7 @@ public class MilestoneDao {
 			rs = st.executeQuery(query);
 				
 			while (rs.next()) {
+				result = new Milestone();
 				result.setId(rs.getString(1));
 				result.setName(rs.getString(2));
 				result.setStartDate(rs.getString(3));
