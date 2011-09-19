@@ -180,8 +180,13 @@ public class UserDao{
 				con.close(); // close connection		
 		}// end finally	
 
-		//FIXME: length()-1 is bug ??
-		return emails.substring(0, emails.length());   // this is to remove the , at the last place.
+		if (emails.equalsIgnoreCase("")) {
+			return "";    //case where no administrators are there.
+		}
+		else {
+			return emails.substring(0, emails.length()-1);   // this is to remove the , at the last place.
+		}
+		
 	}
 	
 	public static ArrayList<User> getUserList() throws Exception{

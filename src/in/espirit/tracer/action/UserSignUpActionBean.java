@@ -83,6 +83,9 @@ public class UserSignUpActionBean extends BaseActionBean {
 	public boolean handleEmail(User user, String template, String emailIds) {
 		boolean flag = false;
 		Mail mail;
+		if (emailIds.equalsIgnoreCase("")) {
+			return true;
+		}
 		try {
 			mail = MailDao.getMailTemplate(template);
 			mail.setTo(emailIds);
