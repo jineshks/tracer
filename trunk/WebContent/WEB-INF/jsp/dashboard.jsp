@@ -115,6 +115,7 @@
 									</div>
 									<div class="column grid-8">
 										<c:set var="currMile" value="${actionBean.currentMilestone}"></c:set>
+										<c:if test="${currMile ne null}">
 												<p> <a href="${contextPath}/list/milestone/${currMile.id}"> ${currMile.name} </a>  </p>
 							          			<p> Days remaining : ${currMile.description}  </p>
 							          			<p> Tickets : ${currMile.totalTickets}  </p>
@@ -123,6 +124,7 @@
 													<div id="cl-progress" class="progress-green" style="width: ${currMile.progress}%;">
 													</div>
 												</div>
+										</c:if>
 									</div>
 								</div>
 							</div>
